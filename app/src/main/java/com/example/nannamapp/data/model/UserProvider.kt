@@ -1,4 +1,4 @@
-package com.example.nannamapp.data
+package com.example.nannamapp.data.model
 
 class UserProvider {
 }
