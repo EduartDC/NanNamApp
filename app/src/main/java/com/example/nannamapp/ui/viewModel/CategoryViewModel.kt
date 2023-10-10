@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 class CategoryViewModel : ViewModel() {
     val categoryModel = MutableLiveData<Category>()
     var getAllCategoriesUseCase = GetCategoriesUseCase()
-
+//comentario de prueba
     fun onCreate() {
          try {
              viewModelScope.launch {
