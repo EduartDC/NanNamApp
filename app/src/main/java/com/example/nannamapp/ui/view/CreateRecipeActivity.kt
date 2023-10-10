@@ -6,10 +6,9 @@ import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.viewModels
-import com.example.namnam.R
-import com.example.namnam.data.model.Category
-import com.example.namnam.databinding.ActivityCreateRecipeBinding
-import com.example.namnam.ui.viewModel.CategoryViewModel
+
+import com.example.nannamapp.databinding.ActivityCreateRecipeBinding
+import com.example.nannamapp.ui.viewModel.CategoryViewModel
 
 
 class CreateRecipeActivity : AppCompatActivity() {
