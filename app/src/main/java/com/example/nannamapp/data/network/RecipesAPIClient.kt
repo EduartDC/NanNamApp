@@ -6,6 +6,6 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface RecipesAPIClient {
-    @GET("Recipes/GetMyRecipes/{idUser}")
+    @GET("Recipes/GetCookbook{idUser}")
     suspend fun getCookBook(@Path("idUser")idUser: String): Response<List<Recipe>>
 }
