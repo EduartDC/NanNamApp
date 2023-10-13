@@ -8,8 +8,7 @@
         android:id="@+id/textIngredientSearchBar"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:text="nombre deingrediente"
-        android:textSize="25dp"
+        android:textSize="15dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,8 +18,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Agregar"
+
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 
 
