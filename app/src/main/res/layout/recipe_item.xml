@@ -8,23 +8,41 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/container"
         android:layout_width="200dp"
-        android:layout_height="203dp"
+        android:layout_height="200dp"
         android:layout_margin="5dp"
         android:background="@color/color_transparent">
 
-        <ImageView
-            android:id="@+id/ivRecipe"
+        <FrameLayout
+            android:id="@+id/flImageRecipe"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:layout_marginBottom="30dp"
-            android:contentDescription="@string/contentImageRecipe"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/ivRecipe"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/contentImageRecipe"
+                app:layout_constraintStart_toStartOf="parent"
+                android:src="@drawable/tacos"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                android:alpha="0.5" />
+        </FrameLayout>
+
         <TextView
             android:id="@+id/tvRecipeName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
+            android:text="Receta test name"
+            android:layout_marginStart="10dp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@id/lyOptions"
             app:layout_constraintStart_toStartOf="parent"/>
 
@@ -33,22 +51,27 @@
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:background="@color/black"
-            app:layout_constraintStart_toStartOf="parent"
             android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@+id/ivRecipe" >
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"/>
+            app:layout_constraintTop_toBottomOf="@+id/flImageRecipe"
+            >
 
             <ImageView
-                android:id="@+id/ivDelete"
+                android:id="@+id/ivEdit"
                 android:layout_width="50dp"
                 android:layout_height="30dp"
                 android:clickable="true"
                 android:contentDescription="@string/contentImageRecipe"
-                android:src="@android:drawable/ic_menu_delete"
+                android:src="@android:drawable/star_big_on"
+                app:tint="#FFE500"
                 tools:ignore="TouchTargetSizeCheck" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="4.5"
+                android:textSize="23dp"
+                android:textColor="@color/white"/>
+
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
