@@ -16,10 +16,10 @@
         android:theme="@style/Theme.NanNamApp"
         tools:targetApi="31">
         <activity
-            android:name=".ui.view.ConsultCookbookActivity"
+            android:name=".ui.view.CreateRecipeActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.view.CreateRecipeActivity"
+            android:name=".ui.view.ConsultCookbookActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

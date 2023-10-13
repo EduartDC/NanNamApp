@@ -12,8 +12,14 @@ class RecipesService {
 
     suspend fun getCookBook(idUser: String): List<Recipe> {
         return withContext(Dispatchers.IO) {
-            val response = retrofit.create(RecipesAPIClient::class.java).getCookBook(idUser)
-            response.body() ?: emptyList()
+            try {
+                val response = retrofit.create(APIClient::class.java).getCookBook(idUser)
+                response.body() ?: emptyList()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                emptyList()
+            }
         }
     }
+
 }

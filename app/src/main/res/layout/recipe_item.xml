@@ -65,6 +65,7 @@
                 app:tint="#FFE500"
                 tools:ignore="TouchTargetSizeCheck" />
             <TextView
+                android:id="@+id/tvRating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"

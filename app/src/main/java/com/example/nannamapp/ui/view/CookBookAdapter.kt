@@ -6,11 +6,13 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.namnam.data.model.Recipe
 import com.example.nannamapp.R
 import com.example.nannamapp.data.model.RecipeProvider
 
-class CookBookAdapter: RecyclerView.Adapter<CookBookAdapter.ViewHolder>() {
-    val recipes = RecipeProvider.cookBook
+class CookBookAdapter : RecyclerView.Adapter<CookBookAdapter.ViewHolder>() {
+    private var recipes: List<Recipe> = listOf()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.recipe_item, parent, false)
         return ViewHolder(v)
@@ -21,29 +23,20 @@ class CookBookAdapter: RecyclerView.Adapter<CookBookAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        /*
-        holder.image.setImageResource(R.drawable.sam)
-        holder.number.text = (position + 1).toString()
-        holder.songName.text = songs[position]
-        holder.artistName.text = "Eminem"
-        holder.time.text = times[position]
-        */
+        val recipe = recipes[position]
+        holder.image.setImageResource(R.drawable.tacos)
+        holder.recipeName.text = recipe.recipeName
+        holder.rating.text = "4.5"
     }
-    inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        /*
-        var image: ImageView
-        var number: TextView
-        var songName: TextView
-        var artistName: TextView
-        var time: TextView
 
-        init{
-            image = itemView.findViewById(R.id.image)
-            number = itemView.findViewById(R.id.number)
-            songName = itemView.findViewById(R.id.songName)
-            artistName = itemView.findViewById(R.id.artist)
-            time = itemView.findViewById(R.id.time)
-        }
-         */
+    fun setData(newRecipes: List<Recipe>) {
+        recipes = newRecipes
+        notifyDataSetChanged()
+    }
+
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var image: ImageView = itemView.findViewById(R.id.ivRecipe)
+        var recipeName: TextView = itemView.findViewById(R.id.tvRecipeName)
+        var rating: TextView = itemView.findViewById(R.id.tvRating)
     }
 }

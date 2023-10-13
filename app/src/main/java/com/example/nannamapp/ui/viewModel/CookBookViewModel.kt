@@ -8,13 +8,16 @@ import com.example.nannamapp.domain.GetCookBookUseCase
 import kotlinx.coroutines.launch
 
 class CookBookViewModel: ViewModel() {
-    val cookBookModel = MutableLiveData<Recipe>()
-    val getCookbookUseCase = GetCookBookUseCase("123")
+    val cookBookModel = MutableLiveData<List<Recipe>?>()
+    var getCookbookUseCase = GetCookBookUseCase("123")
     fun onCreate() {
-        viewModelScope.launch{
-            val result = getCookbookUseCase()
-            if (!result.isNullOrEmpty()) {
-                cookBookModel.postValue(result[0])
+        viewModelScope.launch {
+            try {
+                val result = getCookbookUseCase()
+                cookBookModel.postValue(result)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                // Manejar la excepción, por ejemplo, mostrar un mensaje de error
             }
         }
     }
