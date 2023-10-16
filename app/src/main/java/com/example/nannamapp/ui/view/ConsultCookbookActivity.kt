@@ -21,7 +21,7 @@ class ConsultCookbookActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityConsultCookbookBinding.inflate(layoutInflater)
-        setContentView(R.layout.activity_consult_cookbook)
+        setContentView(binding.root)
         // Inicia la carga de datos
         cookbookViewModel.onCreate()
 
@@ -30,6 +30,7 @@ class ConsultCookbookActivity : AppCompatActivity() {
 
         // Inicializa el adaptador
         recipeAdapter = CookBookAdapter()
+
         binding.recyclerview.adapter = recipeAdapter
 
         // Observa los cambios en la lista de recetas
