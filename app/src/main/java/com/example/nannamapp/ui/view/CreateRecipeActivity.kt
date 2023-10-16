@@ -34,6 +34,7 @@ import com.example.nannamapp.R
 import com.example.nannamapp.databinding.ActivityCreateRecipeBinding
 import com.example.nannamapp.ui.viewModel.CategoryViewModel
 import com.example.nannamapp.ui.viewModel.IngredientViewModel
+import com.example.nannamapp.util.IngredientSelectedAdapter
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -41,7 +42,7 @@ import java.util.Date
 
 class CreateRecipeActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityCreateRecipeBinding
+    public lateinit var binding: ActivityCreateRecipeBinding
     private val categoryViewModel: CategoryViewModel by viewModels()
     private val ingredientViewModel: IngredientViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,10 +64,57 @@ class CreateRecipeActivity : AppCompatActivity() {
     }
 
     private fun setListenerBtnSave() {
-        //agregar el actionListener
-        var ingredientSelectedList= adapterRVIngredientsFinded.getIngredientSelectedList()
-//        if(ingredientSelectedList.)
+        binding.btnSaveRecipe.setOnClickListener{
+            var ingredientSelectedList= adapterRVIngredientsFinded.getIngredientSelectedList()
+            var x =0
+           if(!binding.recipeName.text.isNullOrBlank()){
+                if(ingredientSelectedList.getContextIngredientSelectedAdapter().ingredientSelected.size != 0){
+                    if(validateMeasureSelected())
+                        if(validateSteps())
+                            Toast.makeText(this,"LISTO PARA GUARDAR",Toast.LENGTH_SHORT).show()
+                        else
+                            Toast.makeText(this,"ingresa pasos",Toast.LENGTH_SHORT).show()
+                    else
+                        Toast.makeText(this,"ingresa las unidades",Toast.LENGTH_SHORT).show()
+                }else
+                    Toast.makeText(this,"Selecciona almenos un ingrediente",Toast.LENGTH_SHORT).show()
+           }else
+               Toast.makeText(this,"Nombre obligatorio",Toast.LENGTH_SHORT).show()
+
+        }
     }
+
+    fun validateMeasureSelected (): Boolean{
+        var band :Boolean = true
+        val adapter = binding.rvIngredientSelected.adapter as IngredientSelectedAdapter
+
+        for (position in 0 until adapter.itemCount) {
+            val viewHolder = binding.rvIngredientSelected.findViewHolderForAdapterPosition(position) as? IngredientSelectedAdapter.IngredientSelectedViewHolder
+
+            // Verifica si el ViewHolder es nulo
+            if (viewHolder != null) {
+                val editText = viewHolder.etMeasure
+                val text = editText.text.toString()
+                if (text.isEmpty()) {
+                    // Si algún EditText está vacío, retorna false
+                    return false
+                }
+            }
+        }
+
+        // Si todos los EditText tienen contenido, retorna true
+        return true
+    }
+
+    fun validateSteps (): Boolean{
+        var band :Boolean = true
+        val adapter = binding.rvCookingSteps.adapter as CookingStepAdapter
+        if (adapter.itemCount == 0)
+                return false
+        return true
+    }
+
+
 
 
     private fun configureAdapterIngredientsFinded() {

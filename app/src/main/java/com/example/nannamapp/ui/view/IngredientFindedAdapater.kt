@@ -67,14 +67,14 @@ class IngredientFindedAdapater :
         notifyDataSetChanged()
     }
 
-    private var mainIngerdientsList: MutableList<String> = mutableListOf()
+    var mainIngerdientsList: MutableList<String> = mutableListOf()
     private lateinit var mainIngredientAdapter: ArrayAdapter<String>//
 
     inner class IngredientFindedViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val IngredientTextView: TextView =
             itemView.findViewById(R.id.textIngredientSearchBar)
         private val addButton: Button = itemView.findViewById(R.id.btnAddIngredient)
-        private var ingredientString : String = ""
+        private var ingredientString: String = ""
         fun bind(ingredientString: String) {
             this.ingredientString = ingredientString
             if (IngredientsFindedList.size != 0) {
@@ -85,29 +85,35 @@ class IngredientFindedAdapater :
                         if (item.equals(ingredientString))
                             band = true
                     }
-                    if (band == false){
+                    if (band == false) {
                         addMainIngredient()
-
-                    }
-                    else
-                        Toast.makeText(contextActivity,"Este ingrediente ay se encuentra seleccioando",Toast.LENGTH_SHORT).show()
-
+                    } else
+                        Toast.makeText(
+                            contextActivity,
+                            "Este ingrediente ay se encuentra seleccioando",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    binding.SearchBar.text.clear()
                 }
             }
         }
 
         private fun addMainIngredient() {//agregar a lista para en checkBox
             mainIngerdientsList.add(IngredientTextView.text.toString())
+            updateMainIngredientCB()
+        }
+
+        fun updateMainIngredientCB() {
             mainIngredientAdapter = ArrayAdapter<String>(
                 contextActivity,
                 android.R.layout.simple_spinner_dropdown_item,
                 mainIngerdientsList
             )
-            Log.d("addMAIN","antes del if")
             IngredientProvider.ingredients.forEach { item ->
                 if (item.ingredientname.equals(ingredientString)) {
-                    Log.d("SIMON","seleccionado")
+
                     adapteringredientSelected.addIngredientSelected(item)
+                    adapteringredientSelected.getInstanceAdapter(this@IngredientFindedAdapater)
                 }
             }
             binding.spMainIngredient.adapter = mainIngredientAdapter
@@ -128,9 +134,12 @@ class IngredientFindedAdapater :
 
         binding.rvIngredientSelected.adapter = adapteringredientSelected
     }
+
     //usado para pasar el contexto de otro adapter a la actividad
-    fun getIngredientSelectedList():IngredientSelectedAdapter{
-        var contextIngredientSelectedAdapter : IngredientSelectedAdapter = adapteringredientSelected.getContextIngredientSelectedAdapter()
+    fun getIngredientSelectedList(): IngredientSelectedAdapter {
+        var contextIngredientSelectedAdapter: IngredientSelectedAdapter =
+            adapteringredientSelected.getContextIngredientSelectedAdapter()
         return contextIngredientSelectedAdapter
     }
+
 }

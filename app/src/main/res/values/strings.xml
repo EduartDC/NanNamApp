@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">NanNamApp</string>
+    <string name="contentImageRecipe">Image</string>
 </resources>

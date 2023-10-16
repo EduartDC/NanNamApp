@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -15,10 +16,11 @@ import com.example.nannamapp.ui.view.IngredientFindedAdapater
 class IngredientSelectedAdapter : RecyclerView.Adapter<IngredientSelectedAdapter.IngredientSelectedViewHolder>(){
     companion object{
         public var contextActivity = CreateRecipeActivity
-    }
-    private val ingredientSelected = mutableListOf<Ingredient>()
-    private lateinit var itemTouchHelper: ItemTouchHelper
 
+    }
+
+    private lateinit var itemTouchHelper: ItemTouchHelper
+     val ingredientSelected = mutableListOf<Ingredient>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IngredientSelectedViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.ingredient_item, parent, false)
         return IngredientSelectedViewHolder(view)
@@ -46,10 +48,16 @@ class IngredientSelectedAdapter : RecyclerView.Adapter<IngredientSelectedAdapter
         notifyItemInserted(ingredientSelected.size - 1)
     }
 
+    lateinit var contextAdapter : IngredientFindedAdapater
+    fun getInstanceAdapter(contextAdapter : IngredientFindedAdapater){//usada pra poder eliminar de la liste de ingredients principales
+        this.contextAdapter = contextAdapter
+    }
+
     inner class IngredientSelectedViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val ingredientTextView: TextView = itemView.findViewById(R.id.tvIngredientName)
         private val measureTextView: TextView = itemView.findViewById(R.id.tvMeasureUnit)
         private val deleteButton: Button = itemView.findViewById(R.id.btnDeleteIngredient)
+        val etMeasure: EditText = itemView.findViewById(R.id.etMeasure)
 
         fun bind(ingredient:Ingredient ) {
             ingredientTextView.text = ingredient.ingredientname
@@ -60,6 +68,11 @@ class IngredientSelectedAdapter : RecyclerView.Adapter<IngredientSelectedAdapter
                 if (position != RecyclerView.NO_POSITION) {
                     ingredientSelected.removeAt(position)
                     notifyItemRemoved(position)
+                    contextAdapter.mainIngerdientsList.removeAt(position)
+                    //contextAdapter.binding.spMainIngredient.setSelection(contextAdapter.mainIngerdientsList.size-1)
+                    if (contextAdapter.mainIngerdientsList.size ==0)
+                    contextAdapter.binding.spMainIngredient.adapter = null
+
                 }
             }
         }
@@ -93,4 +106,6 @@ class IngredientSelectedAdapter : RecyclerView.Adapter<IngredientSelectedAdapter
     fun getContextIngredientSelectedAdapter() : IngredientSelectedAdapter{
         return this
     }
+
+
 }
