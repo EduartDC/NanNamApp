@@ -22,6 +22,7 @@ class ConsultCookbookActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityConsultCookbookBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         // Inicia la carga de datos
         cookbookViewModel.onCreate()
 
@@ -31,13 +32,12 @@ class ConsultCookbookActivity : AppCompatActivity() {
         // Inicializa el adaptador
         recipeAdapter = CookBookAdapter()
 
-        binding.recyclerview.adapter = recipeAdapter
-
-        // Observa los cambios en la lista de recetas
-        cookbookViewModel.cookBookModel.observe(this, Observer { recipes ->
-            recipes?.let {
-                recipeAdapter.setData(it)
+        cookbookViewModel.cookBookModel.observe(this, Observer {
+            recipeList = mutableListOf<Recipe>()
+            for(i in 0..RecipeProvider.cookBook.size-1){
+                recipeList.add(RecipeProvider.cookBook.get(i))
             }
+
         })
     }
 
