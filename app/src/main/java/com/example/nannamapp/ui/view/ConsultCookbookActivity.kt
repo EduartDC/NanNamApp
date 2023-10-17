@@ -18,11 +18,13 @@ class ConsultCookbookActivity : AppCompatActivity() {
     private lateinit var binding: ActivityConsultCookbookBinding
     private val cookbookViewModel: CookBookViewModel by viewModels()
     private lateinit var recipeAdapter: CookBookAdapter
+    private  lateinit var recipeList : MutableList<Recipe>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityConsultCookbookBinding.inflate(layoutInflater)
         setContentView(binding.root)
         // Inicia la carga de datos
+
         cookbookViewModel.onCreate()
 
         // Configura el RecyclerView
@@ -30,15 +32,20 @@ class ConsultCookbookActivity : AppCompatActivity() {
 
         // Inicializa el adaptador
         recipeAdapter = CookBookAdapter()
+        val recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
+        recyclerView.adapter = recipeAdapter
 
-        binding.recyclerview.adapter = recipeAdapter
+        cookbookViewModel.cookBookModel.observe(this, Observer {
+            recipeList = mutableListOf<Recipe>()
 
-        // Observa los cambios en la lista de recetas
-        cookbookViewModel.cookBookModel.observe(this, Observer { recipes ->
-            recipes?.let {
-                recipeAdapter.setData(it)
+            for(i in 0..RecipeProvider.cookBook.size-1){
+                recipeList.add(RecipeProvider.cookBook.get(i))
             }
+            //recyclerView.layoutManager = LinearLayoutManager(this, recipeList)
         })
+
+
+
     }
 
 
