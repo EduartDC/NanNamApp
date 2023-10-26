@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:clickable="true"
+    android:background="?android:attr/selectableItemBackground"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -54,23 +56,6 @@
             android:orientation="horizontal"
             app:layout_constraintTop_toBottomOf="@+id/flImageRecipe"
             >
-            <ImageView
-                android:id="@+id/ivEdit"
-                android:layout_width="50dp"
-                android:layout_height="30dp"
-                android:clickable="true"
-                android:contentDescription="@string/contentImageRecipe"
-                android:src="@android:drawable/star_big_on"
-                app:tint="#FFE500"
-                tools:ignore="TouchTargetSizeCheck" />
-            <TextView
-                android:id="@+id/tvRating"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:text="4.5"
-                android:textSize="23dp"
-                android:textColor="@color/white"/>
 
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
