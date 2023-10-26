@@ -2,15 +2,9 @@ package com.example.nannamapp.ui.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ArrayAdapter
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.namnam.data.model.CategoryProvider
-import com.example.namnam.data.model.Recipe
-import com.example.nannamapp.R
-import com.example.nannamapp.data.model.RecipeProvider
 import com.example.nannamapp.databinding.ActivityConsultCookbookBinding
 import com.example.nannamapp.ui.viewModel.CookBookViewModel
 

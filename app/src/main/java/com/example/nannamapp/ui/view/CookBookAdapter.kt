@@ -7,12 +7,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.namnam.data.model.Recipe
+import com.example.namnam.data.model.RecipeDomain
 import com.example.nannamapp.R
-import com.example.nannamapp.data.model.RecipeProvider
 
 class CookBookAdapter : RecyclerView.Adapter<CookBookAdapter.ViewHolder>() {
-    private var recipes: List<Recipe> = listOf()
+    private var recipes: List<RecipeDomain> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         Log.d("ACCE","asdasd")
@@ -32,7 +31,7 @@ class CookBookAdapter : RecyclerView.Adapter<CookBookAdapter.ViewHolder>() {
         holder.rating.text = "4.5"
     }
 
-    fun setData(newRecipes: List<Recipe>) {
+    fun setData(newRecipes: List<RecipeDomain>) {
         recipes = newRecipes
         Log.d("TAMANO", newRecipes.size.toString() )
         notifyDataSetChanged()
