@@ -41,7 +41,11 @@ class ShowRecipeActivity : AppCompatActivity() {
             }
         }
     }
+<<<<<<< Updated upstream
 
+=======
+    
+>>>>>>> Stashed changes
     //metodo solo para comprobar que me regrese las cosas,despues lo debo borrar
     private fun impresionPrueba() {
         println("INFORMACION DE OBJETO RECIPE")
