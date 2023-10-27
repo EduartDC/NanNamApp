@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.namnam.data.model.Recipe
+import com.example.namnam.data.model.RecipeDomain
 import com.example.nannamapp.R
 import com.example.nannamapp.data.model.RecipeProvider
 import com.squareup.picasso.Picasso
@@ -45,7 +45,7 @@ class CookBookAdapter(private val onCardClickListener: OnCardClickListener) : Re
         holder.recipeName.text = recipe.recipeName
     }
 
-    fun setData(newRecipes: List<Recipe>) {
+    fun setData(newRecipes: List<RecipeDomain>) {
         recipes = newRecipes
 
         notifyDataSetChanged()

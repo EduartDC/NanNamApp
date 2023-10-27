@@ -10,21 +10,28 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:padding="8dp"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:textColor="@color/black" />
 <EditText
     android:id="@+id/etMeasure"
     android:layout_width="60dp"
     android:layout_height="40dp"
     android:background="@drawable/custom_search_bar"
-    android:inputType="number"/>
+    android:inputType="number"
+    android:textAlignment="center"
+    android:textColor="@color/black"/>
     <TextView
         android:id="@+id/tvMeasureUnit"
         android:layout_width="40dp"
         android:layout_height="20dp"
-        android:text="ml"/>
+        android:text="ml"
+        android:textAlignment="center"
+        android:textColor="@color/black"/>
     <Button
         android:id="@+id/btnDeleteIngredient"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Eliminar" />
+        android:text="Eliminar"
+        android:backgroundTint="@color/blue"
+        android:textColor="@color/white"/>
 </LinearLayout>
