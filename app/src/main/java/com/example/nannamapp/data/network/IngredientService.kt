@@ -10,10 +10,12 @@ import kotlinx.coroutines.withContext
 class IngredientService {
     private val retrofit = RetrofitHelper.getRetrofit()
 
-    suspend fun getAllIngredients(): List<Ingredient> {
+    suspend fun getAllIngredients(): Pair< List<Ingredient>,Int> {
         return withContext(Dispatchers.IO) {
             val response = retrofit.create(APIClient::class.java).getAllIngredients()
-            response.body() ?: emptyList()
+            val ingredients =     response.body() ?: emptyList()
+            val httpCode = response.code()
+            Pair(ingredients,httpCode)
         }
     }
 }

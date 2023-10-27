@@ -9,13 +9,15 @@ import kotlinx.coroutines.launch
 
 class IngredientViewModel : ViewModel() {
     val ingredientModel = MutableLiveData<Ingredient>()
+    val httpCode : Int = 0
     var getAllIngredients = GetAlIngredientsUseCase()
     //comentario de prueba
     fun onCreate() {
         viewModelScope.launch {
             val result = getAllIngredients()
-            if (!result.isNullOrEmpty()) {
-                ingredientModel.postValue(result[0])
+            val ingredients: List<Ingredient>? = result.first
+            if (ingredients != null && ingredients.isNotEmpty()) {
+                ingredientModel.postValue(ingredients[0])
             }
         }
     }
