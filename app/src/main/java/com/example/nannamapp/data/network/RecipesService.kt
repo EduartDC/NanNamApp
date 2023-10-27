@@ -22,37 +22,4 @@ class RecipesService {
         }
     }
 
-    suspend fun pushRecipe(newRecipe : NewRecipePost): Int {
-        return withContext(Dispatchers.IO) {
-            var code : Int = 0
-            Log.d("DENTRO DE SERVICE" ,"SI")
-            try {
-                val response = retrofit.create(APIClient::class.java).registerNewRecipe(newRecipe)
-               // response.errorBody()?.string()?.let { Log.d("Mensaje de la api", it) }
-               if (response.isSuccessful)
-                     code = 200
-            } catch (e: Exception) {
-                e.printStackTrace()
-                code = 500
-            }
-             code
-        }
-    }
-    suspend fun getRecipe(idRecipe : String): Pair<Int,GetRecipeResponse>{
-        return withContext(Dispatchers.IO) {
-            var code = 0
-            var body = GetRecipeResponse()
-            try {
-                val response = retrofit.create(APIClient::class.java).getRecipe(idRecipe)
-                code = response.code()
-                body = response.body() ?: GetRecipeResponse()
-                Pair(code,body)
-            }catch (e : Exception){
-                code = 500
-                Pair(code,body)
-            }
-
-        }
-    }
-
 }
