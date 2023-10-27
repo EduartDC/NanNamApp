@@ -1,6 +1,5 @@
 package com.example.nannamapp.ui.view
 
-import android.R
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -8,7 +7,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 import com.example.nannamapp.databinding.ActivityConsultCookbookBinding
 import com.example.nannamapp.ui.viewModel.CookBookViewModel
 
