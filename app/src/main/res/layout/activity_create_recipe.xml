@@ -68,14 +68,14 @@
                 android:text="3-Selecciona una categoría de receta"
                 android:layout_marginTop="15dp"
                 android:layout_gravity="center"
-                />
-
+                android:textColor="@color/black" />
             <Spinner
                 android:id="@+id/cb_categories"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginHorizontal="30dp" />
-
+                android:layout_marginHorizontal="30dp"
+                android:textAlignment="center"
+                android:backgroundTint="@color/black"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
