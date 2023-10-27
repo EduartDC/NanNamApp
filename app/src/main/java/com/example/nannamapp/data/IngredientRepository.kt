@@ -9,10 +9,9 @@ import com.example.nannamapp.data.network.IngredientService
 
 class IngredientRepository {
     private val api = IngredientService()
-    suspend fun getAllIngredients(): Pair<List<Ingredient>,Int> {
+    suspend fun getAllIngredients(): List<Ingredient> {
         val response = api.getAllIngredients()
-        IngredientProvider.ingredients = response.first
-
+        IngredientProvider.ingredients = response
         return response
     }
 }
