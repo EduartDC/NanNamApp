@@ -72,12 +72,21 @@ class ShowRecipeActivity : AppCompatActivity() {
         }
         binding.tvPortions.text = "" + RecipeProvider.recipeResponse.recipe.portion
         var ingredientsString : String = ""
-        for(position in 0..RecipeProvider.recipeResponse.ingredientList.count()-1){
 
-        }
         val adapter = IngredientsShowRecipeAdapter()
         binding.ingredientsFinded.layoutManager = LinearLayoutManager(this)
         binding.ingredientsFinded.adapter = adapter
+        for(position in 0..RecipeProvider.recipeResponse.ingredientList.count()-1){
+           adapter.setItem(RecipeProvider.recipeResponse.ingredientList[position],RecipeProvider.recipeResponse.ingredientAmounList[position])
+        }
+
+        val adapterSteps = StepShowRecipeAdapter()
+        binding.rvIngredientSelected.layoutManager = LinearLayoutManager(this)
+        binding.rvIngredientSelected.adapter = adapterSteps
+        for(position in 0..RecipeProvider.recipeResponse.stepList.count()-1){
+            println("asdasdas   " + RecipeProvider.recipeResponse.stepList[position].instruction)
+            adapterSteps.setItem(RecipeProvider.recipeResponse.stepList[position])
+        }
 
 
     }

@@ -23,14 +23,19 @@ class IngredientsShowRecipeAdapter  :
         val measureIngredient :TextView = itemView.findViewById(R.id.etMeasureIngredient)
 
         fun bind(ingredientItem : Ingredient, amountItem : RecipeHasIngredient) {
-            ingredientsName.add(ingredientItem)
-            ingredientsAmount.add(amountItem)
-            nameIngredient.text = ingredientItem.ingredientname
-            amountIngredient.text = amountItem.amount.toString()
+
+            nameIngredient.text = "- " + ingredientItem.ingredientname
+            amountIngredient.text =  amountItem.amount.toString()
             measureIngredient.text = ingredientItem.measure
-            notifyItemInserted(ingredientsName.count())
+          //  notifyItemInserted(ingredientsName.count())
         }
    }
+
+    fun setItem(ingredientItem : Ingredient, amountItem : RecipeHasIngredient){
+        ingredientsName.add(ingredientItem)
+        ingredientsAmount.add(amountItem)
+        notifyDataSetChanged()
+    }
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -44,7 +49,9 @@ class IngredientsShowRecipeAdapter  :
         holder: IngredientsShowRecipeAdapter.IngredientsShowRecipeAdapterViewHolder,
         position: Int
     ) {
-        TODO("Not yet implemented")
+        val ingredient = ingredientsName[position]
+        val amount = ingredientsAmount[position]
+        holder.bind(ingredient,amount)
     }
 
     override fun getItemCount(): Int {

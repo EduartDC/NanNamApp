@@ -78,14 +78,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:layout_marginHorizontal="30dp"/>
+                android:layout_marginHorizontal="60dp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Ingrediente principal"
                 android:layout_marginTop="15dp"
                 android:layout_gravity="center"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="25dp"/>
             <TextView
                 android:id="@+id/tvMainIngredient"
                 android:layout_width="match_parent"
@@ -94,6 +96,7 @@
                 android:text="ingrediente princiapl"
                 android:textAlignment="center"
                 android:textColor="@color/black"
+                android:textSize="15dp"
                 />
             <TextView
                 android:layout_width="wrap_content"
@@ -102,16 +105,17 @@
                 android:layout_marginTop="15dp"
                 android:layout_gravity="center"
                 android:textColor="@color/black"
-                />
+                android:textStyle="bold"
+                android:textSize="25dp"/>
 
             <!-- cambiar a wrap content  en el recycle view de abajo-->
-           <!-- <androidx.recyclerview.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvIngredientSelected"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:layout_marginHorizontal="30dp"
-                /> -->
+                android:layout_marginTop="20dp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -119,7 +123,8 @@
                 android:layout_marginTop="15dp"
                 android:layout_gravity="center"
                 android:textColor="@color/black"
-                />
+                android:textSize="20dp"
+                android:textStyle="bold"/>
             <TextView
                 android:id="@+id/tvPortions"
                 android:layout_width="wrap_content"
@@ -128,15 +133,16 @@
                 android:layout_marginTop="15dp"
                 android:layout_gravity="center"
                 android:textColor="@color/black"
-                />
+                android:textSize="15dp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Desea calcular lon ingredientes para mas porciones? entonces preciona el boton"
+                android:text="¿Desea calcular los ingredientes para mas porciones? entonces preciona el boton"
                 android:layout_marginTop="15dp"
                 android:layout_gravity="center"
                 android:textAlignment="center"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:textSize="15dp"/>
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -184,7 +190,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvCookingSteps"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 />
         </LinearLayout>
     </ScrollView>
