@@ -1,24 +1,14 @@
 package com.example.nannamapp.ui.view
 
 import android.os.Bundle
-<<<<<<< HEAD
 import android.widget.Toast
-=======
->>>>>>> Development
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-<<<<<<< Updated upstream
 import androidx.recyclerview.widget.LinearLayoutManager
-=======
-<<<<<<< HEAD
->>>>>>> Stashed changes
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-=======
-import androidx.recyclerview.widget.LinearLayoutManager
->>>>>>> Development
 import com.example.nannamapp.databinding.ActivityConsultCookbookBinding
 import com.example.nannamapp.ui.viewModel.CookBookViewModel
 

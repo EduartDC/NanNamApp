@@ -8,19 +8,13 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.namnam.data.model.RecipeDomain
+import com.example.namnam.data.model.Recipe
 import com.example.nannamapp.R
-<<<<<<< HEAD
 import com.example.nannamapp.data.model.RecipeProvider
 import com.squareup.picasso.Picasso
 
 class CookBookAdapter(private val onCardClickListener: CookBookAdapter.OnCardClickListener) : RecyclerView.Adapter<CookBookAdapter.ViewHolder>() {
     private var recipes: List<Recipe> = listOf()
-=======
-
-class CookBookAdapter : RecyclerView.Adapter<CookBookAdapter.ViewHolder>() {
-    private var recipes: List<RecipeDomain> = listOf()
->>>>>>> Development
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.recipe_item, parent, false)
@@ -51,7 +45,7 @@ class CookBookAdapter : RecyclerView.Adapter<CookBookAdapter.ViewHolder>() {
         holder.recipeName.text = recipe.recipeName
     }
 
-    fun setData(newRecipes: List<RecipeDomain>) {
+    fun setData(newRecipes: List<Recipe>) {
         recipes = newRecipes
 
         notifyDataSetChanged()
