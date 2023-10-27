@@ -77,7 +77,7 @@ class ShowRecipeActivity : AppCompatActivity() {
         binding.ingredientsFinded.layoutManager = LinearLayoutManager(this)
         binding.ingredientsFinded.adapter = adapter
         for(position in 0..RecipeProvider.recipeResponse.ingredientList.count()-1){
-           adapter.setItem(RecipeProvider.recipeResponse.ingredientList[position],RecipeProvider.recipeResponse.ingredientAmounList[position])
+            adapter.setItem(RecipeProvider.recipeResponse.ingredientList[position],RecipeProvider.recipeResponse.ingredientAmounList[position])
         }
 
         val adapterSteps = StepShowRecipeAdapter()

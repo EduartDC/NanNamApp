@@ -20,6 +20,7 @@ import com.example.nannamapp.util.IngredientSelectedAdapter
 class IngredientFindedAdapater :
     RecyclerView.Adapter<IngredientFindedAdapater.IngredientFindedViewHolder>() {
 
+
     private var IngredientsFindedList = mutableListOf<String>()
     private lateinit var itemTouchHelper: ItemTouchHelper
 

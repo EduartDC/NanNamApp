@@ -18,10 +18,12 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.widget.ArrayAdapter
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.content.FileProvider
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ReportFragment.Companion.reportFragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -31,6 +33,7 @@ import com.example.namnam.data.model.CookinginstructionDomain
 import com.example.namnam.data.model.Ingredient
 import com.example.namnam.data.model.IngredientProvider
 import com.example.namnam.data.model.RecipeDomain
+import com.example.nannamapp.R
 import com.example.nannamapp.data.model.NewRecipePost
 import com.example.nannamapp.data.model.RecipeHasIngredient
 
@@ -80,7 +83,7 @@ class CreateRecipeActivity : AppCompatActivity() {
         binding.btnSaveRecipe.setOnClickListener{
             var ingredientSelectedList= adapterRVIngredientsFinded.getIngredientSelectedList()
             var x =0
-           if(!binding.recipeName.text.isNullOrBlank()){
+            if(!binding.recipeName.text.isNullOrBlank()){
                 if(validateImage()){
                     if(ingredientSelectedList.getContextIngredientSelectedAdapter().ingredientSelected.size != 0){
                         if(validateMeasureSelected())
@@ -99,8 +102,8 @@ class CreateRecipeActivity : AppCompatActivity() {
                         Toast.makeText(this,"Selecciona almenos un ingrediente",Toast.LENGTH_SHORT).show()
                 }else
                     Toast.makeText(this,"Imagen obligatoria",Toast.LENGTH_SHORT).show()
-           }else
-               Toast.makeText(this,"Nombre obligatorio",Toast.LENGTH_SHORT).show()
+            }else
+                Toast.makeText(this,"Nombre obligatorio",Toast.LENGTH_SHORT).show()
 
         }
     }
@@ -117,7 +120,7 @@ class CreateRecipeActivity : AppCompatActivity() {
             "",
             "123",
             binding.recipeName.text.toString(),
-             getImage(),
+            getImage(),
             "00:00:00",
             idMainIngredient,
             binding.etPortions.text.toString().toInt()
@@ -129,17 +132,17 @@ class CreateRecipeActivity : AppCompatActivity() {
             val viewHolder = binding.rvCookingSteps.findViewHolderForAdapterPosition(position) as? CookingStepAdapter.StepViewHolder
             // Verifica si el ViewHolder es nulo
             if (viewHolder != null) {
-               var step : CookinginstructionDomain = CookinginstructionDomain(
-                   "",
-                   viewHolder.stepTextView.text.toString(),
+                var step : CookinginstructionDomain = CookinginstructionDomain(
+                    "",
+                    viewHolder.stepTextView.text.toString(),
                     position,
-                   ""
-               )
-            instructions.add(step)
+                    ""
+                )
+                instructions.add(step)
             }
         }
         //OBJETO DE CATEGORIA
-       // var idCategorySelected : String = ""
+        // var idCategorySelected : String = ""
         var categorySelected : Category = Category("","")
         for (item in CategoryProvider.categories){
             if(item.categoryName.equals(binding.cbCategories.selectedItem.toString())){
@@ -251,7 +254,7 @@ class CreateRecipeActivity : AppCompatActivity() {
         var band :Boolean = true
         val adapter = binding.rvCookingSteps.adapter as CookingStepAdapter
         if (adapter.itemCount == 0)
-                return false
+            return false
         return true
     }
 

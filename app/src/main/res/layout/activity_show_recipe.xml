@@ -43,26 +43,6 @@
                 android:layout_marginTop="10dp"
                 android:textColor="@color/black"
                 />
-            <!--
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Categoría"
-                android:layout_marginTop="15dp"
-                android:layout_gravity="center"
-                android:textColor="@color/black"
-                />
-            <TextView
-                android:id="@+id/tvCategorieRecipe"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginHorizontal="30dp"
-                android:text="categoria"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-
-                />
-                -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
