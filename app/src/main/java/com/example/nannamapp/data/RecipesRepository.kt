@@ -22,8 +22,6 @@ class RecipesRepository {
 
     suspend fun getRecipe(idRecipe : String) : Int{
         var response = api.getRecipe(idRecipe)
-        for (item in response.second.stepList)
-            println("-----" + item.Step)
         RecipeProvider.recipeResponse.recipe = response.second.recipe
         RecipeProvider.recipeResponse.stepList = response.second.stepList
         RecipeProvider.recipeResponse.ingredientList = response.second.ingredientList

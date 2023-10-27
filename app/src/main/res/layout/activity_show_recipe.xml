@@ -31,6 +31,8 @@
                 android:layout_marginTop="15dp"
                 android:layout_gravity="center"
                 android:textColor="@color/black"
+                android:textSize="25dp"
+                android:textStyle="bold"
                 />
             <ImageView
                 android:id="@+id/imgRecipe"
@@ -41,6 +43,7 @@
                 android:layout_marginTop="10dp"
                 android:textColor="@color/black"
                 />
+            <!--
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -59,6 +62,7 @@
                 android:textColor="@color/black"
 
                 />
+                -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -66,10 +70,11 @@
                 android:layout_marginTop="15dp"
                 android:layout_gravity="center"
                 android:textColor="@color/black"
-
+                android:textStyle="bold"
+                android:textSize="25dp"
                 />
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/ingerdientsFinded"
+                android:id="@+id/ingredientsFinded"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -98,14 +103,15 @@
                 android:layout_gravity="center"
                 android:textColor="@color/black"
                 />
+
             <!-- cambiar a wrap content  en el recycle view de abajo-->
-            <androidx.recyclerview.widget.RecyclerView
+           <!-- <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvIngredientSelected"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_marginHorizontal="30dp"
-                />
+                /> -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -46,11 +46,10 @@ class RecipesService {
     suspend fun getRecipe(idRecipe : String): Pair<Int,GetRecipeResponse>{
         return withContext(Dispatchers.IO) {
             var code = 0
-            var body : GetRecipeResponse = GetRecipeResponse()
+            var body = GetRecipeResponse()
             try {
                 val response = retrofit.create(APIClient::class.java).getRecipe(idRecipe)
                 code = response.code()
-                //Log.d("CUERPO", response.raw().toString())
                 body = response.body() ?: GetRecipeResponse()
                 Pair(code,body)
             }catch (e : Exception){

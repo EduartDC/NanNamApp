@@ -1,11 +1,10 @@
 package com.example.nannamapp.ui.view
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
-import com.example.nannamapp.R
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.nannamapp.data.model.RecipeProvider
 import com.example.nannamapp.databinding.ActivityShowRecipeBinding
 import com.example.nannamapp.ui.viewModel.RecipeViewModel
@@ -20,26 +19,47 @@ class ShowRecipeActivity : AppCompatActivity() {
         //varibales para que me pase el id de la receta
         val intent =intent
         var idRecipe = "RIJT6I55VQ"//id harcodeado, borrar cuando se haga la navegavilidad con CU buscar receta
-        println("ANTES: " + RecipeProvider.recipeResponse.stepList.count())
         getRecipe(idRecipe)
         setListenerGetRecipe()
+        listenerPrepareRecipe()
+    }
+
+    //lamada a CU-Preparar receta
+    private fun listenerPrepareRecipe() {
+        //val intent = Intent(this, ActividadDircio::class.java)
+        startActivity(intent)
     }
 
     private fun setListenerGetRecipe() {
         getRecipeViewModel.getRecipeViewModel.observe(this){
             if(getRecipeViewModel.httpCodegetRecipe == 200){
                 Toast.makeText(this,"Al milloanso pai " + RecipeProvider.recipeResponse.recipe.idMainIngredient,Toast.LENGTH_SHORT).show()
-                println("DESPUES: " + RecipeProvider.recipeResponse.stepList.count())
-                println("IdCookingInstruction: " + RecipeProvider.recipeResponse.stepList[0].IdCookingInstruction)
-                println("RecipeIdRecipe: " + RecipeProvider.recipeResponse.stepList[0].RecipeIdRecipe)
-                println("Instruction: " + RecipeProvider.recipeResponse.stepList[0].Instruction)
-                println("Step: " + RecipeProvider.recipeResponse.stepList[0].Step)
                 loadInfoRecipe()
             }else{
                 Toast.makeText(this,"ocurrio un fallo: " + getRecipeViewModel.httpCodegetRecipe,Toast.LENGTH_SHORT).show()
 
             }
         }
+    }
+
+    //metodo solo para comprobar que me regrese las cosas,despues lo debo borrar
+    private fun impresionPrueba() {
+        println("INFORMACION DE OBJETO RECIPE")
+        println("idRecipe: " +RecipeProvider.recipeResponse.recipe.idRecipe)
+        println("recipeName: " +RecipeProvider.recipeResponse.recipe.recipeName)
+        println("imageRecipeURL: " +RecipeProvider.recipeResponse.recipe.imageRecipeURL)
+        println("User_idUser: " +RecipeProvider.recipeResponse.recipe.user_idUser)
+        println("idMainIngredient: " +RecipeProvider.recipeResponse.recipe.idMainIngredient)
+        println("preparationTime: " +RecipeProvider.recipeResponse.recipe.preparationTime)
+        println("Portion: " +RecipeProvider.recipeResponse.recipe.portion)
+
+
+
+        println("LISTA DE INSTRUCCIONES")
+        println("IdCookingInstruction: " + RecipeProvider.recipeResponse.stepList[0].idCookingInstruction)
+        println("RecipeIdRecipe: " + RecipeProvider.recipeResponse.stepList[0].recipeIdRecipe)
+        println("Instruction: " + RecipeProvider.recipeResponse.stepList[0].instruction)
+        println("Step: " + RecipeProvider.recipeResponse.stepList[0].step)
     }
 
     private fun loadInfoRecipe() {
@@ -50,9 +70,16 @@ class ShowRecipeActivity : AppCompatActivity() {
             if(item.idIngredient == RecipeProvider.recipeResponse.recipe.idMainIngredient)
                 binding.tvMainIngredient.text = item.ingredientname
         }
-        binding.tvPortions.text = "" + RecipeProvider.recipeResponse.recipe.Portion
-    for(item in RecipeProvider.recipeResponse.stepList)
-        println("paso: " + item.Instruction)
+        binding.tvPortions.text = "" + RecipeProvider.recipeResponse.recipe.portion
+        var ingredientsString : String = ""
+        for(position in 0..RecipeProvider.recipeResponse.ingredientList.count()-1){
+
+        }
+       /* val adapter = IngredientShowRecipeAdapter()
+        binding.ingredientsFinded.layoutManager = LinearLayoutManager(this)
+        binding.ingredientsFinded.adapter = adapter */
+
+
     }
 
     private fun getRecipe(idRecipe : String) {

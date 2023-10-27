@@ -1,8 +1,8 @@
 package com.example.namnam.data.model
 
 class CookinginstructionDomain (
-    var IdCookingInstruction : String,
-    var Instruction : String,
-    var Step  : Int,
-    var RecipeIdRecipe : String
+    var idCookingInstruction : String,
+    var instruction : String,
+    var step  : Int,
+    var recipeIdRecipe : String
 )
