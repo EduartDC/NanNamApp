@@ -1,11 +1,10 @@
 package com.example.nannamapp.data.model
 
-import com.example.namnam.data.model.Category
-import com.example.namnam.data.model.RecipeDomain
+import com.example.namnam.data.model.Ingredient
+import com.example.namnam.data.model.Recipe
 
 class RecipeProvider {
     companion object{
-        var cookBook: List<RecipeDomain> = emptyList()
-        var recipeResponse : GetRecipeResponse = GetRecipeResponse()
+        var cookBook: List<Recipe> = emptyList()
     }
 }
