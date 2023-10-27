@@ -75,9 +75,9 @@ class ShowRecipeActivity : AppCompatActivity() {
         for(position in 0..RecipeProvider.recipeResponse.ingredientList.count()-1){
 
         }
-       /* val adapter = IngredientShowRecipeAdapter()
+        val adapter = IngredientsShowRecipeAdapter()
         binding.ingredientsFinded.layoutManager = LinearLayoutManager(this)
-        binding.ingredientsFinded.adapter = adapter */
+        binding.ingredientsFinded.adapter = adapter
 
 
     }

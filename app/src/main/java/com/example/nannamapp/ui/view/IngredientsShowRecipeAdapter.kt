@@ -1,22 +1,35 @@
 package com.example.nannamapp.ui.view
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.namnam.data.model.Ingredient
 import com.example.nannamapp.R
 import com.example.nannamapp.data.model.RecipeHasIngredient
 
-//class IngredientsShowRecipeAdapter  : RecyclerView.Adapter<IngredientsShowRecipeAdapter.IngredientsShowRecipeAdapterViewHolder>() {
-   /*private var ingredientsName = mutableListOf<Ingredient>()
+class IngredientsShowRecipeAdapter  :
+    RecyclerView.Adapter<IngredientsShowRecipeAdapter.IngredientsShowRecipeAdapterViewHolder>() {
+   private var ingredientsName = mutableListOf<Ingredient>()
     private var ingredientsAmount = mutableListOf<RecipeHasIngredient>()
 
     //genera el item del xml
-    inner class IngredientsShowRecipeAdapterViewHolder() : RecyclerView.ViewHolder(itemView){
+    inner class IngredientsShowRecipeAdapterViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
         val nameIngredient :TextView = itemView.findViewById(R.id.tvIngredientName)
-        val amountINgredit : EditText
+        val amountIngredient : TextView = itemView.findViewById(R.id.etAmountIngredient)
+        val measureIngredient :TextView = itemView.findViewById(R.id.etMeasureIngredient)
+
+        fun bind(ingredientItem : Ingredient, amountItem : RecipeHasIngredient) {
+            ingredientsName.add(ingredientItem)
+            ingredientsAmount.add(amountItem)
+            nameIngredient.text = ingredientItem.ingredientname
+            amountIngredient.text = amountItem.amount.toString()
+            measureIngredient.text = ingredientItem.measure
+            notifyItemInserted(ingredientsName.count())
+        }
    }
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -36,5 +49,5 @@ import com.example.nannamapp.data.model.RecipeHasIngredient
 
     override fun getItemCount(): Int {
         return ingredientsName.count()
-    }*/
-//}
+    }
+}
