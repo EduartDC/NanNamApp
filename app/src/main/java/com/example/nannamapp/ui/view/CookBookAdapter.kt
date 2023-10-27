@@ -1,7 +1,6 @@
 package com.example.nannamapp.ui.view
 
 import android.os.AsyncTask
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,26 +8,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.namnam.data.model.Recipe
-<<<<<<< Updated upstream
 import com.example.nannamapp.R
-=======
-import com.example.namnam.data.model.RecipeDomain
-import com.example.nannamapp.R
-
->>>>>>> Stashed changes
-import com.example.nannamapp.data.model.RecipeProvider
 import com.squareup.picasso.Picasso
 
 class CookBookAdapter(private val onCardClickListener: CookBookAdapter.OnCardClickListener) : RecyclerView.Adapter<CookBookAdapter.ViewHolder>() {
     private var recipes: List<Recipe> = listOf()
-<<<<<<< Updated upstream
-=======
 
-
-class CookBookAdapter : RecyclerView.Adapter<CookBookAdapter.ViewHolder>() {
-    private var recipes: List<RecipeDomain> = listOf()
-
->>>>>>> Stashed changes
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.recipe_item, parent, false)
