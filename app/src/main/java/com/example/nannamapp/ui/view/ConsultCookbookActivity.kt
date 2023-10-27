@@ -31,7 +31,6 @@ class ConsultCookbookActivity : AppCompatActivity(), CookBookAdapter.OnCardClick
         val layoutManager = GridLayoutManager(this, 2)
         recyclerView.layoutManager = layoutManager
         // Inicializa el adaptador
-<<<<<<< Updated upstream
         recipeAdapter = CookBookAdapter(this)
         binding.recyclerview.adapter = recipeAdapter
 
@@ -40,18 +39,7 @@ class ConsultCookbookActivity : AppCompatActivity(), CookBookAdapter.OnCardClick
             recipes?.let {
                 recipeAdapter.setData(it)
             }
-=======
-        recipeAdapter = CookBookAdapter()
-        val recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
-        recyclerView.adapter = recipeAdapter
 
-        cookbookViewModel.cookBookModel.observe(this, Observer {
-            recipeList = mutableListOf<Recipe>()
-            for(i in 0..RecipeProvider.cookBook.size-1){
-                recipeList.add(RecipeProvider.cookBook.get(i))
-            }
-
->>>>>>> Stashed changes
         })
     }
 
