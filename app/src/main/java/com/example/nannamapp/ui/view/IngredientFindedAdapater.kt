@@ -71,8 +71,7 @@ class IngredientFindedAdapater :
     private lateinit var mainIngredientAdapter: ArrayAdapter<String>//
 
     inner class IngredientFindedViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val IngredientTextView: TextView =
-            itemView.findViewById(R.id.textIngredientSearchBar)
+        private val IngredientTextView: TextView = itemView.findViewById(R.id.textIngredientSearchBar)
         private val addButton: Button = itemView.findViewById(R.id.btnAddIngredient)
         private var ingredientString: String = ""
         fun bind(ingredientString: String) {
