@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.nannamapp.R
 
 class CookingStepAdapter :RecyclerView.Adapter<CookingStepAdapter.StepViewHolder>(){
-
     private val steps = mutableListOf<String>()
     private lateinit var itemTouchHelper: ItemTouchHelper
 
@@ -42,8 +41,8 @@ class CookingStepAdapter :RecyclerView.Adapter<CookingStepAdapter.StepViewHolder
     }
 
     inner class StepViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val stepTextView: TextView = itemView.findViewById(R.id.stepTextView)
-        private val deleteButton: Button = itemView.findViewById(R.id.deleteButton)
+        val stepTextView: TextView = itemView.findViewById(R.id.stepTextView)
+        val deleteButton: Button = itemView.findViewById(R.id.deleteButton)
 
         fun bind(step: String) {
             stepTextView.text = step
@@ -58,7 +57,7 @@ class CookingStepAdapter :RecyclerView.Adapter<CookingStepAdapter.StepViewHolder
         }
     }
 
-    // Método del drag and drop para reorganizar los elementos
+    //Método del drag and drop para reorganizar los elementos
     fun moveItem(fromPosition: Int, toPosition: Int) {
         val item = steps.removeAt(fromPosition)
         steps.add(toPosition, item)
