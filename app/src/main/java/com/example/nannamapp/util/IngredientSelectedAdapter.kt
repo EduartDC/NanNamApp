@@ -54,9 +54,9 @@ class IngredientSelectedAdapter : RecyclerView.Adapter<IngredientSelectedAdapter
     }
 
     inner class IngredientSelectedViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val ingredientTextView: TextView = itemView.findViewById(R.id.tvIngredientName)
-        private val measureTextView: TextView = itemView.findViewById(R.id.tvMeasureUnit)
-        private val deleteButton: Button = itemView.findViewById(R.id.btnDeleteIngredient)
+        val ingredientTextView: TextView = itemView.findViewById(R.id.tvIngredientName)
+        val measureTextView: TextView = itemView.findViewById(R.id.tvMeasureUnit)
+        val deleteButton: Button = itemView.findViewById(R.id.btnDeleteIngredient)
         val etMeasure: EditText = itemView.findViewById(R.id.etMeasure)
 
         fun bind(ingredient:Ingredient ) {
@@ -70,8 +70,10 @@ class IngredientSelectedAdapter : RecyclerView.Adapter<IngredientSelectedAdapter
                     notifyItemRemoved(position)
                     contextAdapter.mainIngerdientsList.removeAt(position)
                     //contextAdapter.binding.spMainIngredient.setSelection(contextAdapter.mainIngerdientsList.size-1)
-                    if (contextAdapter.mainIngerdientsList.size ==0)
-                    contextAdapter.binding.spMainIngredient.adapter = null
+                    if (contextAdapter.mainIngerdientsList.size ==0){
+                        contextAdapter.binding.spMainIngredient.adapter = null
+                    }
+
 
                 }
             }
