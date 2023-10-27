@@ -25,7 +25,7 @@ interface APIClient {
     @POST("Recipe/PostRecipe")
     suspend fun registerNewRecipe(@Body newRecipeDomain: NewRecipePost): Response<Void>
 
-    @POST("")
+    @GET("Recipe/GetRecipe/{idRecipe}")
     suspend fun getRecipe(@Path("idRecipe")idRecipe : String) : Response<GetRecipeResponse>
 
 

@@ -1,5 +1,6 @@
 package com.example.nannamapp.data.model
 
+import com.example.namnam.data.model.Category
 import com.example.namnam.data.model.RecipeDomain
 
 class RecipeProvider {

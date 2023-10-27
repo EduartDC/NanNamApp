@@ -119,7 +119,8 @@ class CreateRecipeActivity : AppCompatActivity() {
             binding.recipeName.text.toString(),
              getImage(),
             "00:00:00",
-            idMainIngredient
+            idMainIngredient,
+            binding.etPortions.text.toString().toInt()
         )
         var instructions : MutableList<CookinginstructionDomain> = mutableListOf()
         //lista de pasos

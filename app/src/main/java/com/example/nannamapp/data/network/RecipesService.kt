@@ -6,6 +6,8 @@ import com.example.namnam.data.network.APIClient
 import com.example.nannamapp.core.RetrofitHelper
 import com.example.nannamapp.data.model.GetRecipeResponse
 import com.example.nannamapp.data.model.NewRecipePost
+import com.google.gson.Gson
+import com.google.gson.JsonParser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.http.Body
@@ -44,10 +46,11 @@ class RecipesService {
     suspend fun getRecipe(idRecipe : String): Pair<Int,GetRecipeResponse>{
         return withContext(Dispatchers.IO) {
             var code = 0
-            lateinit var body : GetRecipeResponse
+            var body : GetRecipeResponse = GetRecipeResponse()
             try {
                 val response = retrofit.create(APIClient::class.java).getRecipe(idRecipe)
                 code = response.code()
+                //Log.d("CUERPO", response.raw().toString())
                 body = response.body() ?: GetRecipeResponse()
                 Pair(code,body)
             }catch (e : Exception){

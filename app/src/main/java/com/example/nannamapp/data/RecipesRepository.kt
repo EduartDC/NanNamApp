@@ -20,9 +20,15 @@ class RecipesRepository {
         return response
     }
 
-    suspend fun getRecipe(idRecipe : String) : Pair<Int,GetRecipeResponse>{
+    suspend fun getRecipe(idRecipe : String) : Int{
         var response = api.getRecipe(idRecipe)
-        RecipeProvider.recipeResponse = response.second
-        return response
+        for (item in response.second.stepList)
+            println("-----" + item.Step)
+        RecipeProvider.recipeResponse.recipe = response.second.recipe
+        RecipeProvider.recipeResponse.stepList = response.second.stepList
+        RecipeProvider.recipeResponse.ingredientList = response.second.ingredientList
+        //RecipeProvider.recipeResponse.category = response.second.category
+        RecipeProvider.recipeResponse.ingredientAmounList = response.second.ingredientAmounList
+        return response.first
     }
 }

@@ -30,11 +30,13 @@ class RecipeViewModel : ViewModel() {
     var httpCodegetRecipe : Int = 0
     var idRecipe : String = ""
     val getRecipeuseCase : GetRecipeUseCase by lazy { GetRecipeUseCase(idRecipe ) }
-    val getRecipeViewModel = MutableLiveData<GetRecipeResponse?>()
+    val getRecipeViewModel = MutableLiveData<Int>()
     fun getRecipe(){
         viewModelScope.launch {
             var result = getRecipeuseCase()
-            getRecipeViewModel.postValue(result.second)
+            httpCodegetRecipe =result
+            getRecipeViewModel.postValue(result)
+
         }
     }
 

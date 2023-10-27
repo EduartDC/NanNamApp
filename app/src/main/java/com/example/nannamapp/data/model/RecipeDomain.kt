@@ -7,5 +7,5 @@ class RecipeDomain (
     var imageRecipeURL : String,
     var preparationTime : String,
     var idMainIngredient : String,
-    var portions : Int,
+    var Portion : Int,
 )
