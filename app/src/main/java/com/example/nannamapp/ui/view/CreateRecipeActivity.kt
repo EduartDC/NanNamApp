@@ -7,6 +7,8 @@ import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -27,24 +29,32 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.namnam.data.model.Category
 import com.example.namnam.data.model.CategoryProvider
+import com.example.namnam.data.model.CookinginstructionDomain
 import com.example.namnam.data.model.Ingredient
 import com.example.namnam.data.model.IngredientProvider
+import com.example.namnam.data.model.RecipeDomain
 import com.example.nannamapp.R
+import com.example.nannamapp.data.model.NewRecipePost
+import com.example.nannamapp.data.model.RecipeHasIngredient
 
 import com.example.nannamapp.databinding.ActivityCreateRecipeBinding
 import com.example.nannamapp.ui.viewModel.CategoryViewModel
 import com.example.nannamapp.ui.viewModel.IngredientViewModel
+import com.example.nannamapp.ui.viewModel.RecipeViewModel
 import com.example.nannamapp.util.IngredientSelectedAdapter
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.text.SimpleDateFormat
+import java.util.Base64
 import java.util.Date
 
 
 class CreateRecipeActivity : AppCompatActivity() {
 
-    public lateinit var binding: ActivityCreateRecipeBinding
+    lateinit var binding: ActivityCreateRecipeBinding
     private val categoryViewModel: CategoryViewModel by viewModels()
     private val ingredientViewModel: IngredientViewModel by viewModels()
+    private val recipeViewModel : RecipeViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCreateRecipeBinding.inflate(layoutInflater)
@@ -63,31 +73,167 @@ class CreateRecipeActivity : AppCompatActivity() {
         setListenerBtnSave()
     }
 
-    private fun setListenerBtnSave() {
+    private fun validateImage(): Boolean {
+        if(binding.imgRecipe.drawable != null)
+            return true
+        return false
+    }
+
+    private  fun setListenerBtnSave() {
         binding.btnSaveRecipe.setOnClickListener{
             var ingredientSelectedList= adapterRVIngredientsFinded.getIngredientSelectedList()
             var x =0
-           if(!binding.recipeName.text.isNullOrBlank()){
-                if(ingredientSelectedList.getContextIngredientSelectedAdapter().ingredientSelected.size != 0){
-                    if(validateMeasureSelected())
-                        if(validateSteps())
-                            Toast.makeText(this,"LISTO PARA GUARDAR",Toast.LENGTH_SHORT).show()
+            if(!binding.recipeName.text.isNullOrBlank()){
+                if(validateImage()){
+                    if(ingredientSelectedList.getContextIngredientSelectedAdapter().ingredientSelected.size != 0){
+                        if(validateMeasureSelected())
+                            if(validateSteps())
+                                if(validatePortions())
+                                    saveRecipe()
+                                else{
+                                    Toast.makeText(this,"Se necesita la cantidad de porciones",Toast.LENGTH_SHORT).show()
+                                    binding.etPortions.text.clear()
+                                }
+                            else
+                                Toast.makeText(this,"ingresa pasos",Toast.LENGTH_SHORT).show()
                         else
-                            Toast.makeText(this,"ingresa pasos",Toast.LENGTH_SHORT).show()
-                    else
-                        Toast.makeText(this,"ingresa las unidades",Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this,"ingresa las unidades",Toast.LENGTH_SHORT).show()
+                    }else
+                        Toast.makeText(this,"Selecciona almenos un ingrediente",Toast.LENGTH_SHORT).show()
                 }else
-                    Toast.makeText(this,"Selecciona almenos un ingrediente",Toast.LENGTH_SHORT).show()
-           }else
-               Toast.makeText(this,"Nombre obligatorio",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this,"Imagen obligatoria",Toast.LENGTH_SHORT).show()
+            }else
+                Toast.makeText(this,"Nombre obligatorio",Toast.LENGTH_SHORT).show()
 
         }
+    }
+
+    //crea el objeto que será enviado a la api
+    private  fun saveRecipe() {
+        var idMainIngredient : String = ""
+        for (item in IngredientProvider.ingredients){
+            if(item.ingredientname.equals(binding.spMainIngredient.selectedItem.toString()))
+                idMainIngredient = item.idIngredient
+        }
+        //objeto de receta
+        var newRecipe : RecipeDomain = RecipeDomain(
+            "",
+            "123",
+            binding.recipeName.text.toString(),
+            getImage(),
+            "00:00:00",
+            idMainIngredient,
+            binding.etPortions.text.toString().toInt()
+        )
+        var instructions : MutableList<CookinginstructionDomain> = mutableListOf()
+        //lista de pasos
+        val adapterSteps = binding.rvCookingSteps.adapter as CookingStepAdapter
+        for (position in 0 until adapterSteps.itemCount) {
+            val viewHolder = binding.rvCookingSteps.findViewHolderForAdapterPosition(position) as? CookingStepAdapter.StepViewHolder
+            // Verifica si el ViewHolder es nulo
+            if (viewHolder != null) {
+                var step : CookinginstructionDomain = CookinginstructionDomain(
+                    "",
+                    viewHolder.stepTextView.text.toString(),
+                    position,
+                    ""
+                )
+                instructions.add(step)
+            }
+        }
+        //OBJETO DE CATEGORIA
+        // var idCategorySelected : String = ""
+        var categorySelected : Category = Category("","")
+        for (item in CategoryProvider.categories){
+            if(item.categoryName.equals(binding.cbCategories.selectedItem.toString())){
+                categorySelected.idCategory = item.idCategory
+                categorySelected.categoryName = item.categoryName
+            }
+        }
+        //lista de ingredientes
+        var recipeHasIngredientList : MutableList<RecipeHasIngredient> = mutableListOf()
+        val ingredientsSelectedAdapter = binding.rvIngredientSelected.adapter as IngredientSelectedAdapter
+        for (position in 0 until ingredientsSelectedAdapter.itemCount) {
+            val viewHolder = binding.rvIngredientSelected.findViewHolderForAdapterPosition(position) as?  IngredientSelectedAdapter.IngredientSelectedViewHolder
+            // Verifica si el ViewHolder es nulo
+            if (viewHolder != null) {
+                for(item in IngredientProvider.ingredients){
+                    if(item.ingredientname.equals(viewHolder.ingredientTextView.text)){
+                        var recipeHasIngerdient : RecipeHasIngredient = RecipeHasIngredient(
+                            item.idIngredient,
+                            "",
+                            viewHolder.etMeasure.text.toString().toInt()
+                        )
+                        recipeHasIngredientList.add(recipeHasIngerdient)
+                    }
+                }
+
+            }
+        }
+
+        //crear objeto a mandar
+        var newRecipePost : NewRecipePost = NewRecipePost(
+            newRecipe,
+            instructions,
+            categorySelected,
+            recipeHasIngredientList
+        )
+        recipeViewModel.newRecipe = newRecipePost
+        recipeViewModel.postNewRecipe()
+        recipeViewModel.recipeViewModel.observe(this){
+            if (recipeViewModel.httpCodeCreateRecipe == 200)
+                Toast.makeText(this,"TODO BIEN",Toast.LENGTH_SHORT).show()
+            else
+                Toast.makeText(this,"TODO MAL: {${recipeViewModel.httpCodeCreateRecipe}}" ,Toast.LENGTH_SHORT).show()
+
+        }
+    }
+
+    private fun pruebaDeImagenBorrar() {
+        val base64String = getImage()  // Reemplaza con tu cadena Base64
+        Log.d("IMAGEN", base64String)
+        try {
+            val decodedBytes = android.util.Base64.decode(base64String, android.util.Base64.DEFAULT)
+            val bitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
+            binding.pruebaBase.setImageBitmap(bitmap)
+        } catch (e: IllegalArgumentException) {
+            Log.d("VALIO VERGA",e.cause.toString())
+        }
+
+    }
+
+
+    private fun getImage(): String {
+
+        val drawable = binding.imgRecipe.drawable
+
+        if (drawable is BitmapDrawable) {
+            val bitmap = drawable.bitmap
+
+            // Convertir el Bitmap en una cadena Base64
+            val byteArrayOutputStream = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
+            val byteArray = byteArrayOutputStream.toByteArray()
+            val imageBase64 = Base64.getEncoder().encodeToString(byteArray)
+            return imageBase64
+        } else {
+            // Manejar el caso en el que no hay una imagen en el ImageView
+            // Puedes retornar un valor por defecto o manejar la situación según tu lógica.
+            return ""
+        }
+    }
+
+    //valida que el string sea numerico
+    private fun validatePortions(): Boolean {
+        val regex = """^-?[1-9]\d*$""".toRegex()
+        return regex.matches(binding.etPortions.text)
     }
 
     fun validateMeasureSelected (): Boolean{
         var band :Boolean = true
         val adapter = binding.rvIngredientSelected.adapter as IngredientSelectedAdapter
 
+        val regex = """^-?[1-9]\d*$""".toRegex()
         for (position in 0 until adapter.itemCount) {
             val viewHolder = binding.rvIngredientSelected.findViewHolderForAdapterPosition(position) as? IngredientSelectedAdapter.IngredientSelectedViewHolder
 
@@ -95,22 +241,20 @@ class CreateRecipeActivity : AppCompatActivity() {
             if (viewHolder != null) {
                 val editText = viewHolder.etMeasure
                 val text = editText.text.toString()
-                if (text.isEmpty()) {
+                if (text.isNullOrBlank() || !regex.matches(text)) {//por si ingresa el valor 0
                     // Si algún EditText está vacío, retorna false
-                    return false
+                    band = false
                 }
             }
         }
-
-        // Si todos los EditText tienen contenido, retorna true
-        return true
+        return band
     }
 
     fun validateSteps (): Boolean{
         var band :Boolean = true
         val adapter = binding.rvCookingSteps.adapter as CookingStepAdapter
         if (adapter.itemCount == 0)
-                return false
+            return false
         return true
     }
 

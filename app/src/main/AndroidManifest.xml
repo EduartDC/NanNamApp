@@ -37,7 +37,7 @@
         </provider>
 
         <activity
-            android:name=".ui.view.ConsultCookbookActivity"
+            android:name=".ui.view.ShowRecipeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
