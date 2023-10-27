@@ -10,10 +10,15 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:padding="8dp"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:textColor="@color/black"/>
     <Button
         android:id="@+id/deleteButton"
-        android:layout_width="wrap_content"
+        android:layout_width="50dp"
+        android:padding="0dp"
+        android:textSize="20dp"
         android:layout_height="wrap_content"
-        android:text="Eliminar" />
+        android:text="-"
+        android:backgroundTint="@color/blue"
+        android:textColor="@color/white"/>
 </LinearLayout>
