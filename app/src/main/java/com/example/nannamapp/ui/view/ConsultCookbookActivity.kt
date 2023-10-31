@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.nannamapp.databinding.ActivityConsultCookbookBinding
 import com.example.nannamapp.ui.viewModel.CookBookViewModel
 
@@ -37,6 +38,7 @@ class ConsultCookbookActivity : AppCompatActivity(), CookBookAdapter.OnCardClick
             recipes?.let {
                 recipeAdapter.setData(it)
             }
+
         })
     }
 

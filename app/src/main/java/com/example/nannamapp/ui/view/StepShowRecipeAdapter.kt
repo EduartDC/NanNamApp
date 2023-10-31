@@ -12,12 +12,15 @@ import com.example.nannamapp.data.model.RecipeHasIngredient
 
 class StepShowRecipeAdapter : RecyclerView.Adapter<StepShowRecipeAdapter.StepShowRecipeAdapterViewHolder>() {
     private var steps = mutableListOf<CookinginstructionDomain>()
+    private var number: Int = 0
     inner class StepShowRecipeAdapterViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
-        val step : TextView = itemView.findViewById(R.id.tvStep)
-        fun bind(stepItem : CookinginstructionDomain,) {
+        val step : TextView = itemView.findViewById(R.id.tvDescriptionText)
+        val numberStep : TextView = itemView.findViewById(R.id.tvNumberStep)
+        val plus = number + 1
+        fun bind(stepItem : CookinginstructionDomain) {
 
-            step.text = stepItem.step.toString() + "- " + stepItem.instruction
-            //  notifyItemInserted(ingredientsName.count())
+            step.text = stepItem.instruction
+            numberStep.text = stepItem.step.toString()
         }
     }
     fun setItem(stepItem : CookinginstructionDomain){
@@ -26,12 +29,9 @@ class StepShowRecipeAdapter : RecyclerView.Adapter<StepShowRecipeAdapter.StepSho
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): StepShowRecipeAdapter.StepShowRecipeAdapterViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StepShowRecipeAdapter.StepShowRecipeAdapterViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_steps_showrecipe, parent, false)
+            .inflate(R.layout.step_view_item, parent, false)
         return StepShowRecipeAdapterViewHolder(view)
     }
 
