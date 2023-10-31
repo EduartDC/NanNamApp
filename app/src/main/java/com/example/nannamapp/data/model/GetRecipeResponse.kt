@@ -10,5 +10,6 @@ data class GetRecipeResponse (
     //var category : Category = Category("",""),
     var stepList : List<CookinginstructionDomain> = emptyList(),
     var ingredientList : List<Ingredient> = emptyList(),
-    var ingredientAmounList : List<RecipeHasIngredient> = emptyList()
+    var ingredientAmounList : List<RecipeHasIngredient> = emptyList(),
+    var nutritionalDataList : List<NutritionalDataDomain> = emptyList()
 )

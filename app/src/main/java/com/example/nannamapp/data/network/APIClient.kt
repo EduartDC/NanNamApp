@@ -5,6 +5,7 @@ import com.example.namnam.data.model.Ingredient
 import com.example.namnam.data.model.Recipe
 import com.example.nannamapp.data.model.GetRecipeResponse
 import com.example.nannamapp.data.model.NewRecipePost
+import com.example.nannamapp.data.model.ReviewDomain
 import com.google.gson.Gson
 import retrofit2.Response
 import retrofit2.http.Body
@@ -27,4 +28,8 @@ interface APIClient {
 
     @GET("Recipe/GetRecipe/{idRecipe}")
     suspend fun getRecipe(@Path("idRecipe")idRecipe : String) : Response<GetRecipeResponse>
+    @GET("Review/GetReview/{idRecipe}")
+    suspend fun getReview(@Path("idRecipe")idRecipe : String) : List<ReviewDomain>
+    @POST("Review/setReview")
+    suspend fun setReview(@Body newReview: ReviewDomain): Response<Void>
 }

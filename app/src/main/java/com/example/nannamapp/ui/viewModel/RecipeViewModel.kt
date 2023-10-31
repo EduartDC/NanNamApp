@@ -18,7 +18,6 @@ class RecipeViewModel : ViewModel() {
 
     fun postNewRecipe() {
         viewModelScope.launch {
-          // createRecipeUseCase.newRecipe = newRecipe // Establece newRecipe en el caso de uso
             val result = createRecipeUseCase() // Llama al caso de uso
             //if (!result.isNullOrEmpty()) {
                 recipeViewModel.postValue(result)

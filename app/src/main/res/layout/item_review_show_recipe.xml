@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/tvRating"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="calificacion"
+        android:textSize="15dp"
+        android:textColor="@color/black"
+        />
+    <TextView
+        android:id="@+id/tvReview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="DESCRIPCION"
+        android:textSize="15dp"
+        android:textColor="@color/black"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="calificacion"
+        android:textSize="1dp"
+        android:textColor="@color/black"
+        android:background="@color/black"
+        />
+
+</LinearLayout>

@@ -1,43 +1,125 @@
 package com.example.nannamapp.ui.view
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.nannamapp.data.model.RecipeProvider
+import com.example.nannamapp.data.model.ReviewDomain
+import com.example.nannamapp.data.model.ReviewProvider
 import com.example.nannamapp.databinding.ActivityShowRecipeBinding
 import com.example.nannamapp.ui.viewModel.RecipeViewModel
+import com.example.nannamapp.ui.viewModel.ReviewViewModel
+import com.squareup.picasso.Picasso
 
 class ShowRecipeActivity : AppCompatActivity() {
     lateinit var binding :ActivityShowRecipeBinding
     private val getRecipeViewModel : RecipeViewModel by viewModels()
+    private val getReviewViewModel : ReviewViewModel by viewModels()
+    private var idRecipeTest = "RIJT6I55VQ"//id harcodeado, borrar cuando se haga la navegavilidad con CU buscar receta
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityShowRecipeBinding.inflate(layoutInflater)
         setContentView(binding.root)
         //varibales para que me pase el id de la receta
         val intent =intent
-        var idRecipe = "RIJT6I55VQ"//id harcodeado, borrar cuando se haga la navegavilidad con CU buscar receta
-        getRecipe(idRecipe)
+        getRecipe(idRecipeTest)
         setListenerGetRecipe()
         listenerPrepareRecipe()
+        listenerAddReview()
+    }
+
+    private fun listenerAddReview() {
+        binding.btnAddReview.setOnClickListener(){
+            if(binding.rbRating.rating > 0 && !binding.etReview.text.isNullOrBlank()){
+                createReview()
+            }else
+            {
+                Toast.makeText(this,"escoge algun campo",Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun createReview() {
+        var newReview : ReviewDomain  = ReviewDomain(
+            "",
+            binding.etReview.text.toString(),
+            binding.rbRating.rating.toInt(),
+            "123",
+            idRecipeTest
+        )
+        getReviewViewModel.newReview = newReview
+        getReviewViewModel.setNewReview()
+        getReviewViewModel.setReviewViewModel.observe(this){
+            if(getReviewViewModel.httpCodeSetReview == 200){
+                Toast.makeText(this,"reseña registrada", Toast.LENGTH_SHORT).show()
+                binding.etReview.text.clear()
+                binding.rbRating.rating = 0f;
+                loadReviews();
+            }
+            else
+                Toast.makeText(this,"fallo al registrar", Toast.LENGTH_SHORT).show()
+
+        }
+
+
     }
 
     //lamada a CU-Preparar receta
     private fun listenerPrepareRecipe() {
-        //val intent = Intent(this, ActividadDircio::class.java)
-        startActivity(intent)
+        binding.btnPrepareRecipe.setOnClickListener{
+            val intent = Intent(this, PrepareRecipeActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun setListenerGetRecipe() {
         getRecipeViewModel.getRecipeViewModel.observe(this){
             if(getRecipeViewModel.httpCodegetRecipe == 200){
-                Toast.makeText(this,"Al milloanso pai " + RecipeProvider.recipeResponse.recipe.idMainIngredient,Toast.LENGTH_SHORT).show()
-                loadInfoRecipe()
+                Toast.makeText(this,"Informacion recuperada " + RecipeProvider.recipeResponse.recipe.idMainIngredient,Toast.LENGTH_SHORT).show()
+                if(loadReviews()){
+                    loadInfoRecipe()
+
+                }
+
+
+
             }else{
                 Toast.makeText(this,"ocurrio un fallo: " + getRecipeViewModel.httpCodegetRecipe,Toast.LENGTH_SHORT).show()
 
+            }
+        }
+    }
+
+    private fun loadReviews(): Boolean {
+        var band : Boolean = true
+        getReviewViewModel.idRecipe = idRecipeTest
+        getReviewViewModel.getReviews()
+        getReviewViewModel.getReviewViewModel.observe(this){
+            if(getReviewViewModel.httpCodegetReview == 200){
+                //Toast.makeText(this,"BIEN: " ,Toast.LENGTH_SHORT).show()
+                setReviewsConfig()
+                calculateAverageRating()
+            }else{
+                Toast.makeText(this,"Fallo al recuperar reseñas: ",Toast.LENGTH_SHORT).show()
+
+            }
+        }
+        return band
+    }
+
+    //confiura el adapter para las reseñas
+    private fun setReviewsConfig() {
+        if(!ReviewProvider.reviews.isNullOrEmpty()){
+            val adapterReviews = ReviewAdapter()
+            binding.rvReviews.layoutManager = LinearLayoutManager(this)
+            binding.rvReviews.adapter = adapterReviews
+            println("taano de reviews " + ReviewProvider.reviews.count())
+            for(position in 0..ReviewProvider.reviews.count()-1){
+                adapterReviews.setItem(ReviewProvider.reviews[position])
             }
         }
     }
@@ -63,7 +145,7 @@ class ShowRecipeActivity : AppCompatActivity() {
     }
 
     private fun loadInfoRecipe() {
-
+        Picasso.get().load(RecipeProvider.recipeResponse.recipe.imageRecipeURL).into(binding.imgRecipe);
         binding.tvRecipeName.text = RecipeProvider.recipeResponse.recipe.recipeName
         //binding.tvCategorieRecipe.text = RecipeProvider.recipeResponse.category.categoryName
         for(item in RecipeProvider.recipeResponse.ingredientList) {
@@ -88,7 +170,50 @@ class ShowRecipeActivity : AppCompatActivity() {
             adapterSteps.setItem(RecipeProvider.recipeResponse.stepList[position])
         }
 
+        loadNutritionalData()
 
+    }
+
+    private fun calculateAverageRating() {
+        println("FUNCION DE AVERAGE: " + ReviewProvider.reviews.count())
+        var sumAverage = 0
+        for (position in 0..ReviewProvider.reviews.count()-1){
+            println("item: "+ ReviewProvider.reviews[position].rate)
+            sumAverage += ReviewProvider.reviews[position].rate
+        }
+        println("promedio: "+ sumAverage)
+        println("promedio: ")
+        val average : Float = sumAverage.toFloat() / ReviewProvider.reviews.count()
+        binding.tvAverage.text =  ""+binding.tvAverage.text + average.toString() + "/5"
+
+    }
+
+    private fun loadNutritionalData() {
+        var calories: Float = 0f
+        var fat: Float = 0f
+        var protein: Float = 0f
+        var carbohidrates : Float = 0f
+
+        for (position in 0..RecipeProvider.recipeResponse.nutritionalDataList.count()-1){
+            if(RecipeProvider.recipeResponse.ingredientList[position].measure.equals("gr")|| RecipeProvider.recipeResponse.ingredientList[position].measure.equals("ml")){
+                calories += (RecipeProvider.recipeResponse.ingredientAmounList[position].amount.toFloat() * RecipeProvider.recipeResponse.nutritionalDataList[position].calories.toFloat())/100
+                fat += (RecipeProvider.recipeResponse.ingredientAmounList[position].amount.toFloat() * RecipeProvider.recipeResponse.nutritionalDataList[position].fat.toFloat())/100
+                protein += (RecipeProvider.recipeResponse.ingredientAmounList[position].amount.toFloat() * RecipeProvider.recipeResponse.nutritionalDataList[position].protein.toFloat())/100
+                carbohidrates += (RecipeProvider.recipeResponse.ingredientAmounList[position].amount.toFloat() * RecipeProvider.recipeResponse.nutritionalDataList[position].carbohydrates.toFloat())/100
+            }else{
+                calories += RecipeProvider.recipeResponse.ingredientAmounList[position].amount.toFloat() * RecipeProvider.recipeResponse.nutritionalDataList[position].calories.toFloat()
+                fat += RecipeProvider.recipeResponse.ingredientAmounList[position].amount.toFloat() * RecipeProvider.recipeResponse.nutritionalDataList[position].calories.toFloat()
+                protein += RecipeProvider.recipeResponse.ingredientAmounList[position].amount.toFloat() * RecipeProvider.recipeResponse.nutritionalDataList[position].protein.toFloat()
+                carbohidrates += RecipeProvider.recipeResponse.ingredientAmounList[position].amount.toFloat() * RecipeProvider.recipeResponse.nutritionalDataList[position].carbohydrates.toFloat()
+
+            }
+        }
+
+        binding.tvCalories.text =  ""+binding.tvCalories.text + calories.toString() + "gr"
+        binding.tvFat.text = ""+binding.tvFat.text+fat.toString()+ "gr"
+        binding.tvProtein.text =""+binding.tvProtein.text+ protein.toString()+ "gr"
+        binding.tvCarbohydrates.text =""+binding.tvCarbohydrates.text+ carbohidrates.toString()+ "gr"
+      //  Picasso.get().load(reciveValue).into(binding.imagePiccaso)
     }
 
     private fun getRecipe(idRecipe : String) {

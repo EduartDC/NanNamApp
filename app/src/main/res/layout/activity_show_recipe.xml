@@ -13,36 +13,39 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:background="@color/white">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:text="Receta"
-                android:layout_gravity="center"
-                android:layout_marginTop="15dp"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                />
-            <TextView
-                android:id="@+id/tvRecipeName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Nombre de la receta"
-                android:layout_marginTop="15dp"
-                android:layout_gravity="center"
-                android:textColor="@color/black"
-                android:textSize="25dp"
-                android:textStyle="bold"
-                />
-            <ImageView
-                android:id="@+id/imgRecipe"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:background="@color/black"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:textColor="@color/black"
-                />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/imgRecipe"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:background="@android:color/black"
+                    android:layout_gravity="center"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY"/>
+                <TextView
+                    android:id="@+id/tvRecipeName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="@+id/imgRecipe"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:text="Nombre de la receta"
+                    android:layout_marginTop="15dp"
+                    android:layout_gravity="center"
+                    android:textColor="@color/white"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginStart="20dp"
+                    android:textSize="25dp"
+                    android:textStyle="bold"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -79,8 +82,9 @@
                 android:textSize="15dp"
                 />
             <TextView
+                android:visibility="gone"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:text="Instrucciones"
                 android:layout_marginTop="15dp"
                 android:layout_gravity="center"
@@ -92,7 +96,8 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvIngredientSelected"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:visibility="gone"
                 android:layout_marginHorizontal="30dp"
                 android:layout_marginTop="20dp" />
 
@@ -103,7 +108,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_gravity="center"
                 android:textColor="@color/black"
-                android:textSize="20dp"
+                android:textSize="25dp"
                 android:textStyle="bold"/>
             <TextView
                 android:id="@+id/tvPortions"
@@ -117,6 +122,47 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Informacion nutricional"
+                android:textSize="25dp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_gravity="center"/>
+            <TextView
+                android:id="@+id/tvCalories"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Calorias: "
+                android:textSize="15dp"
+                android:textColor="@color/black"
+                android:layout_gravity="center"/>
+            <TextView
+                android:id="@+id/tvFat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Grasa: "
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                android:layout_gravity="center"/>
+            <TextView
+                android:id="@+id/tvProtein"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Proteina"
+                android:textSize="15dp"
+                android:textColor="@color/black"
+                android:layout_gravity="center"/>
+            <TextView
+                android:id="@+id/tvCarbohydrates"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="carbohidratos: "
+                android:textSize="15dp"
+                android:textColor="@color/black"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="¿Desea calcular los ingredientes para mas porciones? entonces preciona el boton"
                 android:layout_marginTop="15dp"
                 android:layout_gravity="center"
@@ -124,22 +170,69 @@
                 android:textColor="@color/black"
                 android:textSize="15dp"/>
             <Button
-                android:layout_width="wrap_content"
+                android:id="@+id/btnPrepareRecipe"
+                android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:text="Preparar receta"
                 android:backgroundTint="@color/blue"
                 android:textColor="@color/white"
                 android:layout_gravity="center"/>
+            <Button
+                android:id="@+id/btnSaveFavorites"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:text="Guardar en favoritos"
+                android:backgroundTint="@color/blue"
+                android:textColor="@color/white"
+                android:layout_gravity="center"/>
+            <Button
+                android:id="@+id/btnEditRecipe"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:text="Editar"
+                android:backgroundTint="@color/blue"
+                android:textColor="@color/white"
+                android:layout_gravity="center"
+                android:visibility="gone"/>
+            <Button
+
+                android:id="@+id/btnDeleteRecipe"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:text="Eliminar"
+                android:backgroundTint="@color/blue"
+                android:textColor="@color/white"
+                android:layout_gravity="center"
+                android:visibility="gone"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Reseñas"
+                android:textSize="25dp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_gravity="center"/>
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="200dp"
                 android:layout_marginTop="10dp">
+                <TextView
+                    android:id="@+id/tvAverage"
+                    android:layout_width="200dp"
+                    android:layout_height="30dp"
+                    android:text="promedio: "
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"/>
                 <RatingBar
                     android:id="@+id/rbRating"
-                    android:layout_width="200dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintTop_toBottomOf="@+id/tvAverage"
+                    android:stepSize="1"
+                    android:numStars="5"/>
                 <EditText
                     android:id="@+id/etReview"
                     app:layout_constraintTop_toBottomOf="@id/rbRating"
@@ -168,9 +261,11 @@
 
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvCookingSteps"
+                android:id="@+id/rvReviews"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginHorizontal="60dp"
                 />
         </LinearLayout>
     </ScrollView>
