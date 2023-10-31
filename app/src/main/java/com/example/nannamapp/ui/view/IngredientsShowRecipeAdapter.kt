@@ -24,7 +24,7 @@ class IngredientsShowRecipeAdapter  :
 
         fun bind(ingredientItem : Ingredient, amountItem : RecipeHasIngredient) {
 
-            nameIngredient.text = "- " + ingredientItem.ingredientname
+            nameIngredient.text = ingredientItem.ingredientname
             amountIngredient.text =  amountItem.amount.toString()
             measureIngredient.text = ingredientItem.measure
           //  notifyItemInserted(ingredientsName.count())

@@ -29,7 +29,29 @@ class ShowRecipeActivity : AppCompatActivity() {
         getRecipe(idRecipeTest)
         setListenerGetRecipe()
         listenerPrepareRecipe()
+        listenerAddFavorites()
+        listenerDeleteRecipe()
+        listenerEditRecipe()
         listenerAddReview()
+    }
+
+    //USADO POR ALGUIEN MAS
+    private fun listenerEditRecipe() {
+        binding.btnEditRecipe.setOnClickListener{
+
+        }
+    }
+    //USADO POR ALGUIEN MAS
+    private fun listenerDeleteRecipe() {
+        binding.btnDeleteRecipe.setOnClickListener{
+
+        }
+    }
+    //USADO POR ALGUIEN MAS
+    private fun listenerAddFavorites() {
+        binding.btnSaveFavorites.setOnClickListener{
+
+        }
     }
 
     private fun listenerAddReview() {
@@ -166,7 +188,6 @@ class ShowRecipeActivity : AppCompatActivity() {
         binding.rvIngredientSelected.layoutManager = LinearLayoutManager(this)
         binding.rvIngredientSelected.adapter = adapterSteps
         for(position in 0..RecipeProvider.recipeResponse.stepList.count()-1){
-            println("asdasdas   " + RecipeProvider.recipeResponse.stepList[position].instruction)
             adapterSteps.setItem(RecipeProvider.recipeResponse.stepList[position])
         }
 
@@ -175,14 +196,11 @@ class ShowRecipeActivity : AppCompatActivity() {
     }
 
     private fun calculateAverageRating() {
-        println("FUNCION DE AVERAGE: " + ReviewProvider.reviews.count())
         var sumAverage = 0
         for (position in 0..ReviewProvider.reviews.count()-1){
             println("item: "+ ReviewProvider.reviews[position].rate)
             sumAverage += ReviewProvider.reviews[position].rate
         }
-        println("promedio: "+ sumAverage)
-        println("promedio: ")
         val average : Float = sumAverage.toFloat() / ReviewProvider.reviews.count()
         binding.tvAverage.text =  ""+binding.tvAverage.text + average.toString() + "/5"
 
@@ -213,7 +231,6 @@ class ShowRecipeActivity : AppCompatActivity() {
         binding.tvFat.text = ""+binding.tvFat.text+fat.toString()+ "gr"
         binding.tvProtein.text =""+binding.tvProtein.text+ protein.toString()+ "gr"
         binding.tvCarbohydrates.text =""+binding.tvCarbohydrates.text+ carbohidrates.toString()+ "gr"
-      //  Picasso.get().load(reciveValue).into(binding.imagePiccaso)
     }
 
     private fun getRecipe(idRecipe : String) {
