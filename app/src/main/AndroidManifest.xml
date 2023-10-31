@@ -26,13 +26,10 @@
         <activity
             android:name=".ui.view.ShowRecipeActivity"
             android:exported="false" /> -->
+        <!--
         <activity
             android:name=".ui.view.PrepareRecipeActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".ui.view.PrepareRecipeActivity"
-            android:exported="false" />
+            android:exported="false" /> -->
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -45,7 +42,7 @@
         </provider>
 
         <activity
-            android:name=".ui.view.ShowRecipeActivity"
+            android:name=".ui.view.PrepareRecipeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
