@@ -5,4 +5,16 @@
     <string name="preparation">Preparación</string>
     <string name="disclaimer">Nota importante: Los pasos de esta receta están diseñados para preparar dos porciones. Si necesitas más o menos, asegúrate de ajustar las cantidades de ingredientes según sea necesario. ¡Disfruta tu comida!</string>
     <string name="noteRecipe">¡Personaliza tu experiencia culinaria! Puedes ajustar las porciones de acuerdo a tus preferencias al seleccionar el número de raciones antes de comenzar  la receta. ¡Disfruta cocinando a tu medida!</string>
+    <string name="title_activity_serach_recipe">SerachRecipe</string>
+    <string name="title_activity_main2">MainActivity2</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
 </resources>
