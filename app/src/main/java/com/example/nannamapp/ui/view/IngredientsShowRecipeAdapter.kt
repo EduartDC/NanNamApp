@@ -15,6 +15,7 @@ class IngredientsShowRecipeAdapter  :
     RecyclerView.Adapter<IngredientsShowRecipeAdapter.IngredientsShowRecipeAdapterViewHolder>() {
    private var ingredientsName = mutableListOf<Ingredient>()
     private var ingredientsAmount = mutableListOf<RecipeHasIngredient>()
+    private var portionSelected : Int = 0
 
     //genera el item del xml
     inner class IngredientsShowRecipeAdapterViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
@@ -24,8 +25,15 @@ class IngredientsShowRecipeAdapter  :
 
         fun bind(ingredientItem : Ingredient, amountItem : RecipeHasIngredient) {
 
-            nameIngredient.text = "- " + ingredientItem.ingredientname
-            amountIngredient.text =  amountItem.amount.toString()
+            nameIngredient.text = ingredientItem.ingredientname
+            val amount = amountItem.amount
+            var total = 0
+            if(portionSelected != 0){
+                total = amount * portionSelected
+            }else{
+                total = amount
+            }
+            amountIngredient.text =  total.toString()
             measureIngredient.text = ingredientItem.measure
           //  notifyItemInserted(ingredientsName.count())
         }
@@ -34,6 +42,16 @@ class IngredientsShowRecipeAdapter  :
     fun setItem(ingredientItem : Ingredient, amountItem : RecipeHasIngredient){
         ingredientsName.add(ingredientItem)
         ingredientsAmount.add(amountItem)
+        notifyDataSetChanged()
+    }
+    fun portionCalculation( portion : Int){
+        portionSelected = portion
+    }
+
+    fun clear() {
+        ingredientsName.clear()
+        ingredientsAmount.clear()
+        portionSelected = 0
         notifyDataSetChanged()
     }
     override fun onCreateViewHolder(

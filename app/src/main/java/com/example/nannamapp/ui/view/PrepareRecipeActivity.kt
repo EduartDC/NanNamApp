@@ -49,7 +49,8 @@ class PrepareRecipeActivity : AppCompatActivity() {
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val seleccion : Int = opciones[position].toInt()
-
+                adapter.clear()
+                adapter.portionCalculation(seleccion)
                 binding.rvIngredients.adapter = adapter
                 for(position in 0..RecipeProvider.recipeResponse.ingredientList.count()-1){
                     adapter.setItem(RecipeProvider.recipeResponse.ingredientList[position],RecipeProvider.recipeResponse.ingredientAmounList[position])
