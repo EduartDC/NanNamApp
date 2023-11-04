@@ -43,4 +43,20 @@ class ReviewService {
             code
         }
     }
+
+    suspend fun editReview(newReview : ReviewDomain): Int {
+        return withContext(Dispatchers.IO) {
+            var code : Int = 0
+            try {
+                val response = retrofit.create(APIClient::class.java).editReview(newReview)
+                print("ERRORRRRR " + response.code())
+                if (response.isSuccessful)
+                    code = 200
+            } catch (e: Exception) {
+                e.printStackTrace()
+                code = 500
+            }
+            code
+        }
+    }
 }

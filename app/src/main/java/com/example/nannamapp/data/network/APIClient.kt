@@ -3,6 +3,7 @@ package com.example.namnam.data.network
 import com.example.namnam.data.model.Category
 import com.example.namnam.data.model.Ingredient
 import com.example.namnam.data.model.Recipe
+import com.example.nannamapp.data.model.GetPreferenceResponse
 import com.example.nannamapp.data.model.GetRecipeResponse
 import com.example.nannamapp.data.model.NewRecipePost
 import com.example.nannamapp.data.model.ReviewDomain
@@ -32,4 +33,8 @@ interface APIClient {
     suspend fun getReview(@Path("idRecipe")idRecipe : String) : List<ReviewDomain>
     @POST("Review/setReview")
     suspend fun setReview(@Body newReview: ReviewDomain): Response<Void>
+    @POST("Review/EditReview")
+    suspend fun editReview(@Body newReview: ReviewDomain): Response<Void>
+    @GET("Category/GetUserPreferences/{idUser}")
+    suspend fun getUserPreference(@Path("idUser")idUser: String): Response<GetPreferenceResponse>
 }

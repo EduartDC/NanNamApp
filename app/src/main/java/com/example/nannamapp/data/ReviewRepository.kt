@@ -13,12 +13,18 @@ class ReviewRepository {
         var response = api.getReview(idRecipe)
         //RecipeProvider.recipeResponse.category = response.second.category
         ReviewProvider.reviews = response.second
-        println("resrvice"+ response.second[0].idReview)
         return response.first
     }
 
     suspend fun setReview(newReview : ReviewDomain): Int{
+        println("EN REVIEW REPOSITORY: "+ newReview.review)
         var response = api.setReview(newReview)
+        return response
+    }
+
+    suspend fun editReview(newReview : ReviewDomain): Int{
+        println("EN REVIEW REPOSITORY: "+ newReview.review)
+        var response = api.editReview(newReview)
         return response
     }
 

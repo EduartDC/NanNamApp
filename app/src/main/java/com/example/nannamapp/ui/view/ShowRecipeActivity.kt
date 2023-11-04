@@ -19,7 +19,7 @@ class ShowRecipeActivity : AppCompatActivity() {
     private val getRecipeViewModel : RecipeViewModel by viewModels()
     private val getReviewViewModel : ReviewViewModel by viewModels()
     private var idRecipeTest = "RIJT6I55VQ"//id harcodeado, borrar cuando se haga la navegavilidad con CU buscar receta
-
+    private var idUserTest = "123"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityShowRecipeBinding.inflate(layoutInflater)
@@ -70,9 +70,49 @@ class ShowRecipeActivity : AppCompatActivity() {
             "",
             binding.etReview.text.toString(),
             binding.rbRating.rating.toInt(),
-            "123",
+            idUserTest,
             idRecipeTest
         )
+        var bandNewReview : Boolean = true
+        var idReviewEdited : String = ""
+        if(ReviewProvider.reviews.count() != 0){
+            for(item in ReviewProvider.reviews){
+                if(idUserTest.equals(item.user_idUser)){
+                    bandNewReview = false
+                    idReviewEdited = item.idReview
+                }
+            }
+        }
+
+        if(bandNewReview)
+            saveNewRecipe(newReview)
+        else
+            editReview(newReview,idReviewEdited)
+
+
+
+    }
+
+    private fun editReview(newReview: ReviewDomain, idReviewEdited : String) {
+        println("editando reseña")
+        newReview.idReview = idReviewEdited
+        getReviewViewModel.editReviewDomain = newReview
+        getReviewViewModel.editNewReview()
+        getReviewViewModel.editReviewViewModel.observe(this){
+            if(getReviewViewModel.httpCodeEditReview == 200){
+                Toast.makeText(this,"reseña editada", Toast.LENGTH_SHORT).show()
+                binding.etReview.text.clear()
+                binding.rbRating.rating = 0f;
+                loadReviews();
+            }
+            else
+                Toast.makeText(this,"fallo al editar", Toast.LENGTH_SHORT).show()
+
+        }
+    }
+
+    private fun saveNewRecipe(newReview: ReviewDomain) {
+        println("salvando")
         getReviewViewModel.newReview = newReview
         getReviewViewModel.setNewReview()
         getReviewViewModel.setReviewViewModel.observe(this){
@@ -86,8 +126,6 @@ class ShowRecipeActivity : AppCompatActivity() {
                 Toast.makeText(this,"fallo al registrar", Toast.LENGTH_SHORT).show()
 
         }
-
-
     }
 
     //lamada a CU-Preparar receta
@@ -139,7 +177,6 @@ class ShowRecipeActivity : AppCompatActivity() {
             val adapterReviews = ReviewAdapter()
             binding.rvReviews.layoutManager = LinearLayoutManager(this)
             binding.rvReviews.adapter = adapterReviews
-            println("taano de reviews " + ReviewProvider.reviews.count())
             for(position in 0..ReviewProvider.reviews.count()-1){
                 adapterReviews.setItem(ReviewProvider.reviews[position])
             }
