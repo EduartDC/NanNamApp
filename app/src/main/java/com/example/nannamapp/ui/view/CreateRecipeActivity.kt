@@ -120,10 +120,11 @@ class CreateRecipeActivity : AppCompatActivity() {
             "",
             "123",
             binding.recipeName.text.toString(),
-            getImage(),
+            "",
             "00:00:00",
             idMainIngredient,
-            binding.etPortions.text.toString().toInt()
+            binding.etPortions.text.toString().toInt(),
+            imageViewToByteArray()
         )
         var instructions : MutableList<CookinginstructionDomain> = mutableListOf()
         //lista de pasos
@@ -189,22 +190,30 @@ class CreateRecipeActivity : AppCompatActivity() {
         }
     }
 
-    private fun pruebaDeImagenBorrar() {
-        val base64String = getImage()  // Reemplaza con tu cadena Base64
-        Log.d("IMAGEN", base64String)
-        try {
-            val decodedBytes = android.util.Base64.decode(base64String, android.util.Base64.DEFAULT)
-            val bitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
-            binding.pruebaBase.setImageBitmap(bitmap)
-        } catch (e: IllegalArgumentException) {
-            Log.d("VALIO VERGA",e.cause.toString())
-        }
+    private fun imageViewToByteArray(): ByteArray {
+        val imageView = binding.imgRecipe // Asegúrate de tener una referencia a tu ImageView
 
+        // Extraer el drawable de la imagen desde el ImageView
+        val drawable = imageView.drawable
+
+        if (drawable is BitmapDrawable) {
+            val bitmap = drawable.bitmap
+
+            // Convertir el Bitmap en un arreglo de bytes
+            val byteArrayOutputStream = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
+            return byteArrayOutputStream.toByteArray()
+        }
+        val byteArrayOutputStreamEmpty = ByteArrayOutputStream()
+        return byteArrayOutputStreamEmpty.toByteArray() // Devuelve null si no se pudo obtener un arreglo de bytes
     }
 
 
-    private fun getImage(): String {
 
+
+    /*
+    private fun getImage(): String {
+ /*
         val drawable = binding.imgRecipe.drawable
 
         if (drawable is BitmapDrawable) {
@@ -215,7 +224,27 @@ class CreateRecipeActivity : AppCompatActivity() {
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
             val byteArray = byteArrayOutputStream.toByteArray()
             val imageBase64 = Base64.getEncoder().encodeToString(byteArray)
+            println(imageBase64)
             return imageBase64
+        } else {
+            // Manejar el caso en el que no hay una imagen en el ImageView
+            // Puedes retornar un valor por defecto o manejar la situación según tu lógica.
+            return ""
+        }*/
+        val imageView = binding.imgRecipe // Asegúrate de tener una referencia a tu ImageView
+
+        // Extraer el drawable de la imagen desde el ImageView
+        val drawable = imageView.drawable
+
+        if (drawable is BitmapDrawable) {
+            val bitmap = drawable.bitmap
+
+            // Convertir el Bitmap en una cadena Base64
+            val byteArrayOutputStream = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
+            val byteArray = byteArrayOutputStream.toByteArray()
+            println(Base64.getEncoder().encodeToString(byteArray))
+            return Base64.getEncoder().encodeToString(byteArray)
         } else {
             // Manejar el caso en el que no hay una imagen en el ImageView
             // Puedes retornar un valor por defecto o manejar la situación según tu lógica.
@@ -223,6 +252,8 @@ class CreateRecipeActivity : AppCompatActivity() {
         }
     }
 
+
+ */
     //valida que el string sea numerico
     private fun validatePortions(): Boolean {
         val regex = """^-?[1-9]\d*$""".toRegex()
