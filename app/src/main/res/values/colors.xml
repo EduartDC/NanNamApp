@@ -5,4 +5,5 @@
     <color name="color_transparent">#00000000</color>
     <color name="white_smoke">#F5F5F5</color>
     <color name="blue">#00BCD4</color>
+    <color name="gray">#c2c2c2</color>
 </resources>

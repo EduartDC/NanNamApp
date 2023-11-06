@@ -26,6 +26,7 @@ class IngredientsShowRecipeAdapter  :
         fun bind(ingredientItem : Ingredient, amountItem : RecipeHasIngredient) {
 
             nameIngredient.text = ingredientItem.ingredientname
+
             val amount = amountItem.amount
             var total = 0
             if(portionSelected != 0){
@@ -34,6 +35,7 @@ class IngredientsShowRecipeAdapter  :
                 total = amount
             }
             amountIngredient.text =  total.toString()
+
             measureIngredient.text = ingredientItem.measure
           //  notifyItemInserted(ingredientsName.count())
         }

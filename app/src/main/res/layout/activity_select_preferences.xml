@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.view.SelectPreferencesActivity"
+    android:background="@color/white"
+    android:orientation="vertical">
+<TextView
+    android:layout_marginTop="25dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Preferencias dieteticas"
+    android:layout_gravity="center"
+    android:textSize="25dp"
+    android:textStyle="bold"
+    android:textColor="@color/black"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:text="La preferencias sirve como filtro para que el usuario pueda seleccionar aquellas categorias que desea ver en su pantalla de inicio. Selecciona las categorias deseadas:"
+        android:layout_margin="20dp"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvPreferences"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        />
+    <Button
+        android:id="@+id/btnSavePreferences"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Guardar cambios"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/blue"
+        android:layout_gravity="center"/>
+</LinearLayout>

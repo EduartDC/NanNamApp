@@ -29,6 +29,7 @@ class RecipesRepository {
         RecipeProvider.recipeResponse.ingredientList = response.second.ingredientList
         //RecipeProvider.recipeResponse.category = response.second.category
         RecipeProvider.recipeResponse.ingredientAmounList = response.second.ingredientAmounList
+        RecipeProvider.recipeResponse.nutritionalDataList = response.second.nutritionalDataList
         return response.first
     }
 }

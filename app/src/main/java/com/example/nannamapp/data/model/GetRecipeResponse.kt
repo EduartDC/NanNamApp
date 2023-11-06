@@ -6,9 +6,10 @@ import com.example.namnam.data.model.Ingredient
 import com.example.namnam.data.model.RecipeDomain
 
 data class GetRecipeResponse (
-    var recipe : RecipeDomain = RecipeDomain("", "", "", "", "","",11),
+    var recipe : RecipeDomain = RecipeDomain("", "", "", "", "","",11,null),
     //var category : Category = Category("",""),
     var stepList : List<CookinginstructionDomain> = emptyList(),
     var ingredientList : List<Ingredient> = emptyList(),
-    var ingredientAmounList : List<RecipeHasIngredient> = emptyList()
+    var ingredientAmounList : List<RecipeHasIngredient> = emptyList(),
+    var nutritionalDataList : List<NutritionalDataDomain> = emptyList()
 )
