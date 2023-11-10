@@ -1,5 +1,9 @@
 package com.example.nannamapp.data
 
+
+import com.example.namnam.data.model.Category
+import com.example.namnam.data.model.CategoryProvider
+import com.example.namnam.data.model.Ingredient
 import com.example.namnam.data.model.Recipe
 import com.example.nannamapp.data.model.NewRecipePost
 import com.example.nannamapp.data.model.RecipeProvider
@@ -14,17 +18,16 @@ class RecipesRepository {
         return response
     }
 
-    suspend fun pushRecipe(newRecipe : NewRecipePost): Int{
+    suspend fun pushRecipe(newRecipe: NewRecipePost): Int {
         var response = api.pushRecipe(newRecipe)
         return response
     }
 
-    suspend fun getRecipe(idRecipe : String) : Int{
+    suspend fun getRecipe(idRecipe: String): Int {
         var response = api.getRecipe(idRecipe)
         RecipeProvider.recipeResponse.recipe = response.second.recipe
         RecipeProvider.recipeResponse.stepList = response.second.stepList
         RecipeProvider.recipeResponse.ingredientList = response.second.ingredientList
-        //RecipeProvider.recipeResponse.category = response.second.category
         RecipeProvider.recipeResponse.ingredientAmounList = response.second.ingredientAmounList
         RecipeProvider.recipeResponse.nutritionalDataList = response.second.nutritionalDataList
         return response.first
@@ -34,4 +37,5 @@ class RecipesRepository {
         var response = api.editRecipe(newRecipe)
         return response
     }
+
 }

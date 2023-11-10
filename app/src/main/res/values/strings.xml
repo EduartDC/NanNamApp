@@ -5,4 +5,9 @@
     <string name="preparation">Preparación</string>
     <string name="disclaimer">Nota importante: Los pasos de esta receta están diseñados para preparar dos porciones. Si necesitas más o menos, asegúrate de ajustar las cantidades de ingredientes según sea necesario. ¡Disfruta tu comida!</string>
     <string name="noteRecipe">¡Personaliza tu experiencia culinaria! Puedes ajustar las porciones de acuerdo a tus preferencias al seleccionar el número de porciones antes de comenzar  la receta. ¡Disfruta cocinando a tu medida!</string>
+    <string-array name="ingredient_options">
+        <item>Option 1</item>
+        <item>Delete</item>
+    </string-array>
+
 </resources>

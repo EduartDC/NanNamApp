@@ -31,7 +31,7 @@
             android:exported="false" />
         -->
         <activity
-            android:name=".ui.view.ShowRecipeActivity"
+            android:name=".ui.view.IngredientListActivity"
             android:exported="false" />
         <!--
 <activity
@@ -49,7 +49,7 @@
         </provider>
 
         <activity
-            android:name=".ui.view.EditRecipeActivity"
+            android:name=".ui.view.ShowRecipeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -58,5 +58,4 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>

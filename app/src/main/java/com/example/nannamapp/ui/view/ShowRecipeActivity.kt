@@ -12,9 +12,12 @@ import com.example.nannamapp.data.model.ReviewProvider
 import com.example.nannamapp.databinding.ActivityShowRecipeBinding
 import com.example.nannamapp.ui.viewModel.RecipeViewModel
 import com.example.nannamapp.ui.viewModel.ReviewViewModel
+import com.google.gson.Gson
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
 
-class ShowRecipeActivity : AppCompatActivity() {
+class ShowRecipeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     lateinit var binding :ActivityShowRecipeBinding
     private val getRecipeViewModel : RecipeViewModel by viewModels()
     private val getReviewViewModel : ReviewViewModel by viewModels()
@@ -49,10 +52,14 @@ class ShowRecipeActivity : AppCompatActivity() {
     }
     //USADO POR ALGUIEN MAS
     private fun listenerAddFavorites() {
-        binding.btnSaveFavorites.setOnClickListener{
-
+        binding.btnSaveFavorites.setOnClickListener {
+            val intent = Intent(this, IngredientListActivity::class.java)
+            intent.putParcelableArrayListExtra("ingredientList", ArrayList(RecipeProvider.recipeResponse.ingredientList))
+            startActivity(intent)
         }
     }
+
+
 
     private fun listenerAddReview() {
         binding.btnAddReview.setOnClickListener(){
@@ -204,33 +211,39 @@ class ShowRecipeActivity : AppCompatActivity() {
     }
 
     private fun loadInfoRecipe() {
-        Picasso.get().load(RecipeProvider.recipeResponse.recipe.imageRecipeURL).into(binding.imgRecipe);
+        Picasso.get().load(RecipeProvider.recipeResponse.recipe.imageRecipeURL).into(binding.imgRecipe)
         binding.tvRecipeName.text = RecipeProvider.recipeResponse.recipe.recipeName
-        //binding.tvCategorieRecipe.text = RecipeProvider.recipeResponse.category.categoryName
-        for(item in RecipeProvider.recipeResponse.ingredientList) {
-            if(item.idIngredient == RecipeProvider.recipeResponse.recipe.idMainIngredient)
+
+
+        for (item in RecipeProvider.recipeResponse.ingredientList) {
+            if (item.idIngredient == RecipeProvider.recipeResponse.recipe.idMainIngredient) {
                 binding.tvMainIngredient.text = item.ingredientname
+            }
         }
+
         binding.tvPortions.text = "" + RecipeProvider.recipeResponse.recipe.portion
-        var ingredientsString : String = ""
 
         val adapter = IngredientsShowRecipeAdapter()
         binding.ingredientsFinded.layoutManager = LinearLayoutManager(this)
         binding.ingredientsFinded.adapter = adapter
-        for(position in 0..RecipeProvider.recipeResponse.ingredientList.count()-1){
-            adapter.setItem(RecipeProvider.recipeResponse.ingredientList[position],RecipeProvider.recipeResponse.ingredientAmounList[position])
+
+        val ingredientList = RecipeProvider.recipeResponse.ingredientList
+
+        for (position in 0 until ingredientList.size) {
+            adapter.setItem(ingredientList[position], RecipeProvider.recipeResponse.ingredientAmounList[position])
         }
 
         val adapterSteps = StepShowRecipeAdapter()
         binding.rvIngredientSelected.layoutManager = LinearLayoutManager(this)
         binding.rvIngredientSelected.adapter = adapterSteps
-        for(position in 0..RecipeProvider.recipeResponse.stepList.count()-1){
+        for (position in 0 until RecipeProvider.recipeResponse.stepList.size) {
             adapterSteps.setItem(RecipeProvider.recipeResponse.stepList[position])
         }
 
         loadNutritionalData()
-
     }
+
+
 
     private fun calculateAverageRating() {
         var sumAverage = 0
