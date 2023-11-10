@@ -36,7 +36,7 @@ class PrepareRecipeActivity : AppCompatActivity() {
         setListenerGetRecipe()
 
         val spinner: Spinner = findViewById(binding.cbPortions.id)
-        val opciones = listOf("2", "4", "6", "8", "10")
+        val opciones = listOf("2", "4", "6", "8", "10", "12", "14", "16", "18", "20")
 
         val adaptador = ArrayAdapter(this, R.layout.simple_spinner_item, opciones)
         adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)

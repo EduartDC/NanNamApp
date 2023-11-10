@@ -1,9 +1,6 @@
 package com.example.nannamapp.data
 
-import com.example.namnam.data.model.Category
-import com.example.namnam.data.model.CategoryProvider
 import com.example.namnam.data.model.Recipe
-import com.example.namnam.data.network.CategoryService
 import com.example.nannamapp.data.model.NewRecipePost
 import com.example.nannamapp.data.model.RecipeProvider
 import com.example.nannamapp.data.network.RecipesService
@@ -31,5 +28,10 @@ class RecipesRepository {
         RecipeProvider.recipeResponse.ingredientAmounList = response.second.ingredientAmounList
         RecipeProvider.recipeResponse.nutritionalDataList = response.second.nutritionalDataList
         return response.first
+    }
+
+    suspend fun editRecipe(newRecipe : NewRecipePost): Int{
+        var response = api.editRecipe(newRecipe)
+        return response
     }
 }
