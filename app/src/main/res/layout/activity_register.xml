@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@color/lightWhite"
+    tools:context=".ui.view.Register">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="140dp"
+            android:layout_height="100dp"
+            android:src="@drawable/logonamnam"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Registrarse"
+            android:textSize="40sp"
+            android:layout_gravity="center"
+            android:textColor="@color/zafiroBlue"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ingresa tus datos:"
+            android:textColor="@color/black"
+            android:layout_gravity="center"
+            android:textSize="20dp"/>
+
+        <EditText
+            android:id="@+id/firstname"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Nombre(s)"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginTop="30dp"
+            android:inputType="textPersonName"
+            android:drawableStart="@drawable/baseline_person_24"
+            android:textSize="15sp"
+            android:textAlignment="center"/>
+
+        <EditText
+            android:id="@+id/lastname"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Apellidos"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginTop="20dp"
+            android:inputType="textPersonName"
+            android:drawableStart="@drawable/baseline_person_24"
+            android:textSize="15sp"
+            android:textAlignment="center"/>
+
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Correo electrónico"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginTop="20dp"
+            android:drawableStart="@drawable/baseline_local_post_office_24"
+            android:inputType="textEmailAddress"
+            android:textSize="15sp"
+            android:textAlignment="center"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/password_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:endIconMode="password_toggle">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="Contraseña"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:inputType="textPassword"
+                android:drawableStart="@drawable/baseline_lock_24"
+                android:textSize="15sp"
+                android:gravity="center"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/password_layout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:endIconMode="password_toggle">
+
+            <EditText
+                android:id="@+id/passwordConfirmed"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="Confirmar contraseña"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:inputType="textPassword"
+                android:gravity="center"
+                android:drawableStart="@drawable/baseline_lock_24"
+                android:textSize="15sp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="bottom"
+        android:gravity="center_horizontal">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Registrarse"
+            android:id="@+id/registerButton"
+            android:textSize="18sp"
+            android:backgroundTint="@color/green"
+            android:textColor="@color/white"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginBottom="0dp"/>
+
+        <TextView
+            android:id="@+id/loginText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="¿Ya tienes una cuenta?"
+            android:textSize="15sp"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="20dp"/>
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

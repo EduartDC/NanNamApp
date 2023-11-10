@@ -5,8 +5,11 @@ import com.example.namnam.data.model.Ingredient
 import com.example.namnam.data.model.Recipe
 import com.example.nannamapp.data.model.GetPreferenceResponse
 import com.example.nannamapp.data.model.GetRecipeResponse
+import com.example.nannamapp.data.model.JsonResult
+import com.example.nannamapp.data.model.Login
 import com.example.nannamapp.data.model.NewRecipePost
 import com.example.nannamapp.data.model.ReviewDomain
+import com.example.nannamapp.data.model.User
 import com.google.gson.Gson
 import retrofit2.Response
 import retrofit2.http.Body
@@ -37,4 +40,8 @@ interface APIClient {
     suspend fun editReview(@Body newReview: ReviewDomain): Response<Void>
     @GET("Category/GetUserPreferences/{idUser}")
     suspend fun getUserPreference(@Path("idUser")idUser: String): Response<GetPreferenceResponse>
+    @POST("Login/LoginUser")
+    suspend fun loginUser(@Body loginCredentials: Login): Response<JsonResult>
+    @POST("Login/RegisterUser")
+    suspend fun registerUser(@Body registerCredentials: User): Response<String>
 }
