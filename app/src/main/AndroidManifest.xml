@@ -23,17 +23,21 @@
         android:theme="@style/Theme.NanNamApp"
         tools:targetApi="31">
         <!--<activity
+            android:name=".ui.view.EditRecipeActivity"
+            android:exported="false" />-->
+        <!--
+        <activity
             android:name=".ui.view.SelectPreferencesActivity"
-            android:exported="false" /> -->
-
+            android:exported="false" />
+        -->
         <activity
             android:name=".ui.view.IngredientListActivity"
             android:exported="false" />
-        -
-        <activity
+        <!--
+<activity
             android:name=".ui.view.PrepareRecipeActivity"
             android:exported="false" />
-
+        -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.NamNamApp.fileprovider"
