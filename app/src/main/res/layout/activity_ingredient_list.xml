@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <!-- activity_main.xml -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -15,9 +14,9 @@
         android:layout_weight="1"/>
 
     <Button
-        android:id="@+id/btnClearList"
-        android:layout_width="wrap_content"
+        android:id="@+id/btnClear"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Borrar Lista"/>
+        android:text="Borrar Todos los Ingredientes"/>
 
 </LinearLayout>
