@@ -1,7 +1,6 @@
 package com.example.nannamapp.ui.view
 
 import android.R
-import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -15,7 +14,6 @@ import com.bumptech.glide.Glide
 import com.example.nannamapp.data.model.RecipeProvider
 import com.example.nannamapp.databinding.ActivityPrepareRecipeBinding
 import com.example.nannamapp.ui.viewModel.RecipeViewModel
-import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -50,7 +48,7 @@ class PrepareRecipeActivity : AppCompatActivity() {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val seleccion : Int = opciones[position].toInt()
                 adapter.clear()
-                adapter.portionCalculation(seleccion)
+                adapter.portionCalculation(seleccion, RecipeProvider.recipeResponse.recipe.portion)
                 binding.rvIngredients.adapter = adapter
                 for(position in 0..RecipeProvider.recipeResponse.ingredientList.count()-1){
                     adapter.setItem(RecipeProvider.recipeResponse.ingredientList[position],RecipeProvider.recipeResponse.ingredientAmounList[position])

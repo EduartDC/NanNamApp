@@ -17,7 +17,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:text="Crear receta"
+                android:text="Editar receta"
                 android:layout_gravity="center"
                 android:layout_marginTop="15dp"
                 android:textSize="20sp"
@@ -27,7 +27,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1-Nombra tu platillo"
+                android:text="1-Nombre de tu platillo"
                 android:layout_marginTop="15dp"
                 android:layout_gravity="center"
                 android:textColor="@color/black"
@@ -47,7 +47,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2-Sube una foto de tu platillo"
+                android:text="2-Foto de tu platillo"
                 android:layout_marginTop="15dp"
                 android:layout_gravity="center"
                 android:textColor="@color/black"
@@ -63,8 +63,9 @@
                 android:textColor="@color/white"/>
             <ImageView
                 android:id="@+id/imgRecipe"
-                android:layout_width="200dp"
+                android:layout_width="match_parent"
                 android:layout_height="200dp"
+                android:layout_margin="10dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 />
@@ -79,7 +80,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="3-Selecciona una categoría de receta"
+                android:text="3-Categoría de la receta"
                 android:layout_marginTop="15dp"
                 android:layout_gravity="center"
                 android:textColor="@color/black" />
@@ -202,6 +203,7 @@
                 android:id="@+id/rvCookingSteps"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
                 android:layout_marginHorizontal="30dp"
                 />
             <TextView

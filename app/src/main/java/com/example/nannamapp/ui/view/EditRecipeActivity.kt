@@ -97,16 +97,19 @@ class EditRecipeActivity : AppCompatActivity() {
         binding.etPortions.setText(RecipeProvider.recipeResponse.recipe.portion.toString())
 
 
+        try {
+            CoroutineScope(Dispatchers.IO).launch {
+                val bitmap = Glide.with(this@EditRecipeActivity)
+                    .asBitmap()
+                    .load(imageUri)
+                    .submit().get()
 
-        CoroutineScope(Dispatchers.IO).launch {
-            val bitmap = Glide.with(this@EditRecipeActivity)
-                .asBitmap()
-                .load(imageUri)
-                .submit().get()
-
-            withContext(Dispatchers.Main) {
-                binding.imgRecipe.setImageBitmap(bitmap)
+                withContext(Dispatchers.Main) {
+                    binding.imgRecipe.setImageBitmap(bitmap)
+                }
             }
+        } catch (e: Exception) {
+            Log.e("EditRecipeActivity", e.message.toString())
         }
         binding.cbCategories.setSelection(CategoryProvider.categories.indexOf(RecipeProvider.recipeResponse.category))
         var mainIngredient = ""
