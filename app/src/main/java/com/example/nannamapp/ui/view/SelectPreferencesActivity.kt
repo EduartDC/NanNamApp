@@ -8,6 +8,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.nannamapp.R
+import com.example.nannamapp.data.model.GetPreferenceResponse
+import com.example.nannamapp.data.model.SetPreferenceResponse
 import com.example.nannamapp.data.model.UserPreferenceProvider
 import com.example.nannamapp.databinding.ActivitySelectPreferencesBinding
 import com.example.nannamapp.ui.viewModel.UserPreferenceViewModel
@@ -22,6 +24,28 @@ class SelectPreferencesActivity : AppCompatActivity() {
         binding = ActivitySelectPreferencesBinding.inflate(layoutInflater)
         setContentView(binding.root)
         getUserPreferences()
+        setListenerObserver()
+    }
+
+    private fun setListenerObserver() {
+        preferencesViewModel.setUserPreferenceViewModel.observe(this){
+            if(preferencesViewModel.httpCodeSetUserPreference == 200){
+                val builder = AlertDialog.Builder(this)
+                builder.setMessage("Cambios guardados")
+                    .setPositiveButton("Cerrar") { dialog: DialogInterface, which: Int ->
+                        // aqui deberia estar un metodo para cerrar la GUI
+                        dialog.dismiss()
+                    }.show()
+            }else
+            {
+                val builder = AlertDialog.Builder(this)
+                builder.setMessage("ocurrio un error"+ preferencesViewModel.httpCodeSetUserPreference)
+                    .setPositiveButton("Cerrar") { dialog: DialogInterface, which: Int ->
+                        // aqui deberia estar un metodo para cerrar la GUI
+                        dialog.dismiss()
+                    }.show()
+            }
+        }
     }
 
 
@@ -33,7 +57,7 @@ class SelectPreferencesActivity : AppCompatActivity() {
                 //Toast.makeText(this,"si jaló: " + UserPreferenceProvider.prefererence.userpreferences.size,Toast.LENGTH_SHORT).show()
                 loadInformation()
             }else{
-                Toast.makeText(this,"Hubo un pedo",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,"Hubo un problema",Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -51,15 +75,34 @@ class SelectPreferencesActivity : AppCompatActivity() {
         setListenerBtn()
     }
 
+
     private fun setListenerBtn() {
         binding.btnSavePreferences.setOnClickListener(){
+        var userPreferenceList : MutableList<String> = mutableListOf()
+        val preferenceSelectedAdapter = binding.rvPreferences.adapter as UserPreferenceAdapter
+            for(position in 0 until preferenceSelectedAdapter.itemCount){
+                val viewHolder = binding.rvPreferences.findViewHolderForAdapterPosition(position) as? UserPreferenceAdapter.preferenceAdapterViewHolder
+                if(viewHolder != null){
+                    if(viewHolder.rbCategory.isChecked){
+                        for(cb in UserPreferenceProvider.prefererence.categories){
+                            if(viewHolder.rbCategory.text.equals(cb.categoryName)){
+                                userPreferenceList.add(cb.idCategory)
+                            }
+                        }
+                    }
+                }
 
-            /*val builder = AlertDialog.Builder(this)
-            builder.setMessage("Cambios guardados")
-                .setPositiveButton("Cerrar") { dialog: DialogInterface, which: Int ->
-                    // aqui deberia estar un metodo para cerrar la GUI
-                    dialog.dismiss()
-                }.show()*/
+            }
+            var setPreferenceResponseTemp : SetPreferenceResponse = SetPreferenceResponse(
+                idUser,
+                userPreferenceList
+            )
+
+            preferencesViewModel.setPreferenceResponse = setPreferenceResponseTemp
+
+            preferencesViewModel.setNewUserPreference()
+
+
         }
     }
 

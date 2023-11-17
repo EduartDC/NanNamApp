@@ -26,10 +26,10 @@
             android:name=".ui.view.SelectPreferencesActivity"
             android:exported="false" /> -->
 
-        <activity
+      <!--  <activity
             android:name=".ui.view.ShowRecipeActivity"
             android:exported="false" />
-        -
+        -->
         <activity
             android:name=".ui.view.PrepareRecipeActivity"
             android:exported="false" />
@@ -45,7 +45,7 @@
         </provider>
 
         <activity
-            android:name=".ui.view.SelectPreferencesActivity"
+            android:name=".ui.view.ShowRecipeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

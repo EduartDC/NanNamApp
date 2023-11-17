@@ -7,6 +7,7 @@ import com.example.nannamapp.data.model.GetPreferenceResponse
 import com.example.nannamapp.data.model.GetRecipeResponse
 import com.example.nannamapp.data.model.NewRecipePost
 import com.example.nannamapp.data.model.ReviewDomain
+import com.example.nannamapp.data.model.SetPreferenceResponse
 import com.google.gson.Gson
 import retrofit2.Response
 import retrofit2.http.Body
@@ -37,4 +38,6 @@ interface APIClient {
     suspend fun editReview(@Body newReview: ReviewDomain): Response<Void>
     @GET("Category/GetUserPreferences/{idUser}")
     suspend fun getUserPreference(@Path("idUser")idUser: String): Response<GetPreferenceResponse>
+    @POST("Category/SetUserPreference")
+    suspend fun setUserPreference(@Body setUserPreferenceResponse: SetPreferenceResponse): Response<Void>
 }
