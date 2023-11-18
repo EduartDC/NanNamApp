@@ -56,21 +56,28 @@ class EditRecipeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityEditRecipeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        try {
-            categoryViewModel.onCreate()
-            ingredientViewModel.onCreate()
-        } catch (e: Exception) {
-            Log.e("tronó", e.cause.toString());
-        }
-        setupListenerCamera()
-        initCategoriesCB()
-        configureAdapterIngredientsFinded()
-        initIngredientsSearchBar()
-        configureRecycleViewCookingSteps()
-        setListenerBtnSave()
         var idRecipe = "RIJT6I55VQ"
         getRecipe(idRecipe)
-        setListenerGetRecipe()
+        if(recipeViewModel.httpCodegetRecipe == 200) {
+            try {
+                categoryViewModel.onCreate()
+                ingredientViewModel.onCreate()
+            } catch (e: Exception) {
+                Log.e("tronó", e.cause.toString());
+            }
+            setupListenerCamera()
+            initCategoriesCB()
+            configureAdapterIngredientsFinded()
+            initIngredientsSearchBar()
+            configureRecycleViewCookingSteps()
+            setListenerBtnSave()
+            setListenerGetRecipe()
+        }
+        else{
+            //mandar a otra ventana o algo
+            Toast.makeText(this,"ocurrio un fallo: " + recipeViewModel.httpCodegetRecipe,Toast.LENGTH_SHORT).show()
+        }
+
     }
     private fun getRecipe(idRecipe : String) {
         recipeViewModel.idRecipe = idRecipe

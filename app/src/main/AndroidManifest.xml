@@ -45,7 +45,7 @@
         </provider>
 
         <activity
-            android:name=".ui.view.PrepareRecipeActivity"
+            android:name=".ui.view.EditRecipeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
