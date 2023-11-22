@@ -1,31 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    tools:context=".ui.view.menu.UserAccountFragment">
+    android:layout_height="match_parent">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <!-- Barra superior con dos filas -->
+    <RelativeLayout
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:gravity="center"
-        android:layout_gravity="center_vertical"
-        android:textColor="@color/black"
-        android:text="Cuenta de usuario"
-        android:textSize="30dp"/>
+        android:layout_height="wrap_content"
+        android:background="@color/blueCool">
 
-    <Button
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:text="Cerrar Sesión"
-        android:id="@+id/logOutButton"
-        android:textSize="18sp"
-        android:layout_gravity="center_vertical|center_horizontal"
-        android:layout_marginTop="100dp"
-        android:backgroundTint="@color/zafiroBlue"
-        app:cornerRadius = "20dp"/>
+        <!-- Fila superior con nombre de usuario y botón de settings -->
+        <RelativeLayout
+            android:id="@+id/upperRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp">
 
-</FrameLayout>
+            <!-- Nombre del usuario -->
+            <TextView
+                android:id="@+id/usernameTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+
+            <!-- Botón de settings -->
+            <ImageButton
+                android:id="@+id/settingsButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="8dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:contentDescription="Settings"
+                android:padding="8dp"
+                android:src="@drawable/baseline_build_24"
+                tools:ignore="TouchTargetSizeCheck" />
+        </RelativeLayout>
+
+        <!-- Fila inferior con botones Guardadas y Tus recetas -->
+        <LinearLayout
+            android:id="@+id/lowerRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@id/upperRow">
+
+            <!-- Botón Guardadas -->
+            <Button
+                android:id="@+id/guardadasButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Guardadas"
+                android:background="?android:attr/selectableItemBackground"
+                android:padding="8dp" />
+
+            <!-- Botón Tus recetas -->
+            <Button
+                android:id="@+id/tusRecetasButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Tus recetas"
+                android:background="?android:attr/selectableItemBackground"
+                android:padding="8dp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <!-- Contenido central -->
+    <FrameLayout
+        android:id="@+id/contentFrame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar">
+
+        <Button
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:text="Cerrar Sesión"
+            android:id="@+id/logOutButton"
+            android:textSize="18sp"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_marginTop="100dp"
+            android:backgroundTint="@color/zafiroBlue"
+            app:cornerRadius = "20dp"/>
+
+        <!-- Aquí incluirás el contenido específico de Guardadas o Tus recetas -->
+        <!-- ... -->
+
+    </FrameLayout>
+
+    <!-- Incluye el menú que ya tienes definido -->
+
+
+</RelativeLayout>
