@@ -14,7 +14,7 @@ import com.example.nannamapp.ui.view.CreateRecipeActivity
 import com.example.nannamapp.ui.view.EditIngredientAdapter
 import com.example.nannamapp.ui.view.IngredientFindedAdapater
 
-class IngredientSelectedAdapter : RecyclerView.Adapter<IngredientSelectedAdapter.IngredientSelectedViewHolder>() {
+class EditIngredientSelectedAdapter : RecyclerView.Adapter<EditIngredientSelectedAdapter.EditIngredientSelectedViewHolder>() {
     companion object {
         public var contextActivity = CreateRecipeActivity
 
@@ -26,13 +26,13 @@ class IngredientSelectedAdapter : RecyclerView.Adapter<IngredientSelectedAdapter
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): IngredientSelectedViewHolder {
+    ): EditIngredientSelectedViewHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.ingredient_item, parent, false)
-        return IngredientSelectedViewHolder(view)
+        return EditIngredientSelectedViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: IngredientSelectedViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: EditIngredientSelectedViewHolder, position: Int) {
         val step = ingredientSelected[position]
         holder.bind(step)
 
@@ -54,12 +54,12 @@ class IngredientSelectedAdapter : RecyclerView.Adapter<IngredientSelectedAdapter
         notifyItemInserted(ingredientSelected.size - 1)
     }
 
-    lateinit var contextAdapter: IngredientFindedAdapater
-    fun getInstanceAdapter(contextAdapter: IngredientFindedAdapater) {//usada pra poder eliminar de la liste de ingredients principales
+    lateinit var contextAdapter: EditIngredientAdapter
+    fun getInstanceAdapter(contextAdapter: EditIngredientAdapter) {//usada pra poder eliminar de la liste de ingredients principales
         this.contextAdapter = contextAdapter
     }
 
-    inner class IngredientSelectedViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class EditIngredientSelectedViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val ingredientTextView: TextView = itemView.findViewById(R.id.tvIngredientName)
         val measureTextView: TextView = itemView.findViewById(R.id.tvMeasureUnit)
         val deleteButton: Button = itemView.findViewById(R.id.btnDeleteIngredient)
@@ -68,6 +68,10 @@ class IngredientSelectedAdapter : RecyclerView.Adapter<IngredientSelectedAdapter
         fun bind(ingredient: Ingredient) {
             ingredientTextView.text = ingredient.ingredientname
             measureTextView.text = ingredient.measure
+            if(amountIngredientTest != 0){
+                etMeasure.setText(amountIngredientTest.toString())
+                amountIngredientTest = 0
+            }
             deleteButton.setOnClickListener {
                 // Aquí debes eliminar el elemento de la lista y notificar al adaptador
                 val position = adapterPosition
@@ -112,7 +116,7 @@ class IngredientSelectedAdapter : RecyclerView.Adapter<IngredientSelectedAdapter
         return bandListIngredients
     }
 
-    fun getContextIngredientSelectedAdapter(): IngredientSelectedAdapter {
+    fun getContextIngredientSelectedAdapter(): EditIngredientSelectedAdapter {
         return this
     }
 

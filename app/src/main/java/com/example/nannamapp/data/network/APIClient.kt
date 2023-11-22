@@ -15,6 +15,7 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface APIClient {
@@ -44,8 +45,14 @@ interface APIClient {
 
     @GET("Category/GetUserPreferences/{idUser}")
     suspend fun getUserPreference(@Path("idUser")idUser: String): Response<GetPreferenceResponse>
+  
+    @PUT("Recipe/UpdateRecipe")
+    suspend fun updateRecipe(@Body newRecipeDomain: NewRecipePost): Response<Void>
+  
     @POST("Login/LoginUser")
     suspend fun loginUser(@Body loginCredentials: Login): Response<JsonResult>
+  
     @POST("Login/RegisterUser")
     suspend fun registerUser(@Body registerCredentials: User): Response<String>
+
 }

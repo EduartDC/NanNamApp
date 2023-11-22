@@ -15,23 +15,23 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.namnam.data.model.IngredientProvider
 import com.example.nannamapp.R
 import com.example.nannamapp.databinding.ActivityCreateRecipeBinding
+import com.example.nannamapp.databinding.ActivityEditRecipeBinding
+import com.example.nannamapp.util.EditIngredientSelectedAdapter
 import com.example.nannamapp.util.IngredientSelectedAdapter
 
-class IngredientFindedAdapater : RecyclerView.Adapter<IngredientFindedAdapater.IngredientFindedViewHolder>() {
-
-
+class EditIngredientAdapter : RecyclerView.Adapter<EditIngredientAdapter.EditIngredientViewHolder>(){
     private var IngredientsFindedList = mutableListOf<String>()
     private lateinit var itemTouchHelper: ItemTouchHelper
 
     //este metodo hace referencia al layout donde coloqué la barra de ingredientes
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IngredientFindedViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EditIngredientAdapter.EditIngredientViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.ingredient_serch_bar_item, parent, false)
-        return IngredientFindedViewHolder(view)
+        return EditIngredientViewHolder(view)
 
     }
 
-    override fun onBindViewHolder(holder: IngredientFindedViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: EditIngredientViewHolder, position: Int) {
         val ingredient = IngredientsFindedList[position]
         holder.bind(ingredient)
         holder.itemView.setOnLongClickListener {
@@ -46,12 +46,12 @@ class IngredientFindedAdapater : RecyclerView.Adapter<IngredientFindedAdapater.I
         return IngredientsFindedList.size
     }
 
-    public lateinit var binding: ActivityCreateRecipeBinding
+    public lateinit var binding: ActivityEditRecipeBinding
 
     public lateinit var contextActivity: Context
 
     //metodo llamado desde mi activivdad para pasarle el string de busqueda
-    fun searchIngredientMatch(textInput: String, binding: ActivityCreateRecipeBinding, contextActivity: Context) {
+    fun searchIngredientMatch(textInput: String, binding: ActivityEditRecipeBinding, contextActivity: Context) {
         this.contextActivity = contextActivity
         this.binding = binding
         IngredientsFindedList.clear()
@@ -67,8 +67,7 @@ class IngredientFindedAdapater : RecyclerView.Adapter<IngredientFindedAdapater.I
     //ingresar ingredientes principales
     var mainIngerdientsList: MutableList<String> = mutableListOf()
     private lateinit var mainIngredientAdapter: ArrayAdapter<String>//
-
-    inner class IngredientFindedViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class EditIngredientViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val IngredientTextView: TextView = itemView.findViewById(R.id.textIngredientSearchBar)
         private val addButton: Button = itemView.findViewById(R.id.btnAddIngredient)
         private var ingredientString: String = ""
@@ -95,7 +94,7 @@ class IngredientFindedAdapater : RecyclerView.Adapter<IngredientFindedAdapater.I
             }
         }
 
-        private fun addMainIngredient() {//agregar a lista para en checkBox
+        fun addMainIngredient() {//agregar a lista para en checkBox
             mainIngerdientsList.add(IngredientTextView.text.toString())
             updateMainIngredientCB()
         }
@@ -110,31 +109,37 @@ class IngredientFindedAdapater : RecyclerView.Adapter<IngredientFindedAdapater.I
                 if (item.ingredientname.equals(ingredientString)) {
 
                     adapteringredientSelected.addIngredientSelected(item)
-                    adapteringredientSelected.getInstanceAdapter(this@IngredientFindedAdapater)
+                    adapteringredientSelected.getInstanceAdapter(this@EditIngredientAdapter)
                 }
             }
             binding.spMainIngredient.adapter = mainIngredientAdapter
         }
     }
-
+    fun setSpinnerMainIngredient(){
+        mainIngredientAdapter = ArrayAdapter<String>(
+            contextActivity,
+            android.R.layout.simple_spinner_dropdown_item,
+            mainIngerdientsList
+        )
+        binding.spMainIngredient.adapter = mainIngredientAdapter
+    }
     //iniciarlizar adpadtador de inredientes con medidas
-    private lateinit var adapteringredientSelected: IngredientSelectedAdapter
-    fun setIngredientSelectedAdapter(binding: ActivityCreateRecipeBinding, contextActivity: Context
+    private lateinit var adapteringredientSelected: EditIngredientSelectedAdapter
+    fun setIngredientSelectedAdapter(binding: ActivityEditRecipeBinding, contextActivity: Context
     ) {
         Log.d("LISTA", "Agregando a seleccion")
         this.contextActivity = contextActivity
         this.binding = binding
         binding.rvIngredientSelected.layoutManager = LinearLayoutManager(contextActivity)
-        adapteringredientSelected = IngredientSelectedAdapter()
+        adapteringredientSelected = EditIngredientSelectedAdapter()
 
         binding.rvIngredientSelected.adapter = adapteringredientSelected
     }
 
     //usado para pasar el contexto de otro adapter a la actividad
-    fun getIngredientSelectedList(): IngredientSelectedAdapter {
-        var contextIngredientSelectedAdapter: IngredientSelectedAdapter =
+    fun getIngredientSelectedList(): EditIngredientSelectedAdapter {
+        var contextIngredientSelectedAdapter: EditIngredientSelectedAdapter =
             adapteringredientSelected.getContextIngredientSelectedAdapter()
         return contextIngredientSelectedAdapter
     }
-
 }

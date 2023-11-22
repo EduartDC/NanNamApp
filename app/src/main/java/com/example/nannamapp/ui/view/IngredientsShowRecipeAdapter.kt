@@ -3,9 +3,7 @@ package com.example.nannamapp.ui.view
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.namnam.data.model.Ingredient
 import com.example.nannamapp.R
@@ -16,6 +14,7 @@ class IngredientsShowRecipeAdapter  :
    private var ingredientsName = mutableListOf<Ingredient>()
     private var ingredientsAmount = mutableListOf<RecipeHasIngredient>()
     private var portionSelected : Int = 0
+    private var originPortion : Int = 0
 
     //genera el item del xml
     inner class IngredientsShowRecipeAdapterViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
@@ -29,7 +28,7 @@ class IngredientsShowRecipeAdapter  :
 
             val amount = amountItem.amount
             var total = 0
-            if(portionSelected != 0){
+            if(portionSelected != 0 && portionSelected != originPortion){
                 total = amount * portionSelected
             }else{
                 total = amount
@@ -46,7 +45,8 @@ class IngredientsShowRecipeAdapter  :
         ingredientsAmount.add(amountItem)
         notifyDataSetChanged()
     }
-    fun portionCalculation( portion : Int){
+    fun portionCalculation(portion: Int, portionOrg: Int){
+        originPortion = portionOrg
         portionSelected = portion
     }
 
