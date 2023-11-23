@@ -9,8 +9,12 @@
     <RelativeLayout
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/blueCool">
+        android:layout_height="40dp" 
+        android:gravity="center"
+        android:layout_gravity="center_vertical"
+        android:textColor="@color/black"
+        android:text="Cuenta de usuario"
+        android:textSize="30dp"/>
 
         <!-- Fila superior con nombre de usuario y botón de settings -->
         <RelativeLayout
