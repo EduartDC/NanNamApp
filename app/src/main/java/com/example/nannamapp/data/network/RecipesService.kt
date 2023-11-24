@@ -57,4 +57,15 @@ class RecipesService {
         }
     }
 
+    suspend fun getRecipesList(): List<Recipe>{
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = retrofit.create(APIClient::class.java).getRecipeList()
+                response.body() ?: emptyList()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                emptyList()
+            }
+        }
+    }
 }

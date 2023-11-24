@@ -7,5 +7,6 @@ class RecipeProvider {
     companion object{
         var cookBook: List<Recipe> = emptyList()
         var recipeResponse : GetRecipeResponse = GetRecipeResponse()
+        var recipeList: List<Recipe> = emptyList()
     }
 }

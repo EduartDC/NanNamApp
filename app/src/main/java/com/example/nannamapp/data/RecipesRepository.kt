@@ -31,4 +31,10 @@ class RecipesRepository {
         RecipeProvider.recipeResponse.ingredientAmounList = response.second.ingredientAmounList
         return response.first
     }
+
+    suspend fun getRecipesList(): List<Recipe>{
+        val response = api.getRecipesList()
+        RecipeProvider.recipeList = response
+        return response
+    }
 }
