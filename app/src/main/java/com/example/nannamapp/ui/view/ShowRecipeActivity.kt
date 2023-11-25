@@ -31,7 +31,7 @@ class ShowRecipeActivity : AppCompatActivity() {
     }
 
     private fun setListenerGetRecipe() {
-        getRecipeViewModel.getRecipeViewModel.observe(this){
+        getRecipeViewModel.getRecipeListViewModel.observe(this){
             if(getRecipeViewModel.httpCodegetRecipe == 200){
                 Toast.makeText(this,"Al milloanso pai " + RecipeProvider.recipeResponse.recipe.idMainIngredient,Toast.LENGTH_SHORT).show()
                 loadInfoRecipe()

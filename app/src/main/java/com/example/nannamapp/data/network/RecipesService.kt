@@ -1,7 +1,6 @@
 package com.example.nannamapp.data.network
 
 import android.util.Log
-import com.example.namnam.data.model.Category
 import com.example.namnam.data.model.Recipe
 import com.example.namnam.data.network.APIClient
 import com.example.nannamapp.core.RetrofitHelper
@@ -57,7 +56,7 @@ class RecipesService {
         }
     }
 
-    suspend fun getRecipesList(): List<Recipe>{
+    suspend fun getRecipeList(): List<Recipe>{
         return withContext(Dispatchers.IO) {
             try {
                 val response = retrofit.create(APIClient::class.java).getRecipeList()

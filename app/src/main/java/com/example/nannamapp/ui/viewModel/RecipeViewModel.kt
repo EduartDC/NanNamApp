@@ -6,10 +6,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.namnam.data.model.Recipe
 import com.example.nannamapp.data.RecipesRepository
 import com.example.nannamapp.data.model.NewRecipePost
+import com.example.nannamapp.domain.GetRecipeListUseCase
 import com.example.nannamapp.domain.GetRecipeUseCase
 import com.example.nannamapp.domain.PushNewRecipeUseCase
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class RecipeViewModel : ViewModel() {
@@ -33,28 +32,27 @@ class RecipeViewModel : ViewModel() {
     var httpCodegetRecipe : Int = 0
     var idRecipe : String = ""
     val getRecipeuseCase : GetRecipeUseCase by lazy { GetRecipeUseCase(idRecipe ) }
-    val getRecipeViewModel = MutableLiveData<Int>()
-    val recipesViewModel = MutableLiveData<List<Recipe>>()
+    val getRecipeListViewModel = MutableLiveData<Int>()
+
+
+    val recipesViewModel = MutableLiveData<Int>()
 
 
 
     private val repository = RecipesRepository()
-    suspend fun getRecipesList(): List<Recipe>{
-        return viewModelScope.async(Dispatchers.IO) {
-            val result = repository.getRecipesList()
-            result
-        }.await()
-    }
-    fun updateRecipeList(newList: List<Recipe>) {
-        recipesViewModel.value = newList
-    }
+    var getRecipeListUseCase = GetRecipeListUseCase()
 
+    fun getRecipesList(){
+        viewModelScope.launch {
+            val result = getRecipeListUseCase()
+            recipesViewModel.postValue(1)
+        }
+    }
     fun getRecipe(){
         viewModelScope.launch {
             var result = getRecipeuseCase()
             httpCodegetRecipe =result
-            getRecipeViewModel.postValue(result)
+            getRecipeListViewModel.postValue(result)
         }
     }
-
 }

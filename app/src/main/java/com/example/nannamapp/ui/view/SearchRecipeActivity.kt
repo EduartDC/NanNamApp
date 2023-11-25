@@ -3,12 +3,12 @@ package com.example.nannamapp.ui.view
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.nannamapp.R
 import com.example.nannamapp.data.RecipesRepository
+import com.example.nannamapp.data.model.RecipeProvider
 import com.example.nannamapp.databinding.ActivitySearchRecipeBinding
 import com.example.nannamapp.ui.viewModel.RecipeViewModel
 import com.example.nannamapp.util.SearchRecipeAdapterCategories
@@ -23,8 +23,17 @@ class SearchRecipeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySearchRecipeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        initObservables()
-        initListeners()
+        //initObservables()
+        //initListeners()
+        getAllRecipes()
+    }
+
+    private fun getAllRecipes() {
+        recipesViewModel.getRecipesList()
+        recipesViewModel.recipesViewModel.observe(this){
+            initListeners()
+            initRecyclerView()
+        }
     }
 
     private fun initListeners() {
@@ -33,19 +42,19 @@ class SearchRecipeActivity : AppCompatActivity() {
                 recipesViewModel.getRecipesList()
             }
         }
-
     }
-    suspend fun initRecyclerView(){
-        val recipeProvider = RecipesRepository()
+
+    fun initRecyclerView(){
+        val recipeProvider = RecipeProvider
+        val x = SearchRecipeAdapterRecipe(recipeProvider.recipeList)
         binding.recyclerviewRecipes.layoutManager = LinearLayoutManager(this)
-        binding.recyclerviewRecipes.adapter = SearchRecipeAdapterRecipe(recipeProvider.getRecipesList())
+        x.binding2= this
+        binding.recyclerviewRecipes.adapter = x
     }
     private fun initObservables() {
-
         val recyclerViewCategories = findViewById<RecyclerView>(R.id.recyclerviewCategories)
         val categoriesAdapter = SearchRecipeAdapterCategories()
         recyclerViewCategories.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         recyclerViewCategories.adapter = categoriesAdapter
-
     }
 }
