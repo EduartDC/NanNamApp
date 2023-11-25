@@ -24,10 +24,6 @@ class SearchRecipeAdapterRecipe(private val recipeList: List<Recipe>): RecyclerV
                 .into(binding.recipeImage)
         }
     }
-
-    fun updateData(newList: List<Recipe>) {
-        notifyDataSetChanged()
-    }
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): SearchRecipeAdapterRecipeViewHolder {
         val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.recipes_item, viewGroup, false)
         return SearchRecipeAdapterRecipeViewHolder(view)

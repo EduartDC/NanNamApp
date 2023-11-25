@@ -5,22 +5,26 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.bumptech.glide.Glide
+import com.example.namnam.data.model.Recipe
 import com.example.nannamapp.R
+import com.example.nannamapp.databinding.CategoriesItemBinding
 
 interface OnRecipeClickListener {
     fun onRecipeClick(position: Int)
 }
 class SearchRecipeAdapterCategories: RecyclerView.Adapter<SearchRecipeAdapterCategories.SearchRecipeViewHolderCategories>() {
     val categories = arrayOf("Nombre", "Ingrediente","Tipo cocina", "Dieta")
-    var onRecipeClickListener: OnRecipeClickListener? = null
     inner class SearchRecipeViewHolderCategories(itemView: View): RecyclerView.ViewHolder(itemView){
-
-        var itemTitle: TextView
-        init{
-
-            itemTitle = itemView.findViewById(R.id.categories_title)
+        val binding = CategoriesItemBinding.bind(itemView)
+        fun render(categorie: String){
+            binding.categoriesTitle.text = categorie
+            itemView.setOnClickListener(){
+                Toast.makeText(binding.categoriesTitle.context, binding.categoriesTitle.text,Toast.LENGTH_SHORT).show()
+            }
         }
     }
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): SearchRecipeViewHolderCategories {
@@ -31,9 +35,7 @@ class SearchRecipeAdapterCategories: RecyclerView.Adapter<SearchRecipeAdapterCat
         return categories.size
     }
     override fun onBindViewHolder(viewHolder: SearchRecipeViewHolderCategories, position: Int) {
-        viewHolder.itemTitle.text = categories[position]
-        viewHolder.itemView.setOnClickListener {
-            onRecipeClickListener?.onRecipeClick(position)
-        }
+        val item = categories[position]
+        viewHolder.render(item)
     }
 }
