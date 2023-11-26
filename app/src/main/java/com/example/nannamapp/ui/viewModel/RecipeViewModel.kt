@@ -3,8 +3,8 @@ package com.example.nannamapp.ui.viewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.nannamapp.data.model.GetRecipeResponse
 import com.example.nannamapp.data.model.NewRecipePost
+import com.example.nannamapp.domain.EditRecipeUseCase
 import com.example.nannamapp.domain.GetRecipeUseCase
 import com.example.nannamapp.domain.PushNewRecipeUseCase
 import kotlinx.coroutines.launch
@@ -14,6 +14,7 @@ class RecipeViewModel : ViewModel() {
     var httpCodeCreateRecipe: Int = 0
     lateinit var newRecipe: NewRecipePost
     val createRecipeUseCase: PushNewRecipeUseCase by lazy { PushNewRecipeUseCase(newRecipe) }
+    val editRecipeUseCase: EditRecipeUseCase by lazy { EditRecipeUseCase(newRecipe) }
     val recipeViewModel = MutableLiveData<Int>()
 
     fun postNewRecipe() {
@@ -36,6 +37,15 @@ class RecipeViewModel : ViewModel() {
             httpCodegetRecipe =result
             getRecipeViewModel.postValue(result)
 
+        }
+    }
+    fun editRecipe() {
+        viewModelScope.launch {
+            val result = editRecipeUseCase() // Llama al caso de uso
+            //if (!result.isNullOrEmpty()) {
+            recipeViewModel.postValue(result)
+            httpCodeCreateRecipe = result
+            // }
         }
     }
 

@@ -1,7 +1,6 @@
 package com.example.nannamapp.data.network
 
 import android.util.Log
-import com.example.namnam.data.model.Category
 import com.example.namnam.data.model.Recipe
 import com.example.namnam.data.network.APIClient
 import com.example.nannamapp.core.RetrofitHelper
@@ -56,5 +55,19 @@ class RecipesService {
 
         }
     }
-
+    suspend fun editRecipe(newRecipe : NewRecipePost): Int {
+        return withContext(Dispatchers.IO) {
+            var code : Int = 0
+            Log.d("DENTRO DE SERVICE" ,"SI")
+            try {
+                val response = retrofit.create(APIClient::class.java).updateRecipe(newRecipe)
+                if (response.isSuccessful)
+                    code = 200
+            } catch (e: Exception) {
+                e.printStackTrace()
+                code = 500
+            }
+            code
+        }
+    }
 }
