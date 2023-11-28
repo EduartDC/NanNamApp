@@ -1,5 +1,6 @@
 package com.example.nannamapp.ui.view.menu
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,6 +9,8 @@ import android.view.ViewGroup
 import androidx.viewpager.widget.ViewPager
 import com.example.nannamapp.R
 import com.example.nannamapp.databinding.FragmentHomeBinding
+import com.example.nannamapp.ui.view.ConsultCookbookActivity
+import com.example.nannamapp.ui.view.IngredientListActivity
 import com.example.nannamapp.ui.view.menu.tabs.home.PagerAdapter_H
 import com.google.android.material.tabs.TabLayout
 
@@ -30,18 +33,18 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-       return inflater.inflate(R.layout.fragment_home, container, false)
+       val view = inflater.inflate(R.layout.fragment_home, container, false)
+
+        val recipeBookCardView = view.findViewById<View>(R.id.recipeBook)
+
+        recipeBookCardView.setOnClickListener {
+            val intent = Intent(requireContext(), ConsultCookbookActivity::class.java)
+            startActivity(intent)
+        }
+
+        return view
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        val sectionsPagerAdapter = PagerAdapter_H(requireContext(), childFragmentManager)
-        val viewPager: ViewPager = view.findViewById(R.id.container)
-        viewPager.adapter = sectionsPagerAdapter
-        val tabs: TabLayout = view.findViewById(R.id.tabs)
-        tabs.setupWithViewPager(viewPager)
-    }
     companion object {
 
         @JvmStatic
