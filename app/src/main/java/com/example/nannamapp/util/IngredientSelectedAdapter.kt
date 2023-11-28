@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.namnam.data.model.Ingredient
 import com.example.nannamapp.R
 import com.example.nannamapp.ui.view.CreateRecipeActivity
+import com.example.nannamapp.ui.view.EditIngredientAdapter
 import com.example.nannamapp.ui.view.IngredientFindedAdapater
 
 class IngredientSelectedAdapter : RecyclerView.Adapter<IngredientSelectedAdapter.IngredientSelectedViewHolder>() {
@@ -21,6 +22,7 @@ class IngredientSelectedAdapter : RecyclerView.Adapter<IngredientSelectedAdapter
 
     private lateinit var itemTouchHelper: ItemTouchHelper
     val ingredientSelected = mutableListOf<Ingredient>()
+    var amountIngredientTest = 0
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int

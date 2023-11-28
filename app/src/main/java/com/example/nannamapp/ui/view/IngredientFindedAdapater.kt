@@ -17,8 +17,7 @@ import com.example.nannamapp.R
 import com.example.nannamapp.databinding.ActivityCreateRecipeBinding
 import com.example.nannamapp.util.IngredientSelectedAdapter
 
-class IngredientFindedAdapater :
-    RecyclerView.Adapter<IngredientFindedAdapater.IngredientFindedViewHolder>() {
+class IngredientFindedAdapater : RecyclerView.Adapter<IngredientFindedAdapater.IngredientFindedViewHolder>() {
 
 
     private var IngredientsFindedList = mutableListOf<String>()
@@ -48,14 +47,11 @@ class IngredientFindedAdapater :
     }
 
     public lateinit var binding: ActivityCreateRecipeBinding
+
     public lateinit var contextActivity: Context
 
     //metodo llamado desde mi activivdad para pasarle el string de busqueda
-    fun searchIngredientMatch(
-        textInput: String,
-        binding: ActivityCreateRecipeBinding,
-        contextActivity: Context
-    ) {
+    fun searchIngredientMatch(textInput: String, binding: ActivityCreateRecipeBinding, contextActivity: Context) {
         this.contextActivity = contextActivity
         this.binding = binding
         IngredientsFindedList.clear()
@@ -68,6 +64,7 @@ class IngredientFindedAdapater :
         notifyDataSetChanged()
     }
 
+    //ingresar ingredientes principales
     var mainIngerdientsList: MutableList<String> = mutableListOf()
     private lateinit var mainIngredientAdapter: ArrayAdapter<String>//
 
@@ -90,7 +87,7 @@ class IngredientFindedAdapater :
                     } else
                         Toast.makeText(
                             contextActivity,
-                            "Este ingrediente ay se encuentra seleccioando",
+                            "Este ingrediente ya se encuentra seleccioando",
                             Toast.LENGTH_SHORT
                         ).show()
                     binding.SearchBar.text.clear()
@@ -122,9 +119,7 @@ class IngredientFindedAdapater :
 
     //iniciarlizar adpadtador de inredientes con medidas
     private lateinit var adapteringredientSelected: IngredientSelectedAdapter
-    fun setIngredientSelectedAdapter(
-        binding: ActivityCreateRecipeBinding,
-        contextActivity: Context
+    fun setIngredientSelectedAdapter(binding: ActivityCreateRecipeBinding, contextActivity: Context
     ) {
         Log.d("LISTA", "Agregando a seleccion")
         this.contextActivity = contextActivity

@@ -1,8 +1,10 @@
 package com.example.nannamapp.ui.view
 
 import android.content.DialogInterface
+import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
@@ -29,6 +31,7 @@ class SelectPreferencesActivity : AppCompatActivity() {
 
     private fun setListenerObserver() {
         preferencesViewModel.setUserPreferenceViewModel.observe(this){
+            binding.loadAnimation.visibility = View.GONE
             if(preferencesViewModel.httpCodeSetUserPreference == 200){
                 val builder = AlertDialog.Builder(this)
                 builder.setMessage("Cambios guardados")
@@ -53,6 +56,7 @@ class SelectPreferencesActivity : AppCompatActivity() {
         preferencesViewModel.idUser =idUser
         preferencesViewModel.getUserPreferences()
         preferencesViewModel.getUserPreferenceViewModel.observe(this){
+            binding.loadAnimation.visibility = View.GONE
             if(preferencesViewModel.httpCodegetUserPreference == 200){
                 //Toast.makeText(this,"si jaló: " + UserPreferenceProvider.prefererence.userpreferences.size,Toast.LENGTH_SHORT).show()
                 loadInformation()
@@ -79,6 +83,7 @@ class SelectPreferencesActivity : AppCompatActivity() {
     private fun setListenerBtn() {
         binding.btnSavePreferences.setOnClickListener(){
         var userPreferenceList : MutableList<String> = mutableListOf()
+        binding.loadAnimation.visibility = View.VISIBLE
         val preferenceSelectedAdapter = binding.rvPreferences.adapter as UserPreferenceAdapter
             for(position in 0 until preferenceSelectedAdapter.itemCount){
                 val viewHolder = binding.rvPreferences.findViewHolderForAdapterPosition(position) as? UserPreferenceAdapter.preferenceAdapterViewHolder

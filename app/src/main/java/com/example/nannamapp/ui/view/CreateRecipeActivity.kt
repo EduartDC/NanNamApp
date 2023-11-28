@@ -1,42 +1,38 @@
 package com.example.nannamapp.ui.view
 
 import android.Manifest
+import android.R
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.View
 import android.widget.ArrayAdapter
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ReportFragment.Companion.reportFragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.namnam.data.model.Category
 import com.example.namnam.data.model.CategoryProvider
 import com.example.namnam.data.model.CookinginstructionDomain
-import com.example.namnam.data.model.Ingredient
 import com.example.namnam.data.model.IngredientProvider
 import com.example.namnam.data.model.RecipeDomain
-import com.example.nannamapp.R
 import com.example.nannamapp.data.model.NewRecipePost
 import com.example.nannamapp.data.model.RecipeHasIngredient
-
 import com.example.nannamapp.databinding.ActivityCreateRecipeBinding
 import com.example.nannamapp.ui.viewModel.CategoryViewModel
 import com.example.nannamapp.ui.viewModel.IngredientViewModel
@@ -44,8 +40,8 @@ import com.example.nannamapp.ui.viewModel.RecipeViewModel
 import com.example.nannamapp.util.IngredientSelectedAdapter
 import java.io.ByteArrayOutputStream
 import java.io.File
+import java.nio.charset.StandardCharsets
 import java.text.SimpleDateFormat
-import java.util.Base64
 import java.util.Date
 
 
@@ -55,6 +51,7 @@ class CreateRecipeActivity : AppCompatActivity() {
     private val categoryViewModel: CategoryViewModel by viewModels()
     private val ingredientViewModel: IngredientViewModel by viewModels()
     private val recipeViewModel : RecipeViewModel by viewModels()
+    val portionList = listOf("2", "4", "6", "8", "10", "12", "14", "16", "18", "20")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCreateRecipeBinding.inflate(layoutInflater)
@@ -65,12 +62,22 @@ class CreateRecipeActivity : AppCompatActivity() {
         } catch (e: Exception) {
             Log.e("tronó", e.cause.toString());
         }
-        setupListenerCamera()
-        initCategoriesCB()
-        configureAdapterIngredientsFinded()
-        initIngredientsSearchBar()
-        configureRecycleViewCookingSteps()
-        setListenerBtnSave()
+        ingredientViewModel.ingredientModel.observe(this){
+            binding.loadAnimation.visibility = View.GONE
+            setupListenerCamera()
+            initCategoriesCB()
+            configureAdapterIngredientsFinded()
+            initIngredientsSearchBar()
+            configureRecycleViewCookingSteps()
+            setListenerBtnSave()
+            setPortionsSpinner()
+        }
+    }
+
+    private fun setPortionsSpinner() {
+        val portionAdpater = ArrayAdapter(this, R.layout.simple_spinner_item, portionList)
+        portionAdpater.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.spPortions.adapter = portionAdpater
     }
 
     private fun validateImage(): Boolean {
@@ -88,12 +95,12 @@ class CreateRecipeActivity : AppCompatActivity() {
                     if(ingredientSelectedList.getContextIngredientSelectedAdapter().ingredientSelected.size != 0){
                         if(validateMeasureSelected())
                             if(validateSteps())
-                                if(validatePortions())
+                              //  if(validatePortions())
                                     saveRecipe()
-                                else{
-                                    Toast.makeText(this,"Se necesita la cantidad de porciones",Toast.LENGTH_SHORT).show()
-                                    binding.etPortions.text.clear()
-                                }
+                               // else{
+                                   // Toast.makeText(this,"Se necesita la cantidad de porciones",Toast.LENGTH_SHORT).show()
+                                    //binding.etPortions.text.clear()
+                                //}
                             else
                                 Toast.makeText(this,"ingresa pasos",Toast.LENGTH_SHORT).show()
                         else
@@ -123,12 +130,14 @@ class CreateRecipeActivity : AppCompatActivity() {
             "",
             "00:00:00",
             idMainIngredient,
-            binding.etPortions.text.toString().toInt(),
+            binding.spPortions.selectedItem.toString().toInt(),
             imageViewToByteArray()
         )
         var instructions : MutableList<CookinginstructionDomain> = mutableListOf()
-        //lista de pasos
+        //lista de pasos en la receta
         val adapterSteps = binding.rvCookingSteps.adapter as CookingStepAdapter
+        //val adapterdos = binding.rvIngredientSelected.adapter as IngredientSelectedAdapter
+        //adapterdos.amountIngredientTest = 3
         for (position in 0 until adapterSteps.itemCount) {
             val viewHolder = binding.rvCookingSteps.findViewHolderForAdapterPosition(position) as? CookingStepAdapter.StepViewHolder
             // Verifica si el ViewHolder es nulo
@@ -255,10 +264,10 @@ class CreateRecipeActivity : AppCompatActivity() {
 
  */
     //valida que el string sea numerico
-    private fun validatePortions(): Boolean {
+    /*private fun validatePortions(): Boolean {
         val regex = """^-?[1-9]\d*$""".toRegex()
         return regex.matches(binding.etPortions.text)
-    }
+    }*/
 
     fun validateMeasureSelected (): Boolean{
         var band :Boolean = true
@@ -288,8 +297,6 @@ class CreateRecipeActivity : AppCompatActivity() {
             return false
         return true
     }
-
-
 
 
     private fun configureAdapterIngredientsFinded() {

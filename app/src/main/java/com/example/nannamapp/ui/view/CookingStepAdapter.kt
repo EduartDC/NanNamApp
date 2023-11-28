@@ -34,6 +34,7 @@ class CookingStepAdapter :RecyclerView.Adapter<CookingStepAdapter.StepViewHolder
         return steps.size
     }
 
+    //agrega el paso a la lista
     fun addStep(step: String) {
         Log.d("PASO" ,step)
         steps.add(step)

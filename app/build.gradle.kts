@@ -64,4 +64,8 @@ dependencies {
     implementation ("com.squareup.picasso:picasso:2.8")
 
     implementation ("com.github.bumptech.glide:glide:4.12.0")
+
+    implementation("com.google.android.material:material:1.3.0-alpha03")
+
+    implementation("com.airbnb.android:lottie:6.1.0")
 }
