@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.viewpager.widget.ViewPager
 import com.example.nannamapp.R
 import com.example.nannamapp.databinding.FragmentHomeBinding
+import com.example.nannamapp.ui.view.menu.tabs.home.PagerAdapter_H
 import com.google.android.material.tabs.TabLayout
 
 private const val ARG_PARAM1 = "param1"
@@ -35,7 +36,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val sectionsPagerAdapter = SectionsPagerAdapter(requireContext(), childFragmentManager)
+        val sectionsPagerAdapter = PagerAdapter_H(requireContext(), childFragmentManager)
         val viewPager: ViewPager = view.findViewById(R.id.container)
         viewPager.adapter = sectionsPagerAdapter
         val tabs: TabLayout = view.findViewById(R.id.tabs)
