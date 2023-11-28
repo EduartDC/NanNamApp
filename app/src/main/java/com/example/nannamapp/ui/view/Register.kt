@@ -14,6 +14,7 @@ import com.example.nannamapp.databinding.ActivityRegisterBinding
 import com.example.nannamapp.ui.view.menu.StartMenu
 import com.example.nannamapp.ui.viewModel.LoginViewModel
 import com.example.nannamapp.ui.viewModel.RegisterViewModel
+import java.util.regex.Pattern
 
 class Register : AppCompatActivity() {
 
@@ -43,20 +44,25 @@ class Register : AppCompatActivity() {
                 if(!password.equals(passwordConfirmed)){
                     Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show()
                 }else{
-                    val user =  User("0", firstName, lastname, email, password)
-                    var result = registerViewModel.onCreate(user)
 
-                    if (result != null){
+                    if(isValidEmail(email)){
+                        val user =  User("0", firstName, lastname, email, password)
+                        var result = registerViewModel.onCreate(user)
 
-                        var result = loginViewModel.onCreate(Login(email, password))
-                        //goToMenu()
-                        var message = "¡Ahora eres chef!"
-                        handler.postDelayed({
-                            Toast.makeText(this, message, Toast.LENGTH_LONG).show()
-                        },500)
-                        goToMenu()
-                    }else {
-                        Toast.makeText(this, "Error al registrarse", Toast.LENGTH_SHORT).show()
+                        if (result != null){
+
+                            var result = loginViewModel.onCreate(Login(email, password))
+                            //goToMenu()
+                            var message = "¡Ahora eres chef!"
+                            handler.postDelayed({
+                                Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+                            },500)
+                            goToMenu()
+                        }else {
+                            Toast.makeText(this, "Error al registrarse", Toast.LENGTH_SHORT).show()
+                        }
+                    }else{
+                        Toast.makeText(this, "Ingresa un correo electrónico válido", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -93,6 +99,12 @@ class Register : AppCompatActivity() {
     private fun goToMenu() {
         val i = Intent(this, StartMenu::class.java)
         startActivity(i)
+    }
+
+    private fun isValidEmail(email: String): Boolean {
+        val emailRegex = "^[A-Za-z](.*)([@]{1})(.{1,})(\\.)(.{1,})"
+        val pattern = Pattern.compile(emailRegex)
+        return pattern.matcher(email).matches()
     }
 
 }
