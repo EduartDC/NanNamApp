@@ -1,6 +1,7 @@
 package com.example.nannamapp.ui.view
 
 import android.Manifest
+import android.R
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ContentValues
@@ -15,6 +16,7 @@ import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -49,6 +51,7 @@ class CreateRecipeActivity : AppCompatActivity() {
     private val categoryViewModel: CategoryViewModel by viewModels()
     private val ingredientViewModel: IngredientViewModel by viewModels()
     private val recipeViewModel : RecipeViewModel by viewModels()
+    val portionList = listOf("2", "4", "6", "8", "10", "12", "14", "16", "18", "20")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCreateRecipeBinding.inflate(layoutInflater)
@@ -59,13 +62,22 @@ class CreateRecipeActivity : AppCompatActivity() {
         } catch (e: Exception) {
             Log.e("tronó", e.cause.toString());
         }
-        setupListenerCamera()
-        initCategoriesCB()
-        configureAdapterIngredientsFinded()
-        initIngredientsSearchBar()
-        configureRecycleViewCookingSteps()
-        setListenerBtnSave()
-        //cargar info
+        ingredientViewModel.ingredientModel.observe(this){
+            binding.loadAnimation.visibility = View.GONE
+            setupListenerCamera()
+            initCategoriesCB()
+            configureAdapterIngredientsFinded()
+            initIngredientsSearchBar()
+            configureRecycleViewCookingSteps()
+            setListenerBtnSave()
+            setPortionsSpinner()
+        }
+    }
+
+    private fun setPortionsSpinner() {
+        val portionAdpater = ArrayAdapter(this, R.layout.simple_spinner_item, portionList)
+        portionAdpater.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.spPortions.adapter = portionAdpater
     }
 
     private fun validateImage(): Boolean {
@@ -83,12 +95,12 @@ class CreateRecipeActivity : AppCompatActivity() {
                     if(ingredientSelectedList.getContextIngredientSelectedAdapter().ingredientSelected.size != 0){
                         if(validateMeasureSelected())
                             if(validateSteps())
-                                if(validatePortions())
+                              //  if(validatePortions())
                                     saveRecipe()
-                                else{
-                                    Toast.makeText(this,"Se necesita la cantidad de porciones",Toast.LENGTH_SHORT).show()
-                                    binding.etPortions.text.clear()
-                                }
+                               // else{
+                                   // Toast.makeText(this,"Se necesita la cantidad de porciones",Toast.LENGTH_SHORT).show()
+                                    //binding.etPortions.text.clear()
+                                //}
                             else
                                 Toast.makeText(this,"ingresa pasos",Toast.LENGTH_SHORT).show()
                         else
@@ -118,7 +130,7 @@ class CreateRecipeActivity : AppCompatActivity() {
             "",
             "00:00:00",
             idMainIngredient,
-            binding.etPortions.text.toString().toInt(),
+            binding.spPortions.selectedItem.toString().toInt(),
             imageViewToByteArray()
         )
         var instructions : MutableList<CookinginstructionDomain> = mutableListOf()
@@ -252,10 +264,10 @@ class CreateRecipeActivity : AppCompatActivity() {
 
  */
     //valida que el string sea numerico
-    private fun validatePortions(): Boolean {
+    /*private fun validatePortions(): Boolean {
         val regex = """^-?[1-9]\d*$""".toRegex()
         return regex.matches(binding.etPortions.text)
-    }
+    }*/
 
     fun validateMeasureSelected (): Boolean{
         var band :Boolean = true

@@ -87,7 +87,7 @@ class IngredientFindedAdapater : RecyclerView.Adapter<IngredientFindedAdapater.I
                     } else
                         Toast.makeText(
                             contextActivity,
-                            "Este ingrediente ay se encuentra seleccioando",
+                            "Este ingrediente ya se encuentra seleccioando",
                             Toast.LENGTH_SHORT
                         ).show()
                     binding.SearchBar.text.clear()
