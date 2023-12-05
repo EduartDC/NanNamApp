@@ -1,10 +1,12 @@
 package com.example.nannamapp.ui.view.menu
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.example.nannamapp.R
 import com.example.nannamapp.databinding.ActivityStartMenuBinding
+import com.example.nannamapp.ui.view.CreateRecipeActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class StartMenu : AppCompatActivity() {
@@ -19,6 +21,10 @@ class StartMenu : AppCompatActivity() {
         bottomNavigationView.background = null
         bottomNavigationView.menu.getItem(2).isEnabled = false
         setFragment(HomeFragment())
+
+        binding.fab.setOnClickListener(){
+            goToCreateRecipe()
+        }
 
         binding.bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId) {
@@ -40,6 +46,11 @@ class StartMenu : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
+    }
+
+    private fun goToCreateRecipe() {
+        val i = Intent(this, CreateRecipeActivity::class.java)
+        startActivity(i)
     }
 
 }

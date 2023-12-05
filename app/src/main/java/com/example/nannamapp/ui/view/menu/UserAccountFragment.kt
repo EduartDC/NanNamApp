@@ -1,27 +1,26 @@
 package com.example.nannamapp.ui.view.menu
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import androidx.appcompat.app.AlertDialog
+import androidx.cardview.widget.CardView
+import androidx.fragment.app.Fragment
+import androidx.viewpager.widget.ViewPager
 import com.example.nannamapp.R
+import com.example.nannamapp.ui.view.IngredientListActivity
 import com.example.nannamapp.ui.view.MainActivity
+import com.example.nannamapp.ui.view.SelectPreferencesActivity
+import com.google.android.material.tabs.TabLayout
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [UserAccountFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class UserAccountFragment : Fragment() {
-    // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
@@ -34,31 +33,49 @@ class UserAccountFragment : Fragment() {
     }
 
     override fun onCreateView(
+
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_user_account, container, false)
 
-        val logOutButton = view.findViewById<Button>(R.id.logOutButton)
+        val dietaryPreferencesCardView: CardView = view.findViewById(R.id.DietaryPreferences)
+        val logOutCardView: CardView = view.findViewById(R.id.LogOut)
 
-        logOutButton.setOnClickListener {
-            goToLogin()
+        dietaryPreferencesCardView.setOnClickListener {
+            val intent = Intent(requireContext(), SelectPreferencesActivity::class.java)
+            startActivity(intent)
+        }
+
+
+        logOutCardView.setOnClickListener {
+            showLogoutConfirmationDialog()
         }
 
         return view
     }
 
+    private fun showLogoutConfirmationDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Cerrar Sesión")
+        builder.setMessage("¿Estás de acuerdo en cerrar sesión?")
+        builder.setPositiveButton("Sí") { _: DialogInterface, _: Int ->
+            logoutAndRestartApp()
+        }
+        builder.setNegativeButton("No") { dialog: DialogInterface, _: Int ->
+            dialog.dismiss()
+        }
+        builder.show()
+    }
+
+    private fun logoutAndRestartApp() {
+        val intent = Intent(requireContext(), MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        startActivity(intent)
+        requireActivity().finish()
+    }
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment UserAccountFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
+                @JvmStatic
         fun newInstance(param1: String, param2: String) =
             UserAccountFragment().apply {
                 arguments = Bundle().apply {
@@ -67,10 +84,4 @@ class UserAccountFragment : Fragment() {
                 }
             }
     }
-
-    private fun goToLogin() {
-        val i = Intent(requireContext(), MainActivity::class.java)
-        startActivity(i)
-    }
-
 }
