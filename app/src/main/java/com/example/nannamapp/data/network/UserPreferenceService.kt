@@ -4,8 +4,10 @@ import com.example.namnam.data.network.APIClient
 import com.example.nannamapp.core.RetrofitHelper
 import com.example.nannamapp.data.model.GetPreferenceResponse
 import com.example.nannamapp.data.model.ReviewDomain
+import com.example.nannamapp.data.model.SetPreferenceResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import retrofit2.Response
 
 class UserPreferenceService {
     private val retrofit = RetrofitHelper.getRetrofit()
@@ -27,7 +29,21 @@ class UserPreferenceService {
         }
     }
 
-
+    suspend fun setUserPreferenceResponse(setUserPreference : SetPreferenceResponse): Int {
+        return withContext(Dispatchers.IO) {
+            var code : Int = 0
+            try {
+                val response = retrofit.create(APIClient::class.java).setUserPreference(setUserPreference)
+                // response.errorBody()?.string()?.let { Log.d("Mensaje de la api", it) }
+               // if (response.isSuccessful)
+                    code = response.code()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                code = 500
+            }
+            code
+        }
+    }
 
 
 
