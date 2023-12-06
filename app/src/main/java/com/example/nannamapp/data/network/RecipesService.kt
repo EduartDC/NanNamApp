@@ -45,14 +45,17 @@ class RecipesService {
             var body = GetRecipeResponse()
             try {
                 val response = retrofit.create(APIClient::class.java).getRecipe(idRecipe)
-                code = response.code()
-                body = response.body() ?: GetRecipeResponse()
-                Pair(code,body)
+                if (response.isSuccessful) {
+                    code = response.code()
+                    body = response.body() ?: GetRecipeResponse()
+                }
+                else{
+                    code = response.code()
+                }
             }catch (e : Exception){
                 code = 500
-                Pair(code,body)
             }
-
+            Pair(code, body)
         }
     }
     suspend fun editRecipe(newRecipe : NewRecipePost): Int {
@@ -61,8 +64,12 @@ class RecipesService {
             Log.d("DENTRO DE SERVICE" ,"SI")
             try {
                 val response = retrofit.create(APIClient::class.java).updateRecipe(newRecipe)
-                if (response.isSuccessful)
+                if (response.isSuccessful) {
                     code = 200
+                }
+                else{
+                    code = response.code()
+                }
             } catch (e: Exception) {
                 e.printStackTrace()
                 code = 500
