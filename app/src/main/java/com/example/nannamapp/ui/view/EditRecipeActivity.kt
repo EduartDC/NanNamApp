@@ -1,6 +1,7 @@
 package com.example.nannamapp.ui.view
 
 import android.Manifest
+import android.R
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ContentValues
@@ -16,6 +17,7 @@ import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -34,6 +36,7 @@ import com.example.nannamapp.data.model.NewRecipePost
 import com.example.nannamapp.data.model.RecipeHasIngredient
 import com.example.nannamapp.data.model.RecipeProvider
 import com.example.nannamapp.databinding.ActivityEditRecipeBinding
+import com.example.nannamapp.ui.view.menu.StartMenu
 import com.example.nannamapp.ui.viewModel.CategoryViewModel
 import com.example.nannamapp.ui.viewModel.IngredientViewModel
 import com.example.nannamapp.ui.viewModel.RecipeViewModel
@@ -52,12 +55,14 @@ class EditRecipeActivity : AppCompatActivity() {
     private val categoryViewModel: CategoryViewModel by viewModels()
     private val ingredientViewModel: IngredientViewModel by viewModels()
     private val recipeViewModel : RecipeViewModel by viewModels()
+    val portionList = listOf("2", "4", "6", "8", "10", "12", "14", "16", "18", "20")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEditRecipeBinding.inflate(layoutInflater)
         setContentView(binding.root)
         var idRecipe = "RIJT6I55VQ"
         getRecipe(idRecipe)
+
         if(recipeViewModel.httpCodegetRecipe == 200) {
             try {
                 categoryViewModel.onCreate()
@@ -65,6 +70,8 @@ class EditRecipeActivity : AppCompatActivity() {
             } catch (e: Exception) {
                 Log.e("tronó", e.cause.toString());
             }
+            binding.loadAnimation.visibility = View.GONE
+            setPortionsSpinner()
             setupListenerCamera()
             initCategoriesCB()
             configureAdapterIngredientsFinded()
@@ -76,12 +83,19 @@ class EditRecipeActivity : AppCompatActivity() {
         else{
             //mandar a otra ventana o algo
             Toast.makeText(this,"ocurrio un fallo: " + recipeViewModel.httpCodegetRecipe,Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, StartMenu::class.java)
+            startActivity(intent)
         }
 
     }
     private fun getRecipe(idRecipe : String) {
         recipeViewModel.idRecipe = idRecipe
         recipeViewModel.getRecipe()
+    }
+    private fun setPortionsSpinner() {
+        val portionAdpater = ArrayAdapter(this, R.layout.simple_spinner_item, portionList)
+        portionAdpater.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.spPortions.adapter = portionAdpater
     }
     private fun setListenerGetRecipe() {
         recipeViewModel.getRecipeViewModel.observe(this){
@@ -101,8 +115,7 @@ class EditRecipeActivity : AppCompatActivity() {
         val name:String = RecipeProvider.recipeResponse.recipe.recipeName
         binding.recipeName.setText(name)
         val imageUri = RecipeProvider.recipeResponse.recipe.imageRecipeURL
-        binding.etPortions.setText(RecipeProvider.recipeResponse.recipe.portion.toString())
-
+        binding.spPortions.setSelection(portionList.indexOf(RecipeProvider.recipeResponse.recipe.portion.toString()))
 
         try {
             CoroutineScope(Dispatchers.IO).launch {
@@ -156,13 +169,7 @@ class EditRecipeActivity : AppCompatActivity() {
                     if(ingredientSelectedList.getContextIngredientSelectedAdapter().ingredientSelected.size != 0){
                         if(validateMeasureSelected())
                             if(validateSteps())
-                                if(validatePortions())
                                     saveRecipe()
-                                else{
-                                    Toast.makeText(this,"Se necesita la cantidad de porciones",
-                                        Toast.LENGTH_SHORT).show()
-                                    binding.etPortions.text.clear()
-                                }
                             else
                                 Toast.makeText(this,"ingresa pasos", Toast.LENGTH_SHORT).show()
                         else
@@ -192,7 +199,7 @@ class EditRecipeActivity : AppCompatActivity() {
             "",
             "00:00:00",
             idMainIngredient,
-            binding.etPortions.text.toString().toInt(),
+            binding.spPortions.selectedItem.toString().toInt(),
             imageViewToByteArray()
         )
         var instructions : MutableList<CookinginstructionDomain> = mutableListOf()
@@ -324,11 +331,6 @@ class EditRecipeActivity : AppCompatActivity() {
 
 
  */
-    //valida que el string sea numerico
-    private fun validatePortions(): Boolean {
-        val regex = """^-?[1-9]\d*$""".toRegex()
-        return regex.matches(binding.etPortions.text)
-    }
 
     fun validateMeasureSelected (): Boolean{
         var band :Boolean = true

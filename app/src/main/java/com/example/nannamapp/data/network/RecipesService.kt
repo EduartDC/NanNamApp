@@ -12,16 +12,27 @@ import kotlinx.coroutines.withContext
 class RecipesService {
     private val retrofit = RetrofitHelper.getRetrofit()
 
-    suspend fun getCookBook(idUser: String): List<Recipe> {
+    suspend fun getCookBook(idUser: String): Pair<Int, List<Recipe>>{
         return withContext(Dispatchers.IO) {
+            var code : Int = 0
+            var body = emptyList<Recipe>()
             try {
                 val response = retrofit.create(APIClient::class.java).getCookBook(idUser)
-                response.body() ?: emptyList()
+                if (response.isSuccessful) {
+                    code = response.code()
+                    body = response.body() ?: emptyList()
+                }
+                else{
+                    code = response.code()
+                }
             } catch (e: Exception) {
                 e.printStackTrace()
-                emptyList()
+                code = 500
+
             }
+            Pair(code, body)
         }
+
     }
     suspend fun pushRecipe(newRecipe : NewRecipePost): Int {
         return withContext(Dispatchers.IO) {

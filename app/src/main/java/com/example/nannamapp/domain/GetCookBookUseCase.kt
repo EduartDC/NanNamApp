@@ -6,5 +6,5 @@ import com.example.nannamapp.data.RecipesRepository
 class GetCookBookUseCase(var idUser : String) {
     private val repository = RecipesRepository()
 
-    suspend operator fun invoke(): List<Recipe>? = repository.getCookBook(idUser)
+    suspend operator fun invoke(): Int = repository.getCookBook(idUser)
 }
