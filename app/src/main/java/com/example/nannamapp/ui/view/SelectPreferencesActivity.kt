@@ -58,7 +58,7 @@ class SelectPreferencesActivity : AppCompatActivity() {
         preferencesViewModel.getUserPreferenceViewModel.observe(this){
             binding.loadAnimation.visibility = View.GONE
             if(preferencesViewModel.httpCodegetUserPreference == 200){
-                //Toast.makeText(this,"si jaló: " + UserPreferenceProvider.prefererence.userpreferences.size,Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,"si jaló: " + UserPreferenceProvider.prefererence.userpreferences.size,Toast.LENGTH_SHORT).show()
                 loadInformation()
             }else{
                 Toast.makeText(this,"Hubo un problema",Toast.LENGTH_SHORT).show()

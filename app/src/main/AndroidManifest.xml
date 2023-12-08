@@ -23,16 +23,18 @@
         android:theme="@style/Theme.NanNamApp"
         tools:targetApi="31">
 
-
+        <activity
+            android:name=".ui.view.menu.StartMenu"
+            android:exported="false"  />
         <activity
             android:name=".ui.view.ShowRecipeActivity"
             android:exported="false"  />
         <activity
             android:name=".ui.view.CreateRecipeActivity"
             android:exported="false"  />
-        <activity
+        <!-- <activity
             android:name=".ui.view.SelectPreferencesActivity"
-            android:exported="false"  />
+            android:exported="false"  /> -->
 
         <activity
             android:name=".ui.view.IngredientListActivity"

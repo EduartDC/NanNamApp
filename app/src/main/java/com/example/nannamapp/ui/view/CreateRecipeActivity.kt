@@ -5,6 +5,7 @@ import android.R
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ContentValues
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -20,6 +21,7 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.lifecycle.Observer
@@ -53,6 +55,7 @@ class CreateRecipeActivity : AppCompatActivity() {
     private val recipeViewModel : RecipeViewModel by viewModels()
     val portionList = listOf("2", "4", "6", "8", "10", "12", "14", "16", "18", "20")
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         binding = ActivityCreateRecipeBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -63,14 +66,28 @@ class CreateRecipeActivity : AppCompatActivity() {
             Log.e("tronó", e.cause.toString());
         }
         ingredientViewModel.ingredientModel.observe(this){
-            binding.loadAnimation.visibility = View.GONE
-            setupListenerCamera()
-            initCategoriesCB()
-            configureAdapterIngredientsFinded()
-            initIngredientsSearchBar()
-            configureRecycleViewCookingSteps()
-            setListenerBtnSave()
-            setPortionsSpinner()
+
+            if(ingredientViewModel.httpCodegetIngredients == 200)
+            {
+                setupListenerCamera()
+                initCategoriesCB()
+                configureAdapterIngredientsFinded()
+                initIngredientsSearchBar()
+                configureRecycleViewCookingSteps()
+                setListenerBtnSave()
+                setPortionsSpinner()
+                binding.loadAnimation.visibility = View.GONE
+            }else
+            {
+                binding.loadAnimation.visibility = View.GONE
+                val builder = AlertDialog.Builder(this)
+                builder.setMessage("Error de conexion")
+                    .setPositiveButton("Cerrar") { dialog: DialogInterface, which: Int ->
+                        // aqui deberia estar un metodo para cerrar la GUI
+                        dialog.dismiss()
+                    }.show()
+            }
+
         }
     }
 
