@@ -12,10 +12,10 @@ import com.example.nannamapp.data.network.RecipesService
 class RecipesRepository {
     private val api = RecipesService()
 
-    suspend fun getCookBook(idUser: String): List<Recipe> {
+    suspend fun getCookBook(idUser: String): Int {
         val response = api.getCookBook(idUser)
-        RecipeProvider.cookBook = response
-        return response
+        RecipeProvider.cookBook = response.second
+        return response.first
     }
 
     suspend fun pushRecipe(newRecipe: NewRecipePost): Int {

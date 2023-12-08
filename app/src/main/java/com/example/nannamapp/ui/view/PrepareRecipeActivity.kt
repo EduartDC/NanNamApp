@@ -71,7 +71,9 @@ class PrepareRecipeActivity : AppCompatActivity() {
         getRecipeViewModel.getRecipeViewModel.observe(this){
             if(getRecipeViewModel.httpCodegetRecipe == 200){
                 loadInfoRecipe()
+                binding.loadAnimation.visibility = View.GONE
             }else{
+                //ventana de error
                 Toast.makeText(this,"ocurrio un fallo: " + getRecipeViewModel.httpCodegetRecipe,Toast.LENGTH_SHORT).show()
 
             }

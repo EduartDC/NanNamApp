@@ -1,6 +1,7 @@
 package com.example.nannamapp.ui.view
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.nannamapp.data.model.RecipeProvider
 import com.example.nannamapp.databinding.ActivityConsultCookbookBinding
 import com.example.nannamapp.ui.viewModel.CookBookViewModel
 
@@ -34,12 +36,15 @@ class ConsultCookbookActivity : AppCompatActivity(), CookBookAdapter.OnCardClick
         binding.recyclerview.adapter = recipeAdapter
 
         // Observa los cambios en la lista de recetas
-        cookbookViewModel.cookBookModel.observe(this, Observer { recipes ->
-            recipes?.let {
-                recipeAdapter.setData(it)
-            }
+        if(cookbookViewModel.httpCodeRecipe == 200) {
 
-        })
+            cookbookViewModel.cookBookModel.observe(this, Observer { recipes ->
+                recipes?.let {
+                    recipeAdapter.setData(RecipeProvider.cookBook)
+                }
+                binding.loadAnimation.visibility = View.GONE
+            })
+        }
     }
 
     override fun onCardClick(position: Int) {

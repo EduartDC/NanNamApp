@@ -9,12 +9,16 @@ import com.example.nannamapp.domain.GetCookBookUseCase
 import kotlinx.coroutines.launch
 
 class CookBookViewModel: ViewModel() {
-    val cookBookModel = MutableLiveData<List<Recipe>?>()
+    var httpCodeRecipe: Int = 0
+    val cookBookModel = MutableLiveData<Int>()
+
+    //obtener el id del usuario
     var getCookbookUseCase = GetCookBookUseCase("123")
     fun onCreate() {
         viewModelScope.launch {
             try {
                 val result = getCookbookUseCase()
+                httpCodeRecipe = result
                 cookBookModel.postValue(result)
             } catch (e: Exception) {
                 e.printStackTrace()
