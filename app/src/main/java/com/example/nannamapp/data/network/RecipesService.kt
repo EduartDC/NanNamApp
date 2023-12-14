@@ -72,14 +72,16 @@ class RecipesService {
     suspend fun editRecipe(newRecipe : NewRecipePost): Int {
         return withContext(Dispatchers.IO) {
             var code : Int = 0
-            Log.d("DENTRO DE SERVICE" ,"SI")
             try {
+
                 val response = retrofit.create(APIClient::class.java).updateRecipe(newRecipe)
                 if (response.isSuccessful) {
+
                     code = 200
                 }
                 else{
                     code = response.code()
+
                 }
             } catch (e: Exception) {
                 e.printStackTrace()

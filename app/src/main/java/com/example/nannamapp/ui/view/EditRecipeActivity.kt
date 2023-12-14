@@ -5,6 +5,7 @@ import android.R
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ContentValues
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -21,6 +22,7 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.FileProvider
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -56,37 +58,44 @@ class EditRecipeActivity : AppCompatActivity() {
     private val ingredientViewModel: IngredientViewModel by viewModels()
     private val recipeViewModel : RecipeViewModel by viewModels()
     val portionList = listOf("2", "4", "6", "8", "10", "12", "14", "16", "18", "20")
+    var idRecipe : String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEditRecipeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        var idRecipe = "RIJT6I55VQ"
-        getRecipe(idRecipe)
 
-        if(recipeViewModel.httpCodegetRecipe == 200) {
-            try {
-                categoryViewModel.onCreate()
-                ingredientViewModel.onCreate()
-            } catch (e: Exception) {
-                Log.e("tronó", e.cause.toString());
+        try {
+            idRecipe = "r1"
+            getRecipe(idRecipe)
+            categoryViewModel.onCreate()
+            ingredientViewModel.onCreate()
+        } catch (e: Exception) {
+            Log.e("tronó", e.cause.toString());
+        }
+
+        recipeViewModel.getRecipeViewModel.observe(this, {
+            if (recipeViewModel.httpCodegetRecipe == 200) {
+                binding.loadAnimation.visibility = View.GONE
+                setPortionsSpinner()
+                setupListenerCamera()
+                initCategoriesCB()
+                configureAdapterIngredientsFinded()
+                initIngredientsSearchBar()
+                configureRecycleViewCookingSteps()
+                setListenerBtnSave()
+                setListenerGetRecipe()
+            } else {
+                //mandar a otra ventana o algo
+                val builder = AlertDialog.Builder(this)
+                builder.setMessage("Error de conexion")
+                    .setPositiveButton("Cerrar") { dialog: DialogInterface, which: Int ->
+                        // aqui deberia estar un metodo para cerrar la GUI
+                        dialog.dismiss()
+                    }.show()
+                //val intent = Intent(this, StartMenu::class.java)
+                //startActivity(intent)
             }
-            binding.loadAnimation.visibility = View.GONE
-            setPortionsSpinner()
-            setupListenerCamera()
-            initCategoriesCB()
-            configureAdapterIngredientsFinded()
-            initIngredientsSearchBar()
-            configureRecycleViewCookingSteps()
-            setListenerBtnSave()
-            setListenerGetRecipe()
-        }
-        else{
-            //mandar a otra ventana o algo
-            Toast.makeText(this,"ocurrio un fallo: " + recipeViewModel.httpCodegetRecipe,Toast.LENGTH_SHORT).show()
-            val intent = Intent(this, StartMenu::class.java)
-            startActivity(intent)
-        }
-
+        })
     }
     private fun getRecipe(idRecipe : String) {
         recipeViewModel.idRecipe = idRecipe
@@ -101,6 +110,7 @@ class EditRecipeActivity : AppCompatActivity() {
         recipeViewModel.getRecipeViewModel.observe(this){
             if(recipeViewModel.httpCodegetRecipe == 200){
                 loadInfoRecipe()
+
             }else{
                 Toast.makeText(this,"ocurrio un fallo: " + recipeViewModel.httpCodegetRecipe,Toast.LENGTH_SHORT).show()
 
@@ -117,26 +127,30 @@ class EditRecipeActivity : AppCompatActivity() {
         val imageUri = RecipeProvider.recipeResponse.recipe.imageRecipeURL
         binding.spPortions.setSelection(portionList.indexOf(RecipeProvider.recipeResponse.recipe.portion.toString()))
 
-        try {
-            CoroutineScope(Dispatchers.IO).launch {
-                val bitmap = Glide.with(this@EditRecipeActivity)
-                    .asBitmap()
-                    .load(imageUri)
-                    .submit().get()
 
-                withContext(Dispatchers.Main) {
-                    binding.imgRecipe.setImageBitmap(bitmap)
+            CoroutineScope(Dispatchers.IO).launch {
+                try{
+                    val bitmap = Glide.with(this@EditRecipeActivity)
+                        .asBitmap()
+                        .load(imageUri)
+                        .submit().get()
+
+
+                    withContext(Dispatchers.Main) {
+                        binding.imgRecipe.setImageBitmap(bitmap)
+                    }
+                } catch (e: Exception) {
+
+                    Log.e("EditRecipeActivity", e.message.toString())
                 }
             }
-        } catch (e: Exception) {
-            Log.e("EditRecipeActivity", e.message.toString())
-        }
+
         binding.cbCategories.setSelection(CategoryProvider.categories.indexOf(RecipeProvider.recipeResponse.category))
         var mainIngredient = ""
         for(position in 0 .. RecipeProvider.recipeResponse.ingredientList.count()-1){
             val ingredient = RecipeProvider.recipeResponse.ingredientList[position]
-            val measure = RecipeProvider.recipeResponse.ingredientAmounList[position]
-            adapterIngredientSelected.amountIngredientTest = measure.amount
+
+            //adapterIngredientSelected.amountIngredientTest = measure.amount
             adapterIngredientSelected.addIngredientSelected(ingredient)
             adapterRVIngredientsFinded.mainIngerdientsList.add(ingredient.ingredientname)
 
@@ -144,14 +158,28 @@ class EditRecipeActivity : AppCompatActivity() {
             if(idmainIngredient.equals(ingredient.idIngredient)){
                 mainIngredient = ingredient.ingredientname
             }
-            adapterRVIngredientsFinded.setSpinnerMainIngredient()
+
         }
+        adapterRVIngredientsFinded.setSpinnerMainIngredient()
+        adapterIngredientSelected.notifyDataSetChanged()
+
         binding.spMainIngredient.setSelection(adapterRVIngredientsFinded.mainIngerdientsList.indexOf(mainIngredient))
         for(position in 0..RecipeProvider.recipeResponse.stepList.count()-1){
             val step = RecipeProvider.recipeResponse.stepList[position]
             adaprteSteps.addStep(step.instruction)
         }
-
+        val measure = RecipeProvider.recipeResponse.ingredientAmounList
+        val ingredientsSelectedAdapter = binding.rvIngredientSelected.adapter as EditIngredientSelectedAdapter
+        binding.rvIngredientSelected.post {
+            for (position in 0 until ingredientsSelectedAdapter.itemCount) {
+                val viewHolder = binding.rvIngredientSelected.findViewHolderForAdapterPosition(position) as? EditIngredientSelectedAdapter.EditIngredientSelectedViewHolder
+                // Verifica si el ViewHolder es nulo
+                if (viewHolder != null) {
+                    viewHolder.etMeasure.setText(measure[position].amount.toString())
+                }
+            }
+        }
+        ingredientsSelectedAdapter.notifyDataSetChanged()
     }
 
     private fun validateImage(): Boolean {
@@ -200,7 +228,7 @@ class EditRecipeActivity : AppCompatActivity() {
             "00:00:00",
             idMainIngredient,
             binding.spPortions.selectedItem.toString().toInt(),
-            imageViewToByteArray()
+            //imageViewToByteArray()
         )
         var instructions : MutableList<CookinginstructionDomain> = mutableListOf()
         //lista de pasos en la receta
@@ -213,8 +241,8 @@ class EditRecipeActivity : AppCompatActivity() {
                 var step : CookinginstructionDomain = CookinginstructionDomain(
                     "",
                     viewHolder.stepTextView.text.toString(),
-                    position,
-                    ""
+                    position + 1,
+                    idRecipe
                 )
                 instructions.add(step)
             }
@@ -239,7 +267,7 @@ class EditRecipeActivity : AppCompatActivity() {
                     if(item.ingredientname.equals(viewHolder.ingredientTextView.text)){
                         var recipeHasIngerdient : RecipeHasIngredient = RecipeHasIngredient(
                             item.idIngredient,
-                            "",
+                            idRecipe,
                             viewHolder.etMeasure.text.toString().toInt()
                         )
                         recipeHasIngredientList.add(recipeHasIngerdient)
@@ -259,7 +287,7 @@ class EditRecipeActivity : AppCompatActivity() {
         recipeViewModel.newRecipe = newRecipePost
         recipeViewModel.editRecipe()
         recipeViewModel.recipeViewModel.observe(this){
-            if (recipeViewModel.httpCodeCreateRecipe == 200)
+          if (recipeViewModel.httpCodeCreateRecipe == 200)
                 Toast.makeText(this,"TODO BIEN", Toast.LENGTH_SHORT).show()
             else
                 Toast.makeText(this,"TODO MAL: {${recipeViewModel.httpCodeCreateRecipe}}" , Toast.LENGTH_SHORT).show()

@@ -11,9 +11,10 @@ import kotlinx.coroutines.launch
 class CookBookViewModel: ViewModel() {
     var httpCodeRecipe: Int = 0
     val cookBookModel = MutableLiveData<Int>()
+    var idUser : String = "123"
 
-    //obtener el id del usuario
-    var getCookbookUseCase = GetCookBookUseCase("123")
+    //var getCookbookUseCase = GetCookBookUseCase(idUser)
+    val getCookbookUseCase : GetCookBookUseCase by lazy { GetCookBookUseCase(idUser) }
     fun onCreate() {
         viewModelScope.launch {
             try {

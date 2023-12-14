@@ -148,7 +148,7 @@ class CreateRecipeActivity : AppCompatActivity() {
             "00:00:00",
             idMainIngredient,
             binding.spPortions.selectedItem.toString().toInt(),
-            imageViewToByteArray()
+            //imageViewToByteArray()
         )
         var instructions : MutableList<CookinginstructionDomain> = mutableListOf()
         //lista de pasos en la receta
