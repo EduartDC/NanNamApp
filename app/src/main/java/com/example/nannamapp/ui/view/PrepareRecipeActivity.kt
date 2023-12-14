@@ -26,13 +26,20 @@ class PrepareRecipeActivity : AppCompatActivity() {
 
     lateinit var binding : ActivityPrepareRecipeBinding
     private val getRecipeViewModel : RecipeViewModel by viewModels()
+    var idRecipe = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPrepareRecipeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val intent =intent
-        //obtener id de la receta
-        var idRecipe = "r1"
+        val intent = intent
+
+        // Verifica si el intent contiene la clave "key_idRecipe"
+        if (intent.hasExtra("key_idRecipe")) {
+            // Obtiene el valor asociado con la clave "key_idRecipe"
+            idRecipe = intent.getStringExtra("key_idRecipe").toString()
+        }
+
+        //idRecipe = "r1"
         try {
             getRecipe(idRecipe)
         } catch (e: Exception) {
@@ -123,9 +130,11 @@ class PrepareRecipeActivity : AppCompatActivity() {
         val adapterSteps = StepShowRecipeAdapter()
         binding.rvSteps.layoutManager = LinearLayoutManager(this)
         binding.rvSteps.adapter = adapterSteps
-        for(position in 0..RecipeProvider.recipeResponse.stepList.count()-1){
+
+        var sort = RecipeProvider.recipeResponse.stepList.sortedBy { it.step }
+        for(position in 0..sort.count()-1){
             println("asdasdas   " + RecipeProvider.recipeResponse.stepList[position].instruction)
-            adapterSteps.setItem(RecipeProvider.recipeResponse.stepList[position])
+            adapterSteps.setItem(sort[position])
         }
 
     }
