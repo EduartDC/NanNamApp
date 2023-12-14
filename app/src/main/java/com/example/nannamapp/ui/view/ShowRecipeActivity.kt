@@ -10,6 +10,8 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.nannamapp.data.model.JsonResult
+import com.example.nannamapp.data.model.LoginProvider
 import com.example.nannamapp.data.model.RecipeProvider
 import com.example.nannamapp.data.model.ReviewDomain
 import com.example.nannamapp.data.model.ReviewProvider
@@ -34,8 +36,9 @@ class ShowRecipeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         super.onCreate(savedInstanceState)
         binding = ActivityShowRecipeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        //varibales para que me pase el id de la receta
-        val intent =intent
+        val intent = intent
+        idRecipeTest = intent.getStringExtra("key_idRecipe").toString()
+        idUserTest = LoginProvider.login!!.idUser
         getRecipe(idRecipeTest)
         setListenerGetRecipe()
         listenerPrepareRecipe()
