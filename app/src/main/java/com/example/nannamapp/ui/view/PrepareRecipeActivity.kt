@@ -1,6 +1,7 @@
 package com.example.nannamapp.ui.view
 
 import android.R
+import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -9,6 +10,7 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.nannamapp.data.model.RecipeProvider
@@ -29,8 +31,13 @@ class PrepareRecipeActivity : AppCompatActivity() {
         binding = ActivityPrepareRecipeBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val intent =intent
-        var idRecipe = "RIJT6I55VQ"
-        getRecipe(idRecipe)
+        //obtener id de la receta
+        var idRecipe = "r1"
+        try {
+            getRecipe(idRecipe)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
         setListenerGetRecipe()
 
         val spinner: Spinner = findViewById(binding.cbPortions.id)
@@ -74,7 +81,12 @@ class PrepareRecipeActivity : AppCompatActivity() {
                 binding.loadAnimation.visibility = View.GONE
             }else{
                 //ventana de error
-                Toast.makeText(this,"ocurrio un fallo: " + getRecipeViewModel.httpCodegetRecipe,Toast.LENGTH_SHORT).show()
+                val builder = AlertDialog.Builder(this)
+                builder.setMessage("Error de conexion")
+                    .setPositiveButton("Cerrar") { dialog: DialogInterface, which: Int ->
+                        // aqui deberia estar un metodo para cerrar la GUI
+                        dialog.dismiss()
+                    }.show()
 
             }
         }
@@ -85,13 +97,19 @@ class PrepareRecipeActivity : AppCompatActivity() {
         val imageUri = RecipeProvider.recipeResponse.recipe.imageRecipeURL
 
         CoroutineScope(Dispatchers.IO).launch {
-            val bitmap = Glide.with(this@PrepareRecipeActivity)
-                .asBitmap()
-                .load(imageUri)
-                .submit().get()
+            try {
 
-            withContext(Dispatchers.Main) {
-                binding.ivRecipeImage.setImageBitmap(bitmap)
+
+                val bitmap = Glide.with(this@PrepareRecipeActivity)
+                    .asBitmap()
+                    .load(imageUri)
+                    .submit().get()
+
+                withContext(Dispatchers.Main) {
+                    binding.ivRecipeImage.setImageBitmap(bitmap)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
 

@@ -53,8 +53,8 @@ interface APIClient {
     @POST("Category/SetUserPreference")
     suspend fun setUserPreference(@Body setUserPreferenceResponse: SetPreferenceResponse): Response<Void>
 
-  
-    @PUT("Recipe/UpdateRecipe")
+    @POST("Recipe/PostUpdateRecipe")
+    //suspend fun updateRecipe(): Response<Void>
     suspend fun updateRecipe(@Body newRecipeDomain: NewRecipePost): Response<Void>
   
     @POST("Login/LoginUser")
