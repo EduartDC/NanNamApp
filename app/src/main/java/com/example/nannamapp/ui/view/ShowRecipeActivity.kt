@@ -1,15 +1,20 @@
 package com.example.nannamapp.ui.view
 
+import android.content.DialogInterface
 import android.content.Intent
+import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.nannamapp.data.model.RecipeProvider
 import com.example.nannamapp.data.model.ReviewDomain
 import com.example.nannamapp.data.model.ReviewProvider
 import com.example.nannamapp.databinding.ActivityShowRecipeBinding
+import com.example.nannamapp.ui.view.menu.StartMenu
 import com.example.nannamapp.ui.viewModel.RecipeViewModel
 import com.example.nannamapp.ui.viewModel.ReviewViewModel
 import com.google.gson.Gson
@@ -21,8 +26,10 @@ class ShowRecipeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     lateinit var binding :ActivityShowRecipeBinding
     private val getRecipeViewModel : RecipeViewModel by viewModels()
     private val getReviewViewModel : ReviewViewModel by viewModels()
-    private var idRecipeTest = "r1"//id harcodeado, borrar cuando se haga la navegavilidad con CU buscar receta
-    private var idUserTest = "123"
+
+    private var idRecipeTest = "OWWHFXIPZQ"//id harcodeado, borrar cuando se haga la navegavilidad con CU buscar receta
+    private var idUserTest = "1"//id hardcodeado, borrar cuando cris tenga el id del usuario
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityShowRecipeBinding.inflate(layoutInflater)
@@ -36,6 +43,18 @@ class ShowRecipeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         listenerDeleteRecipe()
         listenerEditRecipe()
         listenerAddReview()
+
+    }
+    private fun getViewMenu(){
+        val i = Intent(this, StartMenu::class.java)
+        startActivity(i)
+    }
+    private fun validateOwnerRecipe() {
+        if(!RecipeProvider.recipeResponse.recipe.user_idUser.equals(idUserTest))
+        {
+            binding.btnEditRecipe.visibility = View.GONE
+            binding.btnDeleteRecipe.visibility = View.GONE
+        }
     }
 
     //USADO POR ALGUIEN MAS
@@ -73,7 +92,7 @@ class ShowRecipeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                 createReview()
             }else
             {
-                Toast.makeText(this,"escoge algun campo",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,"Para publicar una reseña es necesario introducir una reseña y una calificacion",Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -98,28 +117,44 @@ class ShowRecipeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         }
 
         if(bandNewReview)
+        {
+            binding.loadAnimation.visibility = View.VISIBLE
             saveNewRecipe(newReview)
-        else
+        }
+        else{
+            binding.loadAnimation.visibility = View.VISIBLE
             editReview(newReview,idReviewEdited)
+
+        }
 
 
 
     }
 
     private fun editReview(newReview: ReviewDomain, idReviewEdited : String) {
-        println("editando reseña")
+        println("METODO EDIT REVIEW")
+
         newReview.idReview = idReviewEdited
         getReviewViewModel.editReviewDomain = newReview
         getReviewViewModel.editNewReview()
         getReviewViewModel.editReviewViewModel.observe(this){
+            binding.loadAnimation.visibility = View.GONE
             if(getReviewViewModel.httpCodeEditReview == 200){
                 Toast.makeText(this,"reseña editada", Toast.LENGTH_SHORT).show()
                 binding.etReview.text.clear()
                 binding.rbRating.rating = 0f;
                 loadReviews();
             }
-            else
-                Toast.makeText(this,"fallo al editar", Toast.LENGTH_SHORT).show()
+            else{
+                val builder = AlertDialog.Builder(this)
+                builder.setMessage("error de conexión: "+ getReviewViewModel.httpCodeEditReview)
+                    .setPositiveButton("Cerrar") { dialog: DialogInterface, which: Int ->
+                        getViewMenu()
+                        dialog.dismiss()
+                    }.show()
+
+            }
+
 
         }
     }
@@ -135,8 +170,14 @@ class ShowRecipeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                 binding.rbRating.rating = 0f;
                 loadReviews();
             }
-            else
-                Toast.makeText(this,"fallo al registrar", Toast.LENGTH_SHORT).show()
+            else{
+                val builder = AlertDialog.Builder(this)
+                builder.setMessage("error de conexión: "+ getReviewViewModel.httpCodeSetReview)
+                    .setPositiveButton("Cerrar") { dialog: DialogInterface, which: Int ->
+                        getViewMenu()
+                        dialog.dismiss()
+                    }.show()
+            }
 
         }
     }
@@ -157,17 +198,20 @@ class ShowRecipeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     private fun setListenerGetRecipe() {
         getRecipeViewModel.getRecipeViewModel.observe(this){
             if(getRecipeViewModel.httpCodegetRecipe == 200){
-                Toast.makeText(this,"Informacion recuperada " + RecipeProvider.recipeResponse.recipe.idMainIngredient,Toast.LENGTH_SHORT).show()
+             //   Toast.makeText(this,"Informacion recuperada " + RecipeProvider.recipeResponse.recipe.idMainIngredient,Toast.LENGTH_SHORT).show()
                 if(loadReviews()){
                     loadInfoRecipe()
-
+                    validateOwnerRecipe()
+                    binding.loadAnimation.visibility = View.GONE
                 }
-
-
-
             }else{
-                Toast.makeText(this,"ocurrio un fallo: " + getRecipeViewModel.httpCodegetRecipe,Toast.LENGTH_SHORT).show()
-
+              //  Toast.makeText(this,"ocurrio un fallo: " + getRecipeViewModel.httpCodegetRecipe,Toast.LENGTH_SHORT).show()
+                val builder = AlertDialog.Builder(this)
+                builder.setMessage("error de conexión: "+ getRecipeViewModel.httpCodegetRecipe )
+                    .setPositiveButton("Cerrar") { dialog: DialogInterface, which: Int ->
+                        getViewMenu()
+                        dialog.dismiss()
+                    }.show()
             }
         }
     }
@@ -178,12 +222,15 @@ class ShowRecipeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         getReviewViewModel.getReviews()
         getReviewViewModel.getReviewViewModel.observe(this){
             if(getReviewViewModel.httpCodegetReview == 200){
-                //Toast.makeText(this,"BIEN: " ,Toast.LENGTH_SHORT).show()
                 setReviewsConfig()
                 calculateAverageRating()
             }else{
-                Toast.makeText(this,"Fallo al recuperar reseñas: ",Toast.LENGTH_SHORT).show()
-
+                val builder = AlertDialog.Builder(this)
+                builder.setMessage("error de conexión: "+ getRecipeViewModel.httpCodegetRecipe )
+                    .setPositiveButton("Cerrar") { dialog: DialogInterface, which: Int ->
+                        getViewMenu()
+                        dialog.dismiss()
+                    }.show()
             }
         }
         return band
@@ -201,30 +248,12 @@ class ShowRecipeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         }
     }
 
-    //metodo solo para comprobar que me regrese las cosas,despues lo debo borrar
-    private fun impresionPrueba() {
-        println("INFORMACION DE OBJETO RECIPE")
-        println("idRecipe: " +RecipeProvider.recipeResponse.recipe.idRecipe)
-        println("recipeName: " +RecipeProvider.recipeResponse.recipe.recipeName)
-        println("imageRecipeURL: " +RecipeProvider.recipeResponse.recipe.imageRecipeURL)
-        println("User_idUser: " +RecipeProvider.recipeResponse.recipe.user_idUser)
-        println("idMainIngredient: " +RecipeProvider.recipeResponse.recipe.idMainIngredient)
-        println("preparationTime: " +RecipeProvider.recipeResponse.recipe.preparationTime)
-        println("Portion: " +RecipeProvider.recipeResponse.recipe.portion)
 
-
-
-        println("LISTA DE INSTRUCCIONES")
-        println("IdCookingInstruction: " + RecipeProvider.recipeResponse.stepList[0].idCookingInstruction)
-        println("RecipeIdRecipe: " + RecipeProvider.recipeResponse.stepList[0].recipeIdRecipe)
-        println("Instruction: " + RecipeProvider.recipeResponse.stepList[0].instruction)
-        println("Step: " + RecipeProvider.recipeResponse.stepList[0].step)
-    }
 
     private fun loadInfoRecipe() {
         Picasso.get().load(RecipeProvider.recipeResponse.recipe.imageRecipeURL).into(binding.imgRecipe)
         binding.tvRecipeName.text = RecipeProvider.recipeResponse.recipe.recipeName
-
+        println("URL: " + RecipeProvider.recipeResponse.recipe.imageRecipeURL)
 
         for (item in RecipeProvider.recipeResponse.ingredientList) {
             if (item.idIngredient == RecipeProvider.recipeResponse.recipe.idMainIngredient) {
@@ -263,7 +292,8 @@ class ShowRecipeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
             sumAverage += ReviewProvider.reviews[position].rate
         }
         val average : Float = sumAverage.toFloat() / ReviewProvider.reviews.count()
-        binding.tvAverage.text =  ""+binding.tvAverage.text + average.toString() + "/5"
+        binding.tvAverage.text =  "promedio: " + average.toString() + "/5"
+
 
     }
 

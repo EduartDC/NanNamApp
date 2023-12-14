@@ -1,6 +1,7 @@
 package com.example.nannamapp.ui.view
 
 import android.content.DialogInterface
+import android.content.Intent
 import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -14,6 +15,7 @@ import com.example.nannamapp.data.model.GetPreferenceResponse
 import com.example.nannamapp.data.model.SetPreferenceResponse
 import com.example.nannamapp.data.model.UserPreferenceProvider
 import com.example.nannamapp.databinding.ActivitySelectPreferencesBinding
+import com.example.nannamapp.ui.view.menu.StartMenu
 import com.example.nannamapp.ui.viewModel.UserPreferenceViewModel
 
 class SelectPreferencesActivity : AppCompatActivity() {
@@ -42,9 +44,9 @@ class SelectPreferencesActivity : AppCompatActivity() {
             }else
             {
                 val builder = AlertDialog.Builder(this)
-                builder.setMessage("ocurrio un error"+ preferencesViewModel.httpCodeSetUserPreference)
+                builder.setMessage("Error de conexion: "+ preferencesViewModel.httpCodeSetUserPreference)
                     .setPositiveButton("Cerrar") { dialog: DialogInterface, which: Int ->
-                        // aqui deberia estar un metodo para cerrar la GUI
+                        getViewMenu()
                         dialog.dismiss()
                     }.show()
             }
@@ -58,12 +60,22 @@ class SelectPreferencesActivity : AppCompatActivity() {
         preferencesViewModel.getUserPreferenceViewModel.observe(this){
             binding.loadAnimation.visibility = View.GONE
             if(preferencesViewModel.httpCodegetUserPreference == 200){
-                Toast.makeText(this,"si jaló: " + UserPreferenceProvider.prefererence.userpreferences.size,Toast.LENGTH_SHORT).show()
+             // Toast.makeText(this,"si jaló: " + UserPreferenceProvider.prefererence.userpreferences.size,Toast.LENGTH_SHORT).show()
                 loadInformation()
             }else{
-                Toast.makeText(this,"Hubo un problema",Toast.LENGTH_SHORT).show()
+                val builder = AlertDialog.Builder(this)
+                builder.setMessage("Error de conexion: "+ preferencesViewModel.httpCodeSetUserPreference)
+                    .setPositiveButton("Cerrar") { dialog: DialogInterface, which: Int ->
+                        getViewMenu()
+                        dialog.dismiss()
+                    }.show()
             }
         }
+    }
+
+    private fun getViewMenu(){
+        val i = Intent(this, StartMenu::class.java)
+        startActivity(i)
     }
 
 
