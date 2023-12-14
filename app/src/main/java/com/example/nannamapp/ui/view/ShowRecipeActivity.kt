@@ -21,7 +21,7 @@ class ShowRecipeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     lateinit var binding :ActivityShowRecipeBinding
     private val getRecipeViewModel : RecipeViewModel by viewModels()
     private val getReviewViewModel : ReviewViewModel by viewModels()
-    private var idRecipeTest = "RIJT6I55VQ"//id harcodeado, borrar cuando se haga la navegavilidad con CU buscar receta
+    private var idRecipeTest = "r1"//id harcodeado, borrar cuando se haga la navegavilidad con CU buscar receta
     private var idUserTest = "123"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +41,13 @@ class ShowRecipeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     //USADO POR ALGUIEN MAS
     private fun listenerEditRecipe() {
         binding.btnEditRecipe.setOnClickListener{
+            val intent = Intent(this, EditRecipeActivity::class.java)
 
+            // Agrega el String al Intent como un extra
+            intent.putExtra("key_idRecipe", idRecipeTest)
+
+            // Inicia la nueva Activity
+            startActivity(intent)
         }
     }
     //USADO POR ALGUIEN MAS
@@ -139,6 +145,11 @@ class ShowRecipeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     private fun listenerPrepareRecipe() {
         binding.btnPrepareRecipe.setOnClickListener{
             val intent = Intent(this, PrepareRecipeActivity::class.java)
+
+            // Agrega el String al Intent como un extra
+            intent.putExtra("key_idRecipe", idRecipeTest)
+
+            // Inicia la nueva Activity
             startActivity(intent)
         }
     }

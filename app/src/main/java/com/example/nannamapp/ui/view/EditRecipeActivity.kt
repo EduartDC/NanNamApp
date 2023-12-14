@@ -212,6 +212,18 @@ class EditRecipeActivity : AppCompatActivity() {
         }
     }
 
+    private fun goToViewRecipe() {
+
+        // Crea un Intent
+        val intent = Intent(this, ShowRecipeActivity::class.java)
+
+        // Agrega el String al Intent como un extra
+        intent.putExtra("key_idRecipe", idRecipe)
+
+        // Inicia la nueva Activity
+        startActivity(intent)
+    }
+
     //crea el objeto que será enviado a la api
     private  fun saveRecipe() {
         var idMainIngredient : String = ""
@@ -287,8 +299,9 @@ class EditRecipeActivity : AppCompatActivity() {
         recipeViewModel.newRecipe = newRecipePost
         recipeViewModel.editRecipe()
         recipeViewModel.recipeViewModel.observe(this){
-          if (recipeViewModel.httpCodeCreateRecipe == 200)
-                Toast.makeText(this,"TODO BIEN", Toast.LENGTH_SHORT).show()
+          if (recipeViewModel.httpCodeCreateRecipe == 200) {
+              goToViewRecipe()
+          }
             else
                 Toast.makeText(this,"TODO MAL: {${recipeViewModel.httpCodeCreateRecipe}}" , Toast.LENGTH_SHORT).show()
 
