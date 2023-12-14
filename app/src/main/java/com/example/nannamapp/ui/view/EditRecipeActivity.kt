@@ -65,7 +65,14 @@ class EditRecipeActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         try {
-            idRecipe = "r1"
+            if (intent.hasExtra("key_idRecipe")) {
+                // Obtiene el valor asociado con la clave "key_idRecipe"
+                idRecipe = intent.getStringExtra("key_idRecipe").toString()
+            }
+            else{
+                //regresar a la ventana anterior
+                finish()
+            }
             getRecipe(idRecipe)
             categoryViewModel.onCreate()
             ingredientViewModel.onCreate()
