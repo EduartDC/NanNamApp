@@ -9,4 +9,5 @@ class RecipeDomain (
     var idMainIngredient : String,
     var portion : Int,
     var imageBase : String
+
 )

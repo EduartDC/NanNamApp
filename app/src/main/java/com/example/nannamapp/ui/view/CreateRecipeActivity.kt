@@ -151,7 +151,7 @@ class CreateRecipeActivity : AppCompatActivity() {
             "",
             "00:00:00",
             idMainIngredient,
-            2,
+            binding.spPortions.selectedItem.toString().toInt(),
             compressAndEncodeToBase64()
         )
         var instructions : MutableList<CookinginstructionDomain> = mutableListOf()

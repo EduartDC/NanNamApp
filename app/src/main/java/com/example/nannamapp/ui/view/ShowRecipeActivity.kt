@@ -26,8 +26,10 @@ class ShowRecipeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     lateinit var binding :ActivityShowRecipeBinding
     private val getRecipeViewModel : RecipeViewModel by viewModels()
     private val getReviewViewModel : ReviewViewModel by viewModels()
+
     private var idRecipeTest = "OWWHFXIPZQ"//id harcodeado, borrar cuando se haga la navegavilidad con CU buscar receta
     private var idUserTest = "1"//id hardcodeado, borrar cuando cris tenga el id del usuario
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityShowRecipeBinding.inflate(layoutInflater)
@@ -58,7 +60,13 @@ class ShowRecipeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     //USADO POR ALGUIEN MAS
     private fun listenerEditRecipe() {
         binding.btnEditRecipe.setOnClickListener{
+            val intent = Intent(this, EditRecipeActivity::class.java)
 
+            // Agrega el String al Intent como un extra
+            intent.putExtra("key_idRecipe", idRecipeTest)
+
+            // Inicia la nueva Activity
+            startActivity(intent)
         }
     }
     //USADO POR ALGUIEN MAS
@@ -178,6 +186,11 @@ class ShowRecipeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     private fun listenerPrepareRecipe() {
         binding.btnPrepareRecipe.setOnClickListener{
             val intent = Intent(this, PrepareRecipeActivity::class.java)
+
+            // Agrega el String al Intent como un extra
+            intent.putExtra("key_idRecipe", idRecipeTest)
+
+            // Inicia la nueva Activity
             startActivity(intent)
         }
     }

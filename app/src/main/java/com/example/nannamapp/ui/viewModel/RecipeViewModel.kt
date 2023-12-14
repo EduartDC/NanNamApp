@@ -15,8 +15,10 @@ class RecipeViewModel : ViewModel() {
     var httpCodeCreateRecipe: Int = 0
     lateinit var newRecipeDomain: NewRecipeDomain
     lateinit var newRecipe: NewRecipePost
+
     val createRecipeUseCase: PushNewRecipeUseCase by lazy { PushNewRecipeUseCase(newRecipeDomain) }
     val editRecipeUseCase: EditRecipeUseCase by lazy { EditRecipeUseCase(newRecipe) }
+
     val recipeViewModel = MutableLiveData<Int>()
 
     fun postNewRecipe() {
@@ -41,6 +43,8 @@ class RecipeViewModel : ViewModel() {
 
         }
     }
+
+
     fun editRecipe() {
         viewModelScope.launch {
             val result = editRecipeUseCase() // Llama al caso de uso

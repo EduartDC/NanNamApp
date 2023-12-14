@@ -1,6 +1,7 @@
 package com.example.nannamapp.ui.view
 
 import android.R
+import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -9,6 +10,7 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.nannamapp.data.model.RecipeProvider
@@ -24,13 +26,27 @@ class PrepareRecipeActivity : AppCompatActivity() {
 
     lateinit var binding : ActivityPrepareRecipeBinding
     private val getRecipeViewModel : RecipeViewModel by viewModels()
+    var idRecipe = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPrepareRecipeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val intent =intent
-        var idRecipe = "RIJT6I55VQ"
-        getRecipe(idRecipe)
+        val intent = intent
+
+        // Verifica si el intent contiene la clave "key_idRecipe"
+        if (intent.hasExtra("key_idRecipe")) {
+            // Obtiene el valor asociado con la clave "key_idRecipe"
+            idRecipe = intent.getStringExtra("key_idRecipe").toString()
+        }else{
+            finish()
+        }
+
+        //idRecipe = "r1"
+        try {
+            getRecipe(idRecipe)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
         setListenerGetRecipe()
 
         val spinner: Spinner = findViewById(binding.cbPortions.id)
@@ -71,8 +87,15 @@ class PrepareRecipeActivity : AppCompatActivity() {
         getRecipeViewModel.getRecipeViewModel.observe(this){
             if(getRecipeViewModel.httpCodegetRecipe == 200){
                 loadInfoRecipe()
+                binding.loadAnimation.visibility = View.GONE
             }else{
-                Toast.makeText(this,"ocurrio un fallo: " + getRecipeViewModel.httpCodegetRecipe,Toast.LENGTH_SHORT).show()
+                //ventana de error
+                val builder = AlertDialog.Builder(this)
+                builder.setMessage("Error de conexion")
+                    .setPositiveButton("Cerrar") { dialog: DialogInterface, which: Int ->
+                        // aqui deberia estar un metodo para cerrar la GUI
+                        dialog.dismiss()
+                    }.show()
 
             }
         }
@@ -83,13 +106,19 @@ class PrepareRecipeActivity : AppCompatActivity() {
         val imageUri = RecipeProvider.recipeResponse.recipe.imageRecipeURL
 
         CoroutineScope(Dispatchers.IO).launch {
-            val bitmap = Glide.with(this@PrepareRecipeActivity)
-                .asBitmap()
-                .load(imageUri)
-                .submit().get()
+            try {
 
-            withContext(Dispatchers.Main) {
-                binding.ivRecipeImage.setImageBitmap(bitmap)
+
+                val bitmap = Glide.with(this@PrepareRecipeActivity)
+                    .asBitmap()
+                    .load(imageUri)
+                    .submit().get()
+
+                withContext(Dispatchers.Main) {
+                    binding.ivRecipeImage.setImageBitmap(bitmap)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
 
@@ -103,9 +132,11 @@ class PrepareRecipeActivity : AppCompatActivity() {
         val adapterSteps = StepShowRecipeAdapter()
         binding.rvSteps.layoutManager = LinearLayoutManager(this)
         binding.rvSteps.adapter = adapterSteps
-        for(position in 0..RecipeProvider.recipeResponse.stepList.count()-1){
+
+        var sort = RecipeProvider.recipeResponse.stepList.sortedBy { it.step }
+        for(position in 0..sort.count()-1){
             println("asdasdas   " + RecipeProvider.recipeResponse.stepList[position].instruction)
-            adapterSteps.setItem(RecipeProvider.recipeResponse.stepList[position])
+            adapterSteps.setItem(sort[position])
         }
 
     }

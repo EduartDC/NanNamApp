@@ -1,13 +1,18 @@
 package com.example.nannamapp.ui.view
 
+import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.nannamapp.data.model.RecipeProvider
 import com.example.nannamapp.databinding.ActivityConsultCookbookBinding
 import com.example.nannamapp.ui.viewModel.CookBookViewModel
 
@@ -20,7 +25,11 @@ class ConsultCookbookActivity : AppCompatActivity(), CookBookAdapter.OnCardClick
         super.onCreate(savedInstanceState)
         binding = ActivityConsultCookbookBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.emptyView.visibility = View.GONE
 
+        //obtener id del usuario
+        var idUser = "123"
+        cookbookViewModel.idUser = idUser
         // Inicia la carga de datos
         cookbookViewModel.onCreate()
 
@@ -34,16 +43,38 @@ class ConsultCookbookActivity : AppCompatActivity(), CookBookAdapter.OnCardClick
         binding.recyclerview.adapter = recipeAdapter
 
         // Observa los cambios en la lista de recetas
-        cookbookViewModel.cookBookModel.observe(this, Observer { recipes ->
-            recipes?.let {
-                recipeAdapter.setData(it)
-            }
-
+        cookbookViewModel.cookBookModel.observe(this, {
+                if(cookbookViewModel.httpCodeRecipe == 200) {
+                    recipeAdapter.setData(RecipeProvider.cookBook)
+                    binding.loadAnimation.visibility = View.GONE
+                }
+                else if(cookbookViewModel.httpCodeRecipe == 404){
+                    binding.emptyView.visibility = View.VISIBLE
+                    binding.loadAnimation.visibility = View.GONE
+                }
+                else{
+                    val builder = AlertDialog.Builder(this)
+                    builder.setMessage("Error de conexion")
+                        .setPositiveButton("Cerrar") { dialog: DialogInterface, which: Int ->
+                            // aqui deberia estar un metodo para cerrar la GUI
+                            dialog.dismiss()
+                        }.show()
+                }
         })
+
     }
 
     override fun onCardClick(position: Int) {
-        Toast.makeText(this, "Mostrar Receta $position", Toast.LENGTH_SHORT).show()
+
+        val idRecipe = RecipeProvider.cookBook[position].idRecipe
+        // Crea un Intent
+        val intent = Intent(this, ShowRecipeActivity::class.java)
+
+        // Agrega el String al Intent como un extra
+        intent.putExtra("key_idRecipe", idRecipe)
+
+        // Inicia la nueva Activity
+        startActivity(intent)
     }
 
 }
