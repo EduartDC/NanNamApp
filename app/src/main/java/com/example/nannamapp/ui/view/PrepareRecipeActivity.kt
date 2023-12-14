@@ -37,6 +37,8 @@ class PrepareRecipeActivity : AppCompatActivity() {
         if (intent.hasExtra("key_idRecipe")) {
             // Obtiene el valor asociado con la clave "key_idRecipe"
             idRecipe = intent.getStringExtra("key_idRecipe").toString()
+        }else{
+            finish()
         }
 
         //idRecipe = "r1"
