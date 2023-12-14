@@ -5,6 +5,7 @@ import com.example.namnam.data.model.Recipe
 import com.example.namnam.data.network.APIClient
 import com.example.nannamapp.core.RetrofitHelper
 import com.example.nannamapp.data.model.GetRecipeResponse
+import com.example.nannamapp.data.model.NewRecipeDomain
 import com.example.nannamapp.data.model.NewRecipePost
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -23,13 +24,14 @@ class RecipesService {
             }
         }
     }
-    suspend fun pushRecipe(newRecipe : NewRecipePost): Int {
+    suspend fun pushRecipe(newRecipe : NewRecipeDomain): Int {
         return withContext(Dispatchers.IO) {
             var code : Int = 0
             Log.d("DENTRO DE SERVICE" ,"SI")
             try {
                 val response = retrofit.create(APIClient::class.java).registerNewRecipe(newRecipe)
                 // response.errorBody()?.string()?.let { Log.d("Mensaje de la api", it) }
+                println("MENSAJE DEL API CREATE: " + response.body())
                 if (response.isSuccessful)
                     code = 200
             } catch (e: Exception) {

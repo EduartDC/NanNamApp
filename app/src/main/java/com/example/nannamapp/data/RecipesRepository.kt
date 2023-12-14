@@ -5,6 +5,7 @@ import com.example.namnam.data.model.Category
 import com.example.namnam.data.model.CategoryProvider
 import com.example.namnam.data.model.Ingredient
 import com.example.namnam.data.model.Recipe
+import com.example.nannamapp.data.model.NewRecipeDomain
 import com.example.nannamapp.data.model.NewRecipePost
 import com.example.nannamapp.data.model.RecipeProvider
 import com.example.nannamapp.data.network.RecipesService
@@ -18,7 +19,7 @@ class RecipesRepository {
         return response
     }
 
-    suspend fun pushRecipe(newRecipe: NewRecipePost): Int {
+    suspend fun pushRecipe(newRecipe: NewRecipeDomain): Int {
         var response = api.pushRecipe(newRecipe)
         return response
     }

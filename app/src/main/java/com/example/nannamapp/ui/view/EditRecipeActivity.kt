@@ -193,7 +193,7 @@ class EditRecipeActivity : AppCompatActivity() {
             "00:00:00",
             idMainIngredient,
             binding.etPortions.text.toString().toInt(),
-            imageViewToByteArray()
+            ""
         )
         var instructions : MutableList<CookinginstructionDomain> = mutableListOf()
         //lista de pasos en la receta

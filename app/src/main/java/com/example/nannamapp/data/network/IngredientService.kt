@@ -17,6 +17,7 @@ class IngredientService {
             var body: List<Ingredient> = emptyList()
             try {
                 val response = retrofit.create(APIClient::class.java).getAllIngredients()
+                body = response.body()!!
                 code = response.code()
                 Pair(code,body)
 

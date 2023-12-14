@@ -8,5 +8,5 @@ class RecipeDomain (
     var preparationTime : String,
     var idMainIngredient : String,
     var portion : Int,
-    var imageBytes : ByteArray?
+    var imageBase : String
 )
