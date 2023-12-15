@@ -38,7 +38,7 @@ class RecipesService {
     }
     suspend fun pushRecipe(newRecipe : NewRecipeDomain): Int {
         return withContext(Dispatchers.IO) {
-            var code : Int = 0
+            var code : Int = 500
             Log.d("DENTRO DE SERVICE" ,"SI")
             try {
                 val response = retrofit.create(APIClient::class.java).registerNewRecipe(newRecipe)
@@ -55,7 +55,7 @@ class RecipesService {
     }
     suspend fun getRecipe(idRecipe : String): Pair<Int, GetRecipeResponse>{
         return withContext(Dispatchers.IO) {
-            var code = 0
+            var code = 500
             var body = GetRecipeResponse()
             try {
                 val response = retrofit.create(APIClient::class.java).getRecipe(idRecipe)
@@ -74,7 +74,7 @@ class RecipesService {
     }
     suspend fun editRecipe(newRecipe : NewRecipePost): Int {
         return withContext(Dispatchers.IO) {
-            var code : Int = 0
+            var code : Int = 500
             try {
 
                 val response = retrofit.create(APIClient::class.java).updateRecipe(newRecipe)
