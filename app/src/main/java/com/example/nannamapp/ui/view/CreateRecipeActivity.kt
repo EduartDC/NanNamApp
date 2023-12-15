@@ -50,6 +50,7 @@ import android.util.Base64
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.core.graphics.drawable.toBitmap
+import com.example.nannamapp.data.model.LoginProvider
 
 class CreateRecipeActivity : AppCompatActivity() {
 
@@ -64,8 +65,9 @@ class CreateRecipeActivity : AppCompatActivity() {
         binding = ActivityCreateRecipeBinding.inflate(layoutInflater)
         setContentView(binding.root)
         try {
-            categoryViewModel.onCreate()
             ingredientViewModel.onCreate()
+            categoryViewModel.onCreate()
+
         } catch (e: Exception) {
             Log.e("tronó", e.cause.toString());
         }
@@ -87,7 +89,7 @@ class CreateRecipeActivity : AppCompatActivity() {
                 val builder = AlertDialog.Builder(this)
                 builder.setMessage("Error de conexion")
                     .setPositiveButton("Cerrar") { dialog: DialogInterface, which: Int ->
-                        // aqui deberia estar un metodo para cerrar la GUI
+                        getViewMenu()
                         dialog.dismiss()
                     }.show()
             }
@@ -123,11 +125,11 @@ class CreateRecipeActivity : AppCompatActivity() {
                                     //binding.etPortions.text.clear()
                                 //}
                             else
-                                Toast.makeText(this,"ingresa pasos",Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this,"ingresa los pasos de preparación",Toast.LENGTH_SHORT).show()
                         else
-                            Toast.makeText(this,"ingresa las unidades",Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this,"ingresa una cantidad de ingredientes valida",Toast.LENGTH_SHORT).show()
                     }else
-                        Toast.makeText(this,"Selecciona almenos un ingrediente",Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this,"Ingreda al menos un ingrediente",Toast.LENGTH_SHORT).show()
                 }else
                     Toast.makeText(this,"Imagen obligatoria",Toast.LENGTH_SHORT).show()
             }else
@@ -146,7 +148,7 @@ class CreateRecipeActivity : AppCompatActivity() {
         //objeto de receta
         var newRecipe : RecipeDomain = RecipeDomain(
             "",
-            "123",
+            LoginProvider.login!!.idUser,
             binding.recipeName.text.toString(),
             "",
             "00:00:00",

@@ -226,7 +226,8 @@ class ShowRecipeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         getReviewViewModel.getReviewViewModel.observe(this){
             if(getReviewViewModel.httpCodegetReview == 200){
                 setReviewsConfig()
-                calculateAverageRating()
+                if(ReviewProvider.reviews.size>=1){
+                calculateAverageRating()}
             }else{
                 val builder = AlertDialog.Builder(this)
                 builder.setMessage("error de conexión: "+ getRecipeViewModel.httpCodegetRecipe )
