@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.Gravity
 import android.widget.Toast
 import com.example.nannamapp.R
@@ -12,6 +13,7 @@ import com.example.nannamapp.data.model.Login
 import com.example.nannamapp.databinding.ActivityLoginBinding
 import com.example.nannamapp.ui.view.menu.StartMenu
 import com.example.nannamapp.ui.viewModel.LoginViewModel
+import com.google.gson.Gson
 import java.util.regex.Pattern
 
 class MainActivity : AppCompatActivity() {
@@ -54,20 +56,14 @@ class MainActivity : AppCompatActivity() {
         }else{
 
             if(isValidEmail(emailEditText)){
-                var result = loginViewModel.onCreate(Login(emailEditText, passwordEditText))
+                loginViewModel.onCreate(Login(emailEditText, passwordEditText))
 
-                if(result != null){
                     loginViewModel.loginModel.observe(this) {jsonResult ->
-                        if (jsonResult != null){
+                        if (jsonResult != null) {
                             Toast.makeText(this, "¡Bienvenido!", Toast.LENGTH_SHORT).show()
                             goToMenu()
-                        }else {
-                            Toast.makeText(this, "Hubo un error al intentar iniciar sesión", Toast.LENGTH_SHORT).show()
                         }
                     }
-                }else{
-                    Toast.makeText(this, "Error al iniciar sesión", Toast.LENGTH_SHORT).show()
-                }
             }else{
                 Toast.makeText(this, "Ingresa un correo electrónico válido", Toast.LENGTH_SHORT).show()
             }
