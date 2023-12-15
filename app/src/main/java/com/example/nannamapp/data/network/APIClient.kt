@@ -64,5 +64,11 @@ interface APIClient {
     @POST("Login/RegisterUser")
     suspend fun registerUser(@Body registerCredentials: User): Response<String>
 
+    @GET("Recipe/GetRecipeList")
+    suspend fun getRecipeList(): Response<List<Recipe>>
+
+    @GET("Recipe/GetRecipeListByCategory/{idCategory}")
+    suspend fun getRecipeListByCategory(@Path("idCategory")idCategory : String): Response<List<Recipe>>
+
 
 }
