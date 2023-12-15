@@ -38,9 +38,10 @@ class SearchRecipeActivity : AppCompatActivity() {
     private var categoryMutableList: MutableList<Category> = CategoryProvider.categories.toMutableList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        //idUser = LoginProvider.login!!.idUser
+        idUser = LoginProvider.login!!.idUser
         super.onCreate(savedInstanceState)
         binding = ActivitySearchRecipeBinding.inflate(layoutInflater)
+
         setContentView(binding.root)
         binding.searchEditText.addTextChangedListener {recipeName ->
             val recipesFiltered =

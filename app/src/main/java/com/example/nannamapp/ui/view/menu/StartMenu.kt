@@ -29,7 +29,6 @@ class StartMenu : AppCompatActivity() {
 
         binding.bottomNavigationView.setOnItemSelectedListener {
             val intent = Intent(this, SearchRecipeActivity::class.java)
-            startActivity(intent)
 
             when(it.itemId) {
                 R.id.home -> setFragment(HomeFragment())

@@ -13,6 +13,7 @@ import androidx.viewpager.widget.ViewPager
 import com.example.nannamapp.R
 import com.example.nannamapp.ui.view.IngredientListActivity
 import com.example.nannamapp.ui.view.MainActivity
+import com.example.nannamapp.ui.view.ModifyUser
 import com.example.nannamapp.ui.view.SelectPreferencesActivity
 import com.google.android.material.tabs.TabLayout
 
@@ -41,17 +42,19 @@ class UserAccountFragment : Fragment() {
 
         val dietaryPreferencesCardView: CardView = view.findViewById(R.id.DietaryPreferences)
         val logOutCardView: CardView = view.findViewById(R.id.LogOut)
+        val modifyUserCardView: CardView = view.findViewById(R.id.ModifyUser)
 
         dietaryPreferencesCardView.setOnClickListener {
             val intent = Intent(requireContext(), SelectPreferencesActivity::class.java)
             startActivity(intent)
         }
-
-
         logOutCardView.setOnClickListener {
             showLogoutConfirmationDialog()
         }
-
+        modifyUserCardView.setOnClickListener{
+            val intent = Intent(requireContext(), ModifyUser::class.java)
+            startActivity(intent)
+        }
         return view
     }
 
