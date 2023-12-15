@@ -13,7 +13,7 @@ class IngredientService {
 
     suspend fun getAllIngredients(): Pair<Int,List<Ingredient>> {
         return withContext(Dispatchers.IO) {
-            var code = 500
+            var code = 0
             var body: List<Ingredient> = emptyList()
             try {
                 val response = retrofit.create(APIClient::class.java).getAllIngredients()
