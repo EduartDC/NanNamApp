@@ -12,6 +12,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.nannamapp.R
 import com.example.nannamapp.data.model.GetPreferenceResponse
+import com.example.nannamapp.data.model.LoginProvider
 import com.example.nannamapp.data.model.SetPreferenceResponse
 import com.example.nannamapp.data.model.UserPreferenceProvider
 import com.example.nannamapp.databinding.ActivitySelectPreferencesBinding
@@ -22,7 +23,7 @@ class SelectPreferencesActivity : AppCompatActivity() {
     lateinit var  binding : ActivitySelectPreferencesBinding
     private val preferencesViewModel : UserPreferenceViewModel by viewModels()
     //usuario hardcodedo
-    private var idUser :String = "123"
+    private var idUser :String = LoginProvider.login!!.idUser
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySelectPreferencesBinding.inflate(layoutInflater)
