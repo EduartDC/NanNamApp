@@ -1,5 +1,6 @@
 package com.example.nannamapp.ui.view
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -15,6 +16,7 @@ import com.example.namnam.data.model.CategoryProvider
 import com.example.namnam.data.model.Recipe
 import com.example.nannamapp.R
 import com.example.nannamapp.data.RecipesRepository
+import com.example.nannamapp.data.model.LoginProvider
 import com.example.nannamapp.data.model.RecipeProvider
 import com.example.nannamapp.databinding.ActivitySearchRecipeBinding
 import com.example.nannamapp.ui.viewModel.RecipeViewModel
@@ -30,13 +32,13 @@ class SearchRecipeActivity : AppCompatActivity() {
     private lateinit var categoryAdapter : SearchRecipeAdapterCategories
     private lateinit var recipeAdapter : SearchRecipeAdapterRecipe
     private val recipesViewModel : RecipeViewModel by viewModels()
-    private var idUserTest = "1"//id hardcodeado, borrar cuando cris tenga el id del usuario
+    private var idUser = "1"//id hardcodeado, borrar cuando cris tenga el id del usuario
 
     private var recipeMutableList: MutableList<Recipe> = RecipeProvider.recipeList.toMutableList()
     private var categoryMutableList: MutableList<Category> = CategoryProvider.categories.toMutableList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
+        //idUser = LoginProvider.login!!.idUser
         super.onCreate(savedInstanceState)
         binding = ActivitySearchRecipeBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -99,6 +101,14 @@ class SearchRecipeActivity : AppCompatActivity() {
     }
 
     private fun onRecipeSelected(recipe: Recipe){
-        Toast.makeText(this, recipe.recipeName, Toast.LENGTH_SHORT).show()
+        val idRecipe = recipe.idRecipe
+        // Crea un Intent
+        val intent = Intent(this, ShowRecipeActivity::class.java)
+
+        // Agrega el String al Intent como un extra
+        intent.putExtra("key_idRecipe", idRecipe)
+
+        // Inicia la nueva Activity
+        startActivity(intent)
     }
 }
