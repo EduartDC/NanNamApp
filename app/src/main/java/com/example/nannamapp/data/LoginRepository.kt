@@ -1,5 +1,6 @@
 package com.example.nannamapp.data
 
+import com.example.nannamapp.data.model.ApiResponse
 import com.example.nannamapp.data.model.JsonResult
 import com.example.nannamapp.data.model.Login
 import com.example.nannamapp.data.model.LoginProvider
@@ -10,10 +11,10 @@ import com.example.nannamapp.data.network.LoginService
 class LoginRepository {
     private val api = LoginService()
 
-    suspend fun loginUser(login: Login): JsonResult? {
+    suspend fun loginUser(login: Login): ApiResponse? {
         val response = api.loginUser(login)
         if (response != null) {
-            LoginProvider.login = response
+            LoginProvider.login = response?.value
         }
         return response
     }
