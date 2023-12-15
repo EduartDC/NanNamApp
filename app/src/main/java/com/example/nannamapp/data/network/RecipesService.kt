@@ -82,7 +82,7 @@ class RecipesService {
                     code = 200
                 }
                 else{
-                    code = response.code()
+                    code = 400
 
                 }
             } catch (e: Exception) {
