@@ -2,6 +2,7 @@ package com.example.nannamapp.data.model
 
 import com.google.gson.annotations.SerializedName
 
+
 data class ApiResponse(
     @SerializedName("contentType") val contentType: String?,
     @SerializedName("serializerSettings") val serializerSettings: String?,
@@ -13,3 +14,4 @@ data class JsonResult (
     @SerializedName("jwtToken") val jwtToken: String,
     @SerializedName("idUser") val idUser: String
 )
+
