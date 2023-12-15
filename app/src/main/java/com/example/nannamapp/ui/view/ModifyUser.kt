@@ -23,7 +23,7 @@ class ModifyUser : AppCompatActivity() {
         binding = ActivityModifyUserBinding.inflate(layoutInflater)
         setContentView(binding.root)
         getUser(idUser)
-        
+
 
     }
     private fun getUser(idUser : String) {
