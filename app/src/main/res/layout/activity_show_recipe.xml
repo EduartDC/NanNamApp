@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.view.ShowRecipeActivity">
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -56,6 +57,7 @@
                 android:textStyle="bold"
                 android:textSize="25dp"
                 />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/ingredientsFinded"
                 android:layout_width="match_parent"
@@ -193,7 +195,7 @@
                 android:backgroundTint="@color/blue"
                 android:textColor="@color/white"
                 android:layout_gravity="center"
-                android:visibility="gone"/>
+                />
             <Button
 
                 android:id="@+id/btnDeleteRecipe"
@@ -203,7 +205,7 @@
                 android:backgroundTint="@color/blue"
                 android:textColor="@color/white"
                 android:layout_gravity="center"
-                android:visibility="gone"/>
+                />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -276,6 +278,46 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginHorizontal="10dp"
                 />
+
         </LinearLayout>
     </ScrollView>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="invisible"
+        android:background="@color/white">
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animationView2"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:lottie_fileName="loadAnimation.json"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/loadAnimation"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@color/gray">
+        <com.airbnb.lottie.LottieAnimationView
+
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:lottie_fileName="loadAnimation.json"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"/>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,9 +7,14 @@ import com.example.nannamapp.data.model.GetPreferenceResponse
 import com.example.nannamapp.data.model.GetRecipeResponse
 import com.example.nannamapp.data.model.JsonResult
 import com.example.nannamapp.data.model.Login
+import com.example.nannamapp.data.model.NewRecipeDomain
 import com.example.nannamapp.data.model.NewRecipePost
 import com.example.nannamapp.data.model.ReviewDomain
+
+import com.example.nannamapp.data.model.SetPreferenceResponse
+
 import com.example.nannamapp.data.model.User
+
 import com.google.gson.Gson
 import retrofit2.Response
 import retrofit2.http.Body
@@ -29,7 +34,7 @@ interface APIClient {
     suspend fun getCookBook(@Path("idUser")idUser: String): Response<List<Recipe>>
 
     @POST("Recipe/PostRecipe")
-    suspend fun registerNewRecipe(@Body newRecipeDomain: NewRecipePost): Response<Void>
+    suspend fun registerNewRecipe(@Body newRecipeDomain: NewRecipeDomain): Response<Void>
 
     @GET("Recipe/GetRecipe/{idRecipe}")
     suspend fun getRecipe(@Path("idRecipe")idRecipe : String) : Response<GetRecipeResponse>
@@ -45,8 +50,12 @@ interface APIClient {
 
     @GET("Category/GetUserPreferences/{idUser}")
     suspend fun getUserPreference(@Path("idUser")idUser: String): Response<GetPreferenceResponse>
-  
-    @PUT("Recipe/UpdateRecipe")
+
+    @POST("Category/SetUserPreference")
+    suspend fun setUserPreference(@Body setUserPreferenceResponse: SetPreferenceResponse): Response<Void>
+
+    @POST("Recipe/PostUpdateRecipe")
+    //suspend fun updateRecipe(): Response<Void>
     suspend fun updateRecipe(@Body newRecipeDomain: NewRecipePost): Response<Void>
   
     @POST("Login/LoginUser")
@@ -54,5 +63,6 @@ interface APIClient {
   
     @POST("Login/RegisterUser")
     suspend fun registerUser(@Body registerCredentials: User): Response<String>
+
 
 }

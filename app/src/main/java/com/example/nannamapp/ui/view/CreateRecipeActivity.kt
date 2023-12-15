@@ -1,12 +1,13 @@
 package com.example.nannamapp.ui.view
 
 import android.Manifest
+import android.R
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ContentValues
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
@@ -15,9 +16,11 @@ import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.lifecycle.Observer
@@ -29,9 +32,11 @@ import com.example.namnam.data.model.CategoryProvider
 import com.example.namnam.data.model.CookinginstructionDomain
 import com.example.namnam.data.model.IngredientProvider
 import com.example.namnam.data.model.RecipeDomain
+import com.example.nannamapp.data.model.NewRecipeDomain
 import com.example.nannamapp.data.model.NewRecipePost
 import com.example.nannamapp.data.model.RecipeHasIngredient
 import com.example.nannamapp.databinding.ActivityCreateRecipeBinding
+import com.example.nannamapp.ui.view.menu.StartMenu
 import com.example.nannamapp.ui.viewModel.CategoryViewModel
 import com.example.nannamapp.ui.viewModel.IngredientViewModel
 import com.example.nannamapp.ui.viewModel.RecipeViewModel
@@ -41,7 +46,10 @@ import java.io.File
 import java.nio.charset.StandardCharsets
 import java.text.SimpleDateFormat
 import java.util.Date
-
+import android.util.Base64
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import androidx.core.graphics.drawable.toBitmap
 
 class CreateRecipeActivity : AppCompatActivity() {
 
@@ -49,7 +57,9 @@ class CreateRecipeActivity : AppCompatActivity() {
     private val categoryViewModel: CategoryViewModel by viewModels()
     private val ingredientViewModel: IngredientViewModel by viewModels()
     private val recipeViewModel : RecipeViewModel by viewModels()
+    val portionList = listOf("2", "4", "6", "8", "10", "12", "14", "16", "18", "20")
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         binding = ActivityCreateRecipeBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -59,13 +69,36 @@ class CreateRecipeActivity : AppCompatActivity() {
         } catch (e: Exception) {
             Log.e("tronó", e.cause.toString());
         }
-        setupListenerCamera()
-        initCategoriesCB()
-        configureAdapterIngredientsFinded()
-        initIngredientsSearchBar()
-        configureRecycleViewCookingSteps()
-        setListenerBtnSave()
-        //cargar info
+        ingredientViewModel.ingredientModel.observe(this){
+
+            if(ingredientViewModel.httpCodegetIngredients == 200)
+            {
+                setupListenerCamera()
+                initCategoriesCB()
+                configureAdapterIngredientsFinded()
+                initIngredientsSearchBar()
+                configureRecycleViewCookingSteps()
+                setListenerBtnSave()
+                setPortionsSpinner()
+                binding.loadAnimation.visibility = View.GONE
+            }else
+            {
+                binding.loadAnimation.visibility = View.GONE
+                val builder = AlertDialog.Builder(this)
+                builder.setMessage("Error de conexion")
+                    .setPositiveButton("Cerrar") { dialog: DialogInterface, which: Int ->
+                        // aqui deberia estar un metodo para cerrar la GUI
+                        dialog.dismiss()
+                    }.show()
+            }
+
+        }
+    }
+
+    private fun setPortionsSpinner() {
+        val portionAdpater = ArrayAdapter(this, R.layout.simple_spinner_item, portionList)
+        portionAdpater.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.spPortions.adapter = portionAdpater
     }
 
     private fun validateImage(): Boolean {
@@ -83,12 +116,12 @@ class CreateRecipeActivity : AppCompatActivity() {
                     if(ingredientSelectedList.getContextIngredientSelectedAdapter().ingredientSelected.size != 0){
                         if(validateMeasureSelected())
                             if(validateSteps())
-                                if(validatePortions())
+                              //  if(validatePortions())
                                     saveRecipe()
-                                else{
-                                    Toast.makeText(this,"Se necesita la cantidad de porciones",Toast.LENGTH_SHORT).show()
-                                    binding.etPortions.text.clear()
-                                }
+                               // else{
+                                   // Toast.makeText(this,"Se necesita la cantidad de porciones",Toast.LENGTH_SHORT).show()
+                                    //binding.etPortions.text.clear()
+                                //}
                             else
                                 Toast.makeText(this,"ingresa pasos",Toast.LENGTH_SHORT).show()
                         else
@@ -118,8 +151,8 @@ class CreateRecipeActivity : AppCompatActivity() {
             "",
             "00:00:00",
             idMainIngredient,
-            binding.etPortions.text.toString().toInt(),
-            imageViewToByteArray()
+            binding.spPortions.selectedItem.toString().toInt(),
+            compressAndEncodeToBase64()
         )
         var instructions : MutableList<CookinginstructionDomain> = mutableListOf()
         //lista de pasos en la receta
@@ -169,24 +202,99 @@ class CreateRecipeActivity : AppCompatActivity() {
             }
         }
 
+
         //crear objeto a mandar
-        var newRecipePost : NewRecipePost = NewRecipePost(
+        var newRecipePost : NewRecipeDomain = NewRecipeDomain(
             newRecipe,
             instructions,
             categorySelected,
-            recipeHasIngredientList
+           recipeHasIngredientList,
+
         )
-        recipeViewModel.newRecipe = newRecipePost
+        recipeViewModel.newRecipeDomain = newRecipePost
         recipeViewModel.postNewRecipe()
+        binding.loadAnimation.visibility = View.VISIBLE
         recipeViewModel.recipeViewModel.observe(this){
+            binding.loadAnimation.visibility = View.GONE
             if (recipeViewModel.httpCodeCreateRecipe == 200)
-                Toast.makeText(this,"TODO BIEN",Toast.LENGTH_SHORT).show()
-            else
-                Toast.makeText(this,"TODO MAL: {${recipeViewModel.httpCodeCreateRecipe}}" ,Toast.LENGTH_SHORT).show()
+            {
+                val builder = AlertDialog.Builder(this)
+                builder.setMessage("Receta registrada")
+                    .setPositiveButton("Aceptar") { dialog: DialogInterface, which: Int ->
+                        getViewMenu()
+                        dialog.dismiss()
+                    }.show()
+            }
+            else{
+                val builder = AlertDialog.Builder(this)
+                builder.setMessage("Error de conexión")
+                    .setPositiveButton("Aceptar") { dialog: DialogInterface, which: Int ->
+                        getViewMenu()
+                        dialog.dismiss()
+                    }.show()
+            }
 
         }
     }
 
+    private fun getViewMenu(){
+        val i = Intent(this, StartMenu::class.java)
+        startActivity(i)
+    }
+
+    fun compressAndEncodeToBase64(): String {
+        // Obtiene el drawable del ImageView
+        val drawable = binding.imgRecipe.drawable
+
+        // Convierte el drawable a un bitmap
+        val bitmap = (drawable.toBitmap())
+
+        // Comprime el bitmap
+        val compressedBitmap = compressBitmap(bitmap, 50)
+
+        // Convierte el bitmap comprimido a una cadena Base64
+        return encodeBitmapToBase64(compressedBitmap)
+    }
+
+    // Función para comprimir un bitmap
+    fun compressBitmap(bitmap: Bitmap, quality: Int): Bitmap {
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, quality, byteArrayOutputStream)
+        val compressedByteArray = byteArrayOutputStream.toByteArray()
+        return BitmapFactory.decodeByteArray(compressedByteArray, 0, compressedByteArray.size)
+    }
+
+    // Función para convertir un bitmap a Base64
+    fun encodeBitmapToBase64(bitmap: Bitmap): String {
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
+        val byteArray = byteArrayOutputStream.toByteArray()
+        return Base64.encodeToString(byteArray, Base64.DEFAULT)
+    }
+
+    /*intento actual de compresion de foto
+    private fun convertImageViewToBase64(): String {
+        // Obtén el drawable del ImageView
+        val drawable = binding.imgRecipe.drawable
+
+        // Convierte el drawable a un bitmap
+        val bitmap = (drawable as BitmapDrawable).bitmap
+
+        // Convierte el bitmap a una cadena Base64
+        return encodeBitmapToBase64(bitmap)
+    }
+
+    private fun encodeBitmapToBase64(bitmap: Bitmap): String {
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
+        val byteArray = byteArrayOutputStream.toByteArray()
+        return Base64.encodeToString(byteArray, Base64.DEFAULT)
+    }
+*/
+
+
+
+    /*
     private fun imageViewToByteArray(): ByteArray {
         val imageView = binding.imgRecipe // Asegúrate de tener una referencia a tu ImageView
 
@@ -204,17 +312,17 @@ class CreateRecipeActivity : AppCompatActivity() {
         val byteArrayOutputStreamEmpty = ByteArrayOutputStream()
         return byteArrayOutputStreamEmpty.toByteArray() // Devuelve null si no se pudo obtener un arreglo de bytes
     }
+*/
 
 
 
-
-    /*
+/*
     private fun getImage(): String {
- /*
-        val drawable = binding.imgRecipe.drawable
 
-        if (drawable is BitmapDrawable) {
-            val bitmap = drawable.bitmap
+        val draw = binding.imgRecipe.drawable
+
+        if (draw is BitmapDrawable) {
+            val bitmap = draw.bitmap
 
             // Convertir el Bitmap en una cadena Base64
             val byteArrayOutputStream = ByteArrayOutputStream()
@@ -227,7 +335,7 @@ class CreateRecipeActivity : AppCompatActivity() {
             // Manejar el caso en el que no hay una imagen en el ImageView
             // Puedes retornar un valor por defecto o manejar la situación según tu lógica.
             return ""
-        }*/
+        }
         val imageView = binding.imgRecipe // Asegúrate de tener una referencia a tu ImageView
 
         // Extraer el drawable de la imagen desde el ImageView
@@ -248,14 +356,14 @@ class CreateRecipeActivity : AppCompatActivity() {
             return ""
         }
     }
+*/
 
 
- */
     //valida que el string sea numerico
-    private fun validatePortions(): Boolean {
+    /*private fun validatePortions(): Boolean {
         val regex = """^-?[1-9]\d*$""".toRegex()
         return regex.matches(binding.etPortions.text)
-    }
+    }*/
 
     fun validateMeasureSelected (): Boolean{
         var band :Boolean = true
