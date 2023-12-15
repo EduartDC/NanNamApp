@@ -181,7 +181,6 @@ class ShowRecipeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                         dialog.dismiss()
                     }.show()
             }
-
         }
     }
 
@@ -318,7 +317,6 @@ class ShowRecipeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                 fat += RecipeProvider.recipeResponse.ingredientAmounList[position].amount.toFloat() * RecipeProvider.recipeResponse.nutritionalDataList[position].calories.toFloat()
                 protein += RecipeProvider.recipeResponse.ingredientAmounList[position].amount.toFloat() * RecipeProvider.recipeResponse.nutritionalDataList[position].protein.toFloat()
                 carbohidrates += RecipeProvider.recipeResponse.ingredientAmounList[position].amount.toFloat() * RecipeProvider.recipeResponse.nutritionalDataList[position].carbohydrates.toFloat()
-
             }
         }
 

@@ -67,6 +67,9 @@ interface APIClient {
     @GET("Recipe/GetRecipeList")
     suspend fun getRecipeList(): Response<List<Recipe>>
 
+    @GET("Login/GetUserInfo")
+    suspend fun getUserInfo(@Body idUser: String): Response<User>
+
     @GET("Recipe/GetRecipeListByCategory/{idCategory}")
     suspend fun getRecipeListByCategory(@Path("idCategory")idCategory : String): Response<List<Recipe>>
 

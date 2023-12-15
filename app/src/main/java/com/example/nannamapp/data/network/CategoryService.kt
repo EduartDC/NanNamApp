@@ -1,7 +1,6 @@
 package com.example.namnam.data.network
 
 
-import android.util.Log
 import com.example.namnam.data.model.Category
 import com.example.nannamapp.core.RetrofitHelper
 import kotlinx.coroutines.Dispatchers
@@ -10,7 +9,7 @@ import kotlinx.coroutines.withContext
 class CategoryService {
     private val retrofit = RetrofitHelper.getRetrofit()
 
-    suspend fun getcategories(): List<Category> {
+    suspend fun getCategories(): List<Category> {
 
             return withContext(Dispatchers.IO) {
                 try {

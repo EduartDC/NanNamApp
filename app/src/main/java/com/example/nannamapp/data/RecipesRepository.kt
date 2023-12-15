@@ -2,8 +2,6 @@ package com.example.nannamapp.data
 
 
 import com.example.namnam.data.model.Category
-import com.example.namnam.data.model.CategoryProvider
-import com.example.namnam.data.model.Ingredient
 import com.example.namnam.data.model.Recipe
 import com.example.nannamapp.data.model.NewRecipeDomain
 import com.example.nannamapp.data.model.NewRecipePost

@@ -19,6 +19,13 @@ class LoginService {
         }
     }
 
+    suspend fun getUser(idUser: String): User? {
+        return withContext(Dispatchers.IO) {
+            val response = retrofit.create(APIClient::class.java).getUserInfo(idUser)
+            response.body()
+        }
+    }
+
     suspend fun registerUser(user: User): String? {
         return withContext(Dispatchers.IO) {
             val response = retrofit.create(APIClient::class.java).registerUser(user)

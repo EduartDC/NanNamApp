@@ -66,23 +66,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/correo"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:layout_weight="1"
-            android:hint="Correo electrónico"
-            android:inputType="textEmailAddress"
-            android:minHeight="48dp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
         <Button
             android:id="@+id/modify_password"
             android:layout_width="match_parent"
@@ -131,7 +114,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:visibility="visible">
-
 
         <Button
             android:id="@+id/guardar_cambios"
