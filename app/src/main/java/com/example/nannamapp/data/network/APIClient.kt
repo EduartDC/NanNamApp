@@ -3,6 +3,7 @@ package com.example.namnam.data.network
 import com.example.namnam.data.model.Category
 import com.example.namnam.data.model.Ingredient
 import com.example.namnam.data.model.Recipe
+import com.example.nannamapp.data.model.ApiResponse
 import com.example.nannamapp.data.model.GetPreferenceResponse
 import com.example.nannamapp.data.model.GetRecipeResponse
 import com.example.nannamapp.data.model.JsonResult
@@ -55,14 +56,19 @@ interface APIClient {
     suspend fun setUserPreference(@Body setUserPreferenceResponse: SetPreferenceResponse): Response<Void>
 
     @POST("Recipe/PostUpdateRecipe")
-    //suspend fun updateRecipe(): Response<Void>
     suspend fun updateRecipe(@Body newRecipeDomain: NewRecipePost): Response<Void>
   
     @POST("Login/LoginUser")
-    suspend fun loginUser(@Body loginCredentials: Login): Response<JsonResult>
+    suspend fun loginUser(@Body loginCredentials: Login): Response<ApiResponse>
   
     @POST("Login/RegisterUser")
     suspend fun registerUser(@Body registerCredentials: User): Response<String>
+
+    @GET("Recipe/GetRecipeList")
+    suspend fun getRecipeList(): Response<List<Recipe>>
+
+    @GET("Recipe/GetRecipeListByCategory/{idCategory}")
+    suspend fun getRecipeListByCategory(@Path("idCategory")idCategory : String): Response<List<Recipe>>
 
 
 }

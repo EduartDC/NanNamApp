@@ -38,5 +38,25 @@ class RecipesRepository {
         var response = api.editRecipe(newRecipe)
         return response
     }
+    suspend fun getRecipesList(): List<Recipe>{
+        val response = api.getRecipesList()
+        RecipeProvider.recipeList = response
+        return response
+    }
+    suspend fun getRecipesListByCategory(idCategory : String): List<Recipe>{
+        val response = api.getRecipesListByCategory(idCategory)
+        RecipeProvider.recipeList = response
+        return response
+    }
+
+    suspend fun getCategoryList(): List<Category>{
+        var response = mutableListOf<Category>()
+        var category = Category("1", "todos")
+        response.add(category)
+
+        val responseApi = api.getCategoryList()
+        response.addAll(responseApi)
+        return response
+    }
 
 }

@@ -41,7 +41,6 @@ class PrepareRecipeActivity : AppCompatActivity() {
             finish()
         }
 
-        //idRecipe = "r1"
         try {
             getRecipe(idRecipe)
         } catch (e: Exception) {
@@ -69,9 +68,7 @@ class PrepareRecipeActivity : AppCompatActivity() {
                 for(position in 0..RecipeProvider.recipeResponse.ingredientList.count()-1){
                     adapter.setItem(RecipeProvider.recipeResponse.ingredientList[position],RecipeProvider.recipeResponse.ingredientAmounList[position])
                 }
-                Toast.makeText(this@PrepareRecipeActivity, "Seleccionaste: $seleccion", Toast.LENGTH_SHORT).show()
             }
-
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 // No se seleccionó ningún elemento
             }

@@ -1,6 +1,7 @@
 package com.example.nannamapp.data.network
 
 import android.util.Log
+import com.example.namnam.data.model.Category
 import com.example.namnam.data.model.Recipe
 import com.example.namnam.data.network.APIClient
 import com.example.nannamapp.core.RetrofitHelper
@@ -82,7 +83,7 @@ class RecipesService {
                     code = 200
                 }
                 else{
-                    code = response.code()
+                    code = 400
 
                 }
             } catch (e: Exception) {
@@ -90,6 +91,41 @@ class RecipesService {
                 code = 500
             }
             code
+        }
+    }
+    suspend fun getRecipesList(): List<Recipe>{
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = retrofit.create(APIClient::class.java).getRecipeList()
+                response.body() ?: emptyList()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                emptyList()
+            }
+        }
+    }
+
+    suspend fun getRecipesListByCategory(idCategory: String): List<Recipe>{
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = retrofit.create(APIClient::class.java).getRecipeListByCategory(idCategory)
+                response.body() ?: emptyList()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                emptyList()
+            }
+        }
+    }
+    suspend fun getCategoryList(): List<Category>{
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = retrofit.create(APIClient::class.java).getAllCategories()
+                response.body() ?: emptyList()
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+                emptyList()
+            }
         }
     }
 }
