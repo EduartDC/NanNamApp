@@ -11,9 +11,17 @@ class CategoryService {
     private val retrofit = RetrofitHelper.getRetrofit()
 
     suspend fun getcategories(): List<Category> {
-        return withContext(Dispatchers.IO) {
-            val response = retrofit.create(APIClient::class.java).getAllCategories()
-            response.body() ?: emptyList()
-        }
+
+            return withContext(Dispatchers.IO) {
+                try {
+                    val response = retrofit.create(APIClient::class.java).getAllCategories()
+                    response.body() ?: emptyList()
+                }catch (e : Exception){
+                    emptyList()
+                }
+
+            }
+
+
     }
 }
