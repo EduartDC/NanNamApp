@@ -9,6 +9,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -17,6 +18,7 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Base64
 import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
@@ -24,6 +26,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.FileProvider
+import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -241,14 +244,13 @@ class EditRecipeActivity : AppCompatActivity() {
         //objeto de receta
         var newRecipe : RecipeDomain = RecipeDomain(
             RecipeProvider.recipeResponse.recipe.idRecipe,
-            "123",
+            RecipeProvider.recipeResponse.recipe.user_idUser,
             binding.recipeName.text.toString(),
             "",
             "00:00:00",
             idMainIngredient,
-
             binding.spPortions.selectedItem.toString().toInt(),
-            ""
+            compressAndEncodeToBase64()
 
         )
         var instructions : MutableList<CookinginstructionDomain> = mutableListOf()
@@ -335,52 +337,36 @@ class EditRecipeActivity : AppCompatActivity() {
         return byteArrayOutputStreamEmpty.toByteArray() // Devuelve null si no se pudo obtener un arreglo de bytes
     }
 
-
-
-
-    /*
-    private fun getImage(): String {
- /*
+    fun compressAndEncodeToBase64(): String {
+        // Obtiene el drawable del ImageView
         val drawable = binding.imgRecipe.drawable
 
-        if (drawable is BitmapDrawable) {
-            val bitmap = drawable.bitmap
+        // Convierte el drawable a un bitmap
+        val bitmap = (drawable.toBitmap())
 
-            // Convertir el Bitmap en una cadena Base64
-            val byteArrayOutputStream = ByteArrayOutputStream()
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
-            val byteArray = byteArrayOutputStream.toByteArray()
-            val imageBase64 = Base64.getEncoder().encodeToString(byteArray)
-            println(imageBase64)
-            return imageBase64
-        } else {
-            // Manejar el caso en el que no hay una imagen en el ImageView
-            // Puedes retornar un valor por defecto o manejar la situación según tu lógica.
-            return ""
-        }*/
-        val imageView = binding.imgRecipe // Asegúrate de tener una referencia a tu ImageView
+        // Comprime el bitmap
+        val compressedBitmap = compressBitmap(bitmap, 50)
 
-        // Extraer el drawable de la imagen desde el ImageView
-        val drawable = imageView.drawable
+        // Convierte el bitmap comprimido a una cadena Base64
+        return encodeBitmapToBase64(compressedBitmap)
+    }
+    fun compressBitmap(bitmap: Bitmap, quality: Int): Bitmap {
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, quality, byteArrayOutputStream)
+        val compressedByteArray = byteArrayOutputStream.toByteArray()
+        return BitmapFactory.decodeByteArray(compressedByteArray, 0, compressedByteArray.size)
+    }
 
-        if (drawable is BitmapDrawable) {
-            val bitmap = drawable.bitmap
-
-            // Convertir el Bitmap en una cadena Base64
-            val byteArrayOutputStream = ByteArrayOutputStream()
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
-            val byteArray = byteArrayOutputStream.toByteArray()
-            println(Base64.getEncoder().encodeToString(byteArray))
-            return Base64.getEncoder().encodeToString(byteArray)
-        } else {
-            // Manejar el caso en el que no hay una imagen en el ImageView
-            // Puedes retornar un valor por defecto o manejar la situación según tu lógica.
-            return ""
-        }
+    // Función para convertir un bitmap a Base64
+    fun encodeBitmapToBase64(bitmap: Bitmap): String {
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
+        val byteArray = byteArrayOutputStream.toByteArray()
+        return Base64.encodeToString(byteArray, Base64.DEFAULT)
     }
 
 
- */
+
 
     fun validateMeasureSelected (): Boolean{
         var band :Boolean = true

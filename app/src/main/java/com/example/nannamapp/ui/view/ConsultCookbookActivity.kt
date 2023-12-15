@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.nannamapp.data.model.LoginProvider
 import com.example.nannamapp.data.model.RecipeProvider
 import com.example.nannamapp.databinding.ActivityConsultCookbookBinding
 import com.example.nannamapp.ui.viewModel.CookBookViewModel
@@ -28,7 +29,7 @@ class ConsultCookbookActivity : AppCompatActivity(), CookBookAdapter.OnCardClick
         binding.emptyView.visibility = View.GONE
 
         //obtener id del usuario
-        var idUser = "123"
+        var idUser = LoginProvider.login!!.idUser
         cookbookViewModel.idUser = idUser
         // Inicia la carga de datos
         cookbookViewModel.onCreate()
