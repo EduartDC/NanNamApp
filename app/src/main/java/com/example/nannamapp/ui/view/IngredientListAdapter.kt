@@ -1,8 +1,8 @@
 package com.example.nannamapp.ui.view
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.namnam.data.model.Ingredient
@@ -25,17 +25,25 @@ class IngredientListAdapter(private val ingredientList: MutableList<Ingredient>)
         return ingredientList.size
     }
 
-    inner class IngredientViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val ingredientName: TextView = itemView.findViewById(R.id.textViewIngredientName)
-
-        fun bind(ingredient: Ingredient) {
-            ingredientName.text = ingredient.ingredientname
-
-        }
+    fun setItems(items: List<Ingredient>) {
+        ingredientList.clear()
+        ingredientList.addAll(items)
+        notifyDataSetChanged()
     }
 
     fun clearItems() {
         ingredientList.clear()
         notifyDataSetChanged()
+    }
+    fun getItems(): List<Ingredient> {
+        return ingredientList.toList()
+    }
+
+    inner class IngredientViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val ingredientName: TextView = itemView.findViewById(R.id.textViewIngredientName)
+
+        fun bind(ingredient: Ingredient) {
+            ingredientName.text = ingredient.ingredientname
+        }
     }
 }
