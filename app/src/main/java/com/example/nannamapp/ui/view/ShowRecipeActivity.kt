@@ -81,23 +81,17 @@ class ShowRecipeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         }
     }
     private fun saveIngredients() {
-        // Obtén la lista de ingredientes de RecipeProvider.recipeResponse
         val ingredientList = RecipeProvider.recipeResponse.ingredientList
 
-        // Guardar la lista de ingredientes en SharedPreferences
         saveIngredientListToSharedPreferences(ingredientList)
 
-        // Crear un Intent para iniciar IngredientListActivity
         val intent = Intent(this, IngredientListActivity::class.java)
 
-        // Pasar la lista de ingredientes como extra en la intención
         intent.putParcelableArrayListExtra("ingredientList", ArrayList(ingredientList))
 
-        // Iniciar la nueva Activity
         startActivity(intent)
     }
 
-    // Agrega esta función al final de tu clase ShowRecipeActivity
     private fun saveIngredientListToSharedPreferences(ingredientList: List<Ingredient>) {
         val gson = Gson()
         val json = gson.toJson(ingredientList)
