@@ -54,6 +54,9 @@
         <activity
             android:name=".ui.view.IngredientListActivity"
             android:exported="false" />
+        <activity
+            android:name=".ui.view.Register"
+            android:exported="false" />
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.NamNamApp.fileprovider"

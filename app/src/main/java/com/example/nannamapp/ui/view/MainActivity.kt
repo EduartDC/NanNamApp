@@ -62,6 +62,8 @@ class MainActivity : AppCompatActivity() {
                         if (jsonResult != null) {
                             Toast.makeText(this, "¡Bienvenido!", Toast.LENGTH_SHORT).show()
                             goToMenu()
+                        }else{
+                            Toast.makeText(this, "Por favor llena todos los campos", Toast.LENGTH_SHORT).show()
                         }
                     }
             }else{
