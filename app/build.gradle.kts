@@ -80,6 +80,6 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     testImplementation("io.mockk:mockk:1.12.0")
 
-    androidTestImplementation("androidx.test:junit:1.1.3")
+    //androidTestImplementation("androidx.test:junit:1.1.3")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 }
