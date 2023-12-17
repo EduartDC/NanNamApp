@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.MalformedJsonException
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -48,35 +49,44 @@ class Register : AppCompatActivity() {
         startActivity(i)
     }
 
-    private fun register(){
-        val firstName = binding.firstname.text.toString()
-        val lastname = binding.lastname.text.toString()
-        val email = binding.email.text.toString()
-        val password = binding.password.text.toString()
-        val passwordConfirmed = binding.passwordConfirmed.text.toString()
+    private fun register() {
+        try {
+            val firstName = binding.firstname.text.toString()
+            val lastname = binding.lastname.text.toString()
+            val email = binding.email.text.toString()
+            val password = binding.password.text.toString()
+            val passwordConfirmed = binding.passwordConfirmed.text.toString()
 
-        if (hasData()){
-            Toast.makeText(this, "Por favor llena todos los campos", Toast.LENGTH_SHORT).show()
-        }else{
-            if(!password.equals(passwordConfirmed)){
-                Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show()
-            }else{
-                if(isValidEmail(email)){
-                    val user =  User("0", firstName, lastname, email, password)
-                    var result = registerViewModel.onCreate(user)
+            if (hasData()) {
+                Toast.makeText(this, "Por favor llena todos los campos", Toast.LENGTH_SHORT).show()
+            } else {
+                if (!password.equals(passwordConfirmed)) {
+                    Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show()
+                } else {
+                    if (isValidEmail(email)) {
+                        val user = User("0", firstName, lastname, email, password)
+                        var result = registerViewModel.onCreate(user)
 
-                    if (result != null){
-                        Toast.makeText(this, "¡Ahora eres chef!", Toast.LENGTH_SHORT).show()
-                        goToMenu()
-                    }else {
-                        Toast.makeText(this, "Error al registrarse", Toast.LENGTH_SHORT).show()
+                        if (result != null) {
+                            Toast.makeText(this, "¡Ahora eres chef!", Toast.LENGTH_SHORT).show()
+                            goToMenu()
+                        } else {
+                            Toast.makeText(this, "Error al registrarse", Toast.LENGTH_SHORT).show()
+                        }
+                    } else {
+                        Toast.makeText(this, "Ingresa un correo electrónico válido", Toast.LENGTH_SHORT).show()
                     }
-                }else{
-                    Toast.makeText(this, "Ingresa un correo electrónico válido", Toast.LENGTH_SHORT).show()
                 }
             }
+        } catch (e: MalformedJsonException) {
+            // Manejo de la excepción MalformedJsonException
+            e.printStackTrace() // o utiliza tu propio método de registro de errores
+
+            // Puedes agregar aquí el código para manejar la excepción según tus necesidades.
+            // Por ejemplo, puedes mostrar un mensaje de error al usuario o realizar alguna acción específica.
         }
     }
+
 
 
     private fun goToMenu() {

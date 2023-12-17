@@ -1,7 +1,7 @@
 package com.example.nannamapp.domain
 
+import com.example.nannamapp.data.CategoryRepository
 import com.example.nannamapp.data.IngredientRepository
-import com.example.nannamapp.data.ReviewRepository
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.RelaxedMockK
@@ -10,38 +10,38 @@ import org.junit.Before
 import org.junit.Test
 
 
-class GetAlIngredientsUseCaseTest{
+class GetCategoriesUseCaseTest{
     @RelaxedMockK
-    private lateinit var  repository: IngredientRepository
-    lateinit var getAllIngredientsUseCase: GetAlIngredientsUseCase
+    private lateinit var  repository: CategoryRepository
+    lateinit var getCategoriesUseCase:GetCategoriesUseCase
 
     @Before
     fun onBefore(){//preparacion de recursos para la prueba
         MockKAnnotations.init(this)
-        getAllIngredientsUseCase = GetAlIngredientsUseCase()
+        getCategoriesUseCase = GetCategoriesUseCase()
     }
 
     @Test
     fun `when response is ok then return 200`() = runBlocking{
         //Given
-        coEvery { repository.getAllIngredients() }
+        coEvery { repository.getAllcategories() }
 
         //when
-        val response =  getAllIngredientsUseCase()
+        val response =  getCategoriesUseCase()
 
         //Then
-        assert(response == 200)
+        assert(response?.size.toString().toInt() > 0)
     }
 
     @Test
     fun `when response is connection error then return 500`() = runBlocking{
         //Given
-        coEvery { repository.getAllIngredients() }
+        coEvery { repository.getAllcategories() }
 
         //when
-        val response =  getAllIngredientsUseCase()
+        val response =  getCategoriesUseCase()
 
         //Then
-        assert(response == 500 || response == 0)
+        assert(response?.size.toString().toInt() == 0)
     }
 }
