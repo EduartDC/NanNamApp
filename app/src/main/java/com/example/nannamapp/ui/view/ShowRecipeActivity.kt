@@ -1,5 +1,6 @@
 package com.example.nannamapp.ui.view
 
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.opengl.Visibility
@@ -10,6 +11,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.namnam.data.model.Ingredient
 import com.example.nannamapp.data.model.JsonResult
 import com.example.nannamapp.data.model.LoginProvider
 import com.example.nannamapp.data.model.RecipeProvider
@@ -78,16 +80,32 @@ class ShowRecipeActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
         }
     }
-    //USADO POR ALGUIEN MAS
-    private fun listenerAddFavorites() {
-        binding.btnSaveFavorites.setOnClickListener {
-            val intent = Intent(this, IngredientListActivity::class.java)
-            intent.putParcelableArrayListExtra("ingredientList", ArrayList(RecipeProvider.recipeResponse.ingredientList))
-            startActivity(intent)
-        }
+    private fun saveIngredients() {
+        val ingredientList = RecipeProvider.recipeResponse.ingredientList
+
+        saveIngredientListToSharedPreferences(ingredientList)
+
+        val intent = Intent(this, IngredientListActivity::class.java)
+
+        intent.putParcelableArrayListExtra("ingredientList", ArrayList(ingredientList))
+
+        startActivity(intent)
     }
 
+    private fun saveIngredientListToSharedPreferences(ingredientList: List<Ingredient>) {
+        val gson = Gson()
+        val json = gson.toJson(ingredientList)
+        val editor = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE).edit()
+        editor.putString("ingredientListKey", json)
+        editor.apply()
+    }
 
+    // USADO POR ALGUIEN MÁS
+    private fun listenerAddFavorites() {
+        binding.btnSaveFavorites.setOnClickListener {
+            saveIngredients()
+        }
+    }
 
     private fun listenerAddReview() {
         binding.btnAddReview.setOnClickListener(){
