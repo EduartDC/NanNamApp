@@ -14,19 +14,13 @@ import kotlinx.coroutines.launch
 class CategoryViewModel : ViewModel() {
     val categoryModel = MutableLiveData<Category>()
     var getAllCategoriesUseCase = GetCategoriesUseCase()
-
+//comentario de prueba
     fun onCreate() {
-         try {
              viewModelScope.launch {
                  val result = getAllCategoriesUseCase()
                  if (!result.isNullOrEmpty()) {
                      categoryModel.postValue(result[0])
                  }
              }
-         } catch (e: Exception) {
-             Log.e("ERROR en CategoryViewModel Impreso", "Mensaje de error descriptivo", e)
-         }
-
     }
-
 }

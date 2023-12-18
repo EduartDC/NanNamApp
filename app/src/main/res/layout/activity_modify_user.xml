@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Información del usuario"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginTop="32dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/nombre"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:layout_weight="1"
+            android:hint="Nombre"
+            android:inputType="textPersonName"
+            android:minHeight="48dp" />
+
+        <Button
+            android:id="@+id/editar_nombre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Editar"
+            android:textSize="16dp"
+            android:layout_margin="16dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/apellido"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:layout_weight="1"
+            android:hint="Apellido"
+            android:inputType="textPersonName"
+            android:minHeight="48dp" />
+
+        <Button
+            android:id="@+id/editar_apellido"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Editar"
+            android:textSize="16dp"
+            android:layout_margin="16dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/modify_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Modificar contraseña"
+            android:textSize="16dp"
+            android:layout_margin="16dp"
+            android:onClick="showLinearLayout_password"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/linearLayout_Password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Contraseña actual"
+            android:inputType="textEmailAddress"
+            android:layout_margin="16dp"/>
+        <EditText
+            android:id="@+id/new_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Contraseña actual"
+            android:inputType="textEmailAddress"
+            android:layout_margin="16dp"/>
+
+        <Button
+            android:id="@+id/Edit_password"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Cancelar"
+            android:textSize="16dp"
+            android:layout_margin="16dp"
+            android:onClick="hideLinearLayout_password"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="visible">
+
+        <Button
+            android:id="@+id/guardar_cambios"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Guardar cambios"
+            android:textSize="16dp"
+            android:layout_margin="16dp"/>
+    </LinearLayout>
+
+</LinearLayout>

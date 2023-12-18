@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@drawable/recipe"
+    tools:context=".ui.view.MainActivity">
+
+    <ImageView
+        android:layout_width="300dp"
+        android:layout_height="130dp"
+        android:layout_gravity="center_horizontal"
+        android:scaleType="fitCenter"
+        android:src="@drawable/logonamnam" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        app:cardCornerRadius="30dp"
+        app:cardElevation="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="28dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="¡Hola chef!"
+                android:textColor="@color/blueCool"
+                android:textSize="32sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Por favor introduce tu email y contraseña"
+                android:alpha="0.7"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"/>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Correo electrónico"
+                android:alpha="0.7"
+                android:textStyle="bold"/>
+
+            <EditText
+                android:id="@+id/username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/baseline_person_24"
+                android:inputType="textEmailAddress"
+                android:minHeight="48dp"
+                tools:ignore="SpeakableTextPresentCheck"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"/>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Contraseña"
+                android:alpha="0.7"
+                android:textStyle="bold"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/password_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:endIconMode="password_toggle">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/baseline_lock_24"
+                    android:inputType="textPassword"
+                    android:minHeight="48dp"
+                    tools:ignore="SpeakableTextPresentCheck"
+                    android:gravity="center"
+                    android:layout_gravity="center_horizontal"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="10dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/loginButton"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:text="¡A cocinar!"
+                android:textAllCaps="false"
+                app:cornerRadius="32dp"
+                app:rippleColor="@color/ripple_color"/>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="10dp"/>
+            <TextView
+                android:id="@+id/registerText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="¿No tienes cuenta?, ¡Registrate!"
+                android:layout_gravity="center"
+                android:alpha="0.7"/>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

@@ -2,4 +2,16 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="color_transparent">#00000000</color>
+    <color name="white_smoke">#F5F5F5</color>
+    <color name="blue">#00BCD4</color>
+    <color name="gray">#c2c2c2</color>
+    <color name="red">#FF0000</color>
+    <color name="blueCool">#5353ec</color>
+    <color name="green">#29ba68</color>
+    <color name="lightWhite">#ffffff</color>
+    <color name="zafiroBlue">#1d1e33</color>
+    <color name="grey">#9b9b9b</color>
+    <color name="ripple_color">#6F00</color>
+    <color name="white1">#FEFEFE</color>
 </resources>
