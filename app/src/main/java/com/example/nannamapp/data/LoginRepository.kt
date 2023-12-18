@@ -25,6 +25,7 @@ class LoginRepository {
             LoginProvider.user.firstname = response.firstname
             LoginProvider.user.lastname = response.lastname
             LoginProvider.user.password = response.password
+            LoginProvider.user.email = response.email
         }
         return response
     }
@@ -35,5 +36,12 @@ class LoginRepository {
             RegisterProvider.register = response
         }
         return null
+    }
+
+    suspend fun editUser(user: User): String?{
+        println(user.idUser)
+        val response = api.updateUser(user)
+        println(response)
+        return response
     }
 }

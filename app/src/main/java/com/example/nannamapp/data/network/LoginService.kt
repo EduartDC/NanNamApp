@@ -1,5 +1,6 @@
 package com.example.nannamapp.data.network
 
+import android.widget.Toast
 import com.example.namnam.data.network.APIClient
 import com.example.nannamapp.core.RetrofitHelper
 import com.example.nannamapp.data.model.ApiResponse
@@ -29,6 +30,13 @@ class LoginService {
     suspend fun registerUser(user: User): String? {
         return withContext(Dispatchers.IO) {
             val response = retrofit.create(APIClient::class.java).registerUser(user)
+            response.body()
+        }
+    }
+    suspend fun updateUser(user: User): String? {
+        return withContext(Dispatchers.IO) {
+            val response = retrofit.create(APIClient::class.java).updateUser(user)
+            println(response.code())
             response.body()
         }
     }

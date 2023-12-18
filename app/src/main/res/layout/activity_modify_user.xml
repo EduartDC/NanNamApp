@@ -28,13 +28,7 @@
             android:inputType="textPersonName"
             android:minHeight="48dp" />
 
-        <Button
-            android:id="@+id/editar_nombre"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Editar"
-            android:textSize="16dp"
-            android:layout_margin="16dp"/>
+
     </LinearLayout>
 
     <LinearLayout
@@ -52,18 +46,30 @@
             android:inputType="textPersonName"
             android:minHeight="48dp" />
 
-        <Button
-            android:id="@+id/editar_apellido"
-            android:layout_width="wrap_content"
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/email"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Editar"
-            android:textSize="16dp"
-            android:layout_margin="16dp"/>
+            android:layout_margin="16dp"
+            android:layout_weight="1"
+            android:hint="email"
+            android:inputType="textEmailAddress"
+            android:minHeight="48dp" />
+
+
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:orientation="horizontal">
 
         <Button
@@ -95,8 +101,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Contraseña actual"
-            android:inputType="textEmailAddress"
+            android:hint="Nueva Contraseña"
+            android:inputType="textPassword"
             android:layout_margin="16dp"/>
 
         <Button
@@ -116,7 +122,7 @@
         android:visibility="visible">
 
         <Button
-            android:id="@+id/guardar_cambios"
+            android:id="@+id/save_changes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Guardar cambios"
